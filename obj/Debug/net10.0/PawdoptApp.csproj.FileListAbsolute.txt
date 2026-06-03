@@ -191,8 +191,5 @@ C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\refint\PawdoptAp
 C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\PawdoptApp.pdb
 C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\PawdoptApp.genruntimeconfig.cache
 C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\ref\PawdoptApp.dll
-C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\uh8oykd162-{0}-6r8ay6l1i3-6r8ay6l1i3.gz
-C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\tkvlgbddxi-{0}-nshdak42g4-nshdak42g4.gz
-C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\tkvlgbddxi-{0}-1fha0m9opf-1fha0m9opf.gz
-C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\tkvlgbddxi-{0}-wihxwzt1tk-wihxwzt1tk.gz
-C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\tkvlgbddxi-{0}-dkvazv0l9z-dkvazv0l9z.gz
+C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\tkvlgbddxi-{0}-2lvk4fqso2-2lvk4fqso2.gz
+C:\Users\Edw1n\OneDrive\Escritorio\pawdopt-v2\obj\Debug\net10.0\compressed\uh8oykd162-{0}-5tbjfjd7l9-5tbjfjd7l9.gz
