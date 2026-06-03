@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PawdoptApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20837d66682a3ba1da88ec8516cedb7ece15ce9c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4409a6301c084c8e0b1614c192846c46ee1537ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("PawdoptApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PawdoptApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
