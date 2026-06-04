@@ -1,0 +1,208 @@
+@{
+    ViewData["Title"] = "Pet Photos";
+}
+
+<div class="rehome-page">
+    <div class="rehome-container">
+
+        <!-- Breadcrumb -->
+        <nav class="rehome-breadcrumb" aria-label="breadcrumb">
+            <a href="/" data-i18n="nav-home">Home</a>
+            <span class="bc-sep">›</span>
+            <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
+            <span class="bc-sep">›</span>
+            <span class="bc-current" data-i18n="rehome-breadcrumb-images">Add photos</span>
+        </nav>
+
+        <!-- Step progress -->
+        <div class="rehome-stepper" role="list">
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+            </div>
+            <div class="step-item active" role="listitem">
+                <div class="step-circle">2</div>
+                <span class="step-label" data-i18n="rehome-step2">Images</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">3</div>
+                <span class="step-label" data-i18n="rehome-step3">Character</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">4</div>
+                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">5</div>
+                <span class="step-label" data-i18n="rehome-step5">Location</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">6</div>
+                <span class="step-label" data-i18n="rehome-step6">Story</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">7</div>
+                <span class="step-label" data-i18n="rehome-step7">Documents</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">8</div>
+                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+            </div>
+        </div>
+
+        <!-- Form card -->
+        <div class="rehome-card">
+            <div class="rehome-card-header">
+                <h1 class="rehome-card-title" data-i18n="rehome-img-title">Add photos of your pet</h1>
+                <p class="rehome-card-subtitle">
+                    <span class="step-pill" data-i18n="rehome-img-step-pill">Step 2 of 8</span>
+                    <span data-i18n="rehome-img-step-desc">Great photos increase adoption chances significantly.</span>
+                </p>
+            </div>
+
+            <div class="rehome-img-body">
+
+                <!-- Upload zone -->
+                <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload photos">
+                    <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" multiple hidden />
+                    <div class="upload-zone-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="3" ry="3"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                    </div>
+                    <p class="upload-zone-title" data-i18n="rehome-img-drop-title">Drag your photos here</p>
+                    <p class="upload-zone-sub" data-i18n="rehome-img-drop-sub">or click to browse files</p>
+                    <span class="upload-zone-hint" data-i18n="rehome-img-drop-hint">JPG · PNG · WebP &nbsp;·&nbsp; Max 5 MB each &nbsp;·&nbsp; Up to 6 photos</span>
+                </div>
+
+                <!-- Photo counter -->
+                <div class="photo-counter-row">
+                    <span class="photo-counter" id="photoCounter">0 / 6</span>
+                    <span class="photo-counter-label" data-i18n="rehome-img-counter-label">photos added</span>
+                </div>
+
+                <!-- Preview grid -->
+                <div class="photo-grid" id="photoGrid"></div>
+
+                <!-- Tips -->
+                <div class="photo-tips">
+                    <div class="photo-tips-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    </div>
+                    <div class="photo-tips-content">
+                        <p class="photo-tips-title" data-i18n="rehome-img-tips-title">Photo tips</p>
+                        <ul class="photo-tips-list">
+                            <li data-i18n="rehome-img-tip1">Use natural lighting for clearer, warmer photos</li>
+                            <li data-i18n="rehome-img-tip2">Include a clear face shot as the first (main) photo</li>
+                            <li data-i18n="rehome-img-tip3">Show different angles and environments</li>
+                            <li data-i18n="rehome-img-tip4">3–6 photos gets the best response from adopters</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rehome-divider"></div>
+
+                <!-- Navigation buttons -->
+                <div class="rehome-nav-btns">
+                    <a href="/Rehome/List" class="rehome-btn-back">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        <span data-i18n="rehome-btn-back">Back</span>
+                    </a>
+                    <button type="button" class="rehome-btn-continue" id="continueBtn">
+                        <span data-i18n="rehome-btn-continue">Save &amp; Continue →</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    const zone     = document.getElementById('uploadZone');
+    const input    = document.getElementById('photoInput');
+    const grid     = document.getElementById('photoGrid');
+    const counter  = document.getElementById('photoCounter');
+    const MAX      = 6;
+    let photos     = [];
+
+    if (!zone) return;
+
+    zone.addEventListener('click', () => input.click());
+    zone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') input.click(); });
+
+    zone.addEventListener('dragover', e => {
+        e.preventDefault();
+        zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    input.addEventListener('change', () => { handleFiles(input.files); input.value = ''; });
+
+    function handleFiles(files) {
+        Array.from(files).forEach(file => {
+            if (photos.length >= MAX) return;
+            if (!file.type.startsWith('image/')) return;
+            if (file.size > 5 * 1024 * 1024) return;
+            photos.push({ file, url: URL.createObjectURL(file) });
+        });
+        renderGrid();
+    }
+
+    function renderGrid() {
+        counter.textContent = photos.length + ' / ' + MAX;
+        grid.innerHTML = '';
+
+        photos.forEach(function (photo, i) {
+            const item = document.createElement('div');
+            item.className = 'photo-item' + (i === 0 ? ' photo-main' : '');
+
+            const img = document.createElement('img');
+            img.src = photo.url;
+            img.alt = 'Pet photo ' + (i + 1);
+            item.appendChild(img);
+
+            if (i === 0) {
+                const badge = document.createElement('span');
+                badge.className = 'photo-main-badge';
+                const lang = localStorage.getItem('pawdopt-lang') || 'en';
+                badge.textContent = lang === 'fr' ? 'Principale' : 'Main';
+                item.appendChild(badge);
+            }
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'photo-remove-btn';
+            removeBtn.setAttribute('aria-label', 'Remove photo');
+            removeBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+            removeBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                URL.revokeObjectURL(photos[i].url);
+                photos.splice(i, 1);
+                renderGrid();
+            });
+            item.appendChild(removeBtn);
+
+            grid.appendChild(item);
+        });
+
+        grid.style.display = photos.length > 0 ? 'grid' : 'none';
+        zone.classList.toggle('has-photos', photos.length > 0);
+    }
+
+    renderGrid();
+})();
+</script>
+}

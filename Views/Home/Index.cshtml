@@ -24,7 +24,7 @@
                 </p>
                 <div class="hero-actions">
                     <a href="#" class="btn btn-hero-primary"><span>🐾</span> <span data-i18n="hero-btn-adopt">Adopt Now</span></a>
-                    <a href="#" class="btn btn-hero-secondary"><span>🏠</span> <span data-i18n="hero-btn-rehome">Rehome a Pet</span></a>
+                    <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary"><span>🏠</span> <span data-i18n="hero-btn-rehome">Rehome a Pet</span></a>
                 </div>
             </div>
 
@@ -33,13 +33,6 @@
                     <div class="hero-card-inner">
                         <div class="hero-dog-wrap">
                             <img src="~/images/hero-pets.png" alt="Pets" class="hero-dog-img" />
-                        </div>
-                        <div class="hero-stats-badge">
-                            <span class="hero-stats-icon">🐾</span>
-                            <div class="hero-stats-text">
-                                <span class="hero-stats-number">2,400+</span>
-                                <span class="hero-stats-label" data-i18n="hero-stats-label">pets adopted</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -398,7 +391,7 @@
                 <h6 class="footer-heading" data-i18n="footer-explore">Explore</h6>
                 <ul class="footer-links">
                     <li><a href="#" data-i18n="nav-adopt">Adopt</a></li>
-                    <li><a href="#" data-i18n="nav-rehome">Rehome</a></li>
+                    <li><a asp-controller="Rehome" asp-action="List" data-i18n="nav-rehome">Rehome</a></li>
                     <li><a href="#" data-i18n="nav-care">Care Guide</a></li>
                 </ul>
             </div>
