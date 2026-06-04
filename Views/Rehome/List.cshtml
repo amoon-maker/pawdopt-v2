@@ -1,154 +1,428 @@
 @{
-    ViewData["Title"] = "List a Pet";
+    ViewData["Title"] = "Rehome a Pet";
 }
 
-<div class="rehome-page">
-    <div class="rehome-container">
-
-        <!-- Breadcrumb -->
-        <nav class="rehome-breadcrumb" aria-label="breadcrumb">
-            <a href="/" data-i18n="nav-home">Home</a>
-            <span class="bc-sep">›</span>
-            <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
-            <span class="bc-sep">›</span>
-            <span class="bc-current" data-i18n="rehome-breadcrumb-list">List a pet</span>
-        </nav>
-
-        <!-- Step progress -->
-        <div class="rehome-stepper" role="list">
-            <div class="step-item active" role="listitem">
-                <div class="step-circle">1</div>
-                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+<!-- ── Hero banner ──────────────────────────────────────── -->
+<div class="rl-hero">
+    <div class="adopt-pg-container">
+        <div class="rl-hero-inner">
+            <div class="rl-hero-text">
+                <p class="rl-hero-eyebrow" data-i18n="rl-eyebrow">PETS LOOKING FOR A NEW HOME</p>
+                <h1 class="rl-hero-title" data-i18n="rl-title">Help them find their<br>forever family</h1>
+                <p class="rl-hero-sub" data-i18n="rl-subtitle">Browse pets in need of rehoming, or list your own pet safely and for free.</p>
+                <div class="rl-hero-actions">
+                    <a href="/Rehome/NewListing" class="rl-btn-list" data-i18n="rl-btn-list">List my pet →</a>
+                    <div class="rl-hero-stat">
+                        <span class="rl-stat-num">48</span>
+                        <span class="rl-stat-label" data-i18n="rl-stat-label">pets rehomed this month</span>
+                    </div>
+                </div>
             </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">2</div>
-                <span class="step-label" data-i18n="rehome-step2">Images</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">3</div>
-                <span class="step-label" data-i18n="rehome-step3">Character</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">4</div>
-                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">5</div>
-                <span class="step-label" data-i18n="rehome-step5">Location</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">6</div>
-                <span class="step-label" data-i18n="rehome-step6">Story</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">7</div>
-                <span class="step-label" data-i18n="rehome-step7">Documents</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">8</div>
-                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+            <div class="rl-hero-emojis" aria-hidden="true">
+                <span>🐕</span><span>🐈</span><span>🐶</span><span>🐱</span>
             </div>
         </div>
-
-        <!-- Form card -->
-        <div class="rehome-card">
-            <div class="rehome-card-header">
-                <h1 class="rehome-card-title" data-i18n="rehome-title">Tell us about your pet</h1>
-                <p class="rehome-card-subtitle">
-                    <span class="step-pill" data-i18n="rehome-step-pill">Step 1 of 8</span>
-                    <span data-i18n="rehome-step-desc">Basic information. Your progress is saved after each step.</span>
-                </p>
-            </div>
-
-            <form method="post" action="/Rehome/SaveStep1">
-
-                <!-- Row 1: Pet Name | Species | Breed -->
-                <div class="row g-3 mb-3">
-                    <div class="col-md-5">
-                        <label class="rehome-label" data-i18n="rehome-label-name">Pet Name</label>
-                        <input type="text" class="rehome-input" name="petName" placeholder="Magie" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-species">Species</label>
-                        <select class="rehome-select" name="species">
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="dog" data-i18n="rehome-opt-dog">Dog</option>
-                            <option value="cat" data-i18n="rehome-opt-cat">Cat</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="rehome-label" data-i18n="rehome-label-breed">Breed</label>
-                        <input type="text" class="rehome-input" name="breed" placeholder="Shiba Inu" />
-                    </div>
-                </div>
-
-                <!-- Row 2: Age | Gender | Size -->
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-age">Age</label>
-                        <input type="text" class="rehome-input" name="age" placeholder="14 months" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-gender">Gender</label>
-                        <select class="rehome-select" name="gender">
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="male" data-i18n="tag-male">Male</option>
-                            <option value="female" data-i18n="tag-female">Female</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-size">Size</label>
-                        <select class="rehome-select" name="size">
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="small" data-i18n="tag-small">Small</option>
-                            <option value="medium" data-i18n="tag-medium">Medium</option>
-                            <option value="large" data-i18n="tag-large">Large</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Row 3: Color | Weight | Microchipped -->
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-color">Color</label>
-                        <input type="text" class="rehome-input" name="color" placeholder="Brown / White" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-weight">Weight (kg)</label>
-                        <input type="number" class="rehome-input" name="weight" placeholder="12" min="0" step="0.1" />
-                    </div>
-                    <div class="col-md-4">
-                        <label class="rehome-label" data-i18n="rehome-label-microchip">Microchipped?</label>
-                        <select class="rehome-select" name="microchipped">
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="yes" data-i18n="rehome-opt-yes">Yes</option>
-                            <option value="no" data-i18n="rehome-opt-no">No</option>
-                            <option value="unknown" data-i18n="rehome-opt-unknown">Unknown</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Row 4: Reason for rehoming -->
-                <div class="mb-0">
-                    <label class="rehome-label" data-i18n="rehome-label-reason">Reason for Rehoming</label>
-                    <textarea class="rehome-textarea" name="reason" data-i18n-placeholder="rehome-placeholder-reason"
-                        placeholder="Moving to a smaller apartment that does not allow pets..."></textarea>
-                </div>
-
-                <div class="rehome-divider"></div>
-
-                <div class="rehome-nav-btns">
-                    <a href="/" class="rehome-btn-back">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                        <span data-i18n="rehome-btn-back">Back</span>
-                    </a>
-                    <button type="submit" class="rehome-btn-continue">
-                        <span data-i18n="rehome-btn-continue">Save &amp; Continue →</span>
-                    </button>
-                </div>
-
-            </form>
-        </div>
-
     </div>
 </div>
+
+<!-- ── Search bar ──────────────────────────────────────── -->
+<div class="adopt-search-section">
+    <div class="adopt-pg-container">
+        <div class="adopt-top-search-wrap">
+            <div class="adopt-top-search-inner">
+                <svg class="adopt-top-search-icon" width="18" height="18" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" class="adopt-top-search-input" id="rlSearchInput"
+                       placeholder="Search by breed, name, or keyword…"
+                       data-i18n-placeholder="rl-search-placeholder" />
+            </div>
+            <button class="adopt-top-search-btn" id="rlSearchBtn" data-i18n="rl-search-btn">Search</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Main layout ─────────────────────────────────────── -->
+<div class="adopt-main-section">
+    <div class="adopt-pg-container">
+        <div class="adopt-split-layout">
+
+            <!-- ── Filter sidebar ─────────────────────────── -->
+            <aside class="adopt-sidebar-panel" id="rlSidebar">
+
+                <div class="sidebar-header-row">
+                    <span class="sidebar-title" data-i18n="rl-filters-title">Filters</span>
+                    <button class="sidebar-reset-btn" id="rlResetBtn" data-i18n="rl-filters-reset">Reset all</button>
+                </div>
+
+                <!-- Pet type -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title" data-i18n="rl-filter-type">Pet type</div>
+                    <div class="sb-type-toggle">
+                        <button class="sb-type-btn active" data-rl-species="all">
+                            <span class="sb-type-icon">🐾</span><span data-i18n="rl-type-all">All</span>
+                        </button>
+                        <button class="sb-type-btn" data-rl-species="dog">
+                            <span class="sb-type-icon">🐕</span><span data-i18n="rl-type-dogs">Dogs</span>
+                        </button>
+                        <button class="sb-type-btn" data-rl-species="cat">
+                            <span class="sb-type-icon">🐈</span><span data-i18n="rl-type-cats">Cats</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Size -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title" data-i18n="rl-filter-size">Size</div>
+                    <div class="sb-pills">
+                        <button class="sb-pill active" data-rl-filter="size" data-val="" data-i18n="rl-any">Any</button>
+                        <button class="sb-pill" data-rl-filter="size" data-val="small" data-i18n="tag-small">Small</button>
+                        <button class="sb-pill" data-rl-filter="size" data-val="medium" data-i18n="tag-medium">Medium</button>
+                        <button class="sb-pill" data-rl-filter="size" data-val="large" data-i18n="tag-large">Large</button>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title" data-i18n="rl-filter-age">Age</div>
+                    <div class="sb-pills">
+                        <button class="sb-pill active" data-rl-filter="age" data-val="" data-i18n="rl-any">Any</button>
+                        <button class="sb-pill" data-rl-filter="age" data-val="young" data-i18n="rl-age-young">Young</button>
+                        <button class="sb-pill" data-rl-filter="age" data-val="adult" data-i18n="rl-age-adult">Adult</button>
+                        <button class="sb-pill" data-rl-filter="age" data-val="senior" data-i18n="rl-age-senior">Senior</button>
+                    </div>
+                </div>
+
+                <!-- Gender -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title" data-i18n="rl-filter-gender">Gender</div>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="rlCheckMale">
+                        <span data-i18n="tag-male">Male</span>
+                    </label>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="rlCheckFemale">
+                        <span data-i18n="tag-female">Female</span>
+                    </label>
+                </div>
+
+                <!-- Province -->
+                <div class="sidebar-filter-group sidebar-filter-group--last">
+                    <div class="sfg-title" data-i18n="rl-filter-province">Province</div>
+                    <select class="sb-text-input" id="rlProvinceSelect" style="padding:0.45rem 0.6rem;cursor:pointer;">
+                        <option value="" data-i18n="rl-any-province">Any province</option>
+                        <option value="QC">Québec</option>
+                        <option value="ON">Ontario</option>
+                        <option value="BC">British Columbia</option>
+                        <option value="AB">Alberta</option>
+                        <option value="MB">Manitoba</option>
+                        <option value="SK">Saskatchewan</option>
+                        <option value="NS">Nova Scotia</option>
+                        <option value="NB">New Brunswick</option>
+                        <option value="NL">Newfoundland</option>
+                        <option value="PE">PEI</option>
+                    </select>
+                </div>
+
+                <button class="sidebar-apply-btn" id="rlApplyBtn" data-i18n="rl-apply-btn">Apply filters</button>
+
+            </aside>
+
+            <!-- ── Results column ──────────────────────────── -->
+            <div class="adopt-results-col">
+
+                <!-- Results header -->
+                <div class="results-header">
+                    <span class="results-count" aria-live="polite">
+                        <strong id="rlCountNum">12</strong>
+                        <span data-i18n="rl-results-label"> pets available</span>
+                    </span>
+                    <div class="results-sort-wrap">
+                        <label class="sort-label" for="rlSortSelect" data-i18n="rl-sort-label">Sort by:</label>
+                        <select class="sort-select" id="rlSortSelect">
+                            <option value="newest" data-i18n="rl-sort-newest">Newest first</option>
+                            <option value="az" data-i18n="rl-sort-az">Name A–Z</option>
+                            <option value="za" data-i18n="rl-sort-za">Name Z–A</option>
+                            <option value="age-asc" data-i18n="rl-sort-youngest">Youngest first</option>
+                            <option value="age-desc" data-i18n="rl-sort-oldest">Oldest first</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Active filter chips -->
+                <div class="active-filters-row" id="rlFiltersRow" style="display:none" aria-live="polite">
+                    <div class="active-filters-chips" id="rlFiltersChips"></div>
+                </div>
+
+                <!-- Pet grid -->
+                <div class="adopt-pet-grid" id="rlGrid" role="list" aria-label="Pets looking for a home"></div>
+
+                <!-- Empty state -->
+                <div class="adopt-empty-state" id="rlEmpty" style="display:none" role="status">
+                    <div class="empty-paw">🐾</div>
+                    <h3 class="empty-title" data-i18n="rl-empty-title">No pets match your filters</h3>
+                    <p class="empty-desc" data-i18n="rl-empty-desc">Try adjusting or clearing your filters to see more results.</p>
+                    <button class="btn btn-pawdopt-cta" id="rlEmptyClearBtn" data-i18n="rl-empty-clear">Clear all filters</button>
+                </div>
+
+                <!-- Pagination -->
+                <div class="adopt-pagination" id="rlPagination" aria-label="Results pagination"></div>
+
+                <!-- CTA banner -->
+                <div class="rl-cta-banner">
+                    <div class="rl-cta-text">
+                        <strong data-i18n="rl-cta-title">Have a pet that needs a new home?</strong>
+                        <span data-i18n="rl-cta-desc">Create a free listing in minutes and connect with verified adopters.</span>
+                    </div>
+                    <a href="/Rehome/NewListing" class="rl-btn-list" data-i18n="rl-btn-list">List my pet →</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+
+    var PETS = [
+        { id:1,  name:'Pitter',  species:'dog', breed:'Pit Bull',         size:'large',  ageNum:3,  ageUnit:'yr', gender:'male',   province:'QC', city:'Montreal',    emoji:'🐕',     badge:'urgent', vaccinated:true,  neutered:true,  colors:'linear-gradient(135deg,#fde8d8 0%,#e8d5f0 100%)', desc:'Friendly and playful. Great for a home with a yard. Excellent with older children.' },
+        { id:2,  name:'Hero',    species:'cat', breed:'DLH',              size:'small',  ageNum:2,  ageUnit:'yr', gender:'male',   province:'AB', city:'Calgary',     emoji:'🐈',     badge:'',       vaccinated:true,  neutered:false, colors:'linear-gradient(135deg,#d8eef5 0%,#e8f0e8 100%)', desc:'Quiet and curious indoor cat. Perfect for apartment living. Very low maintenance.' },
+        { id:3,  name:'Magie',   species:'dog', breed:'Shiba Inu',        size:'medium', ageNum:14, ageUnit:'mo', gender:'female', province:'ON', city:'Toronto',     emoji:'🐕‍🦺', badge:'new',    vaccinated:true,  neutered:true,  colors:'linear-gradient(135deg,#d8e8f5 0%,#ddf0e8 100%)', desc:'Lives with 2 children and gets along beautifully. Social and energetic pup.' },
+        { id:4,  name:'Felix',   species:'cat', breed:'Domestic SH',      size:'small',  ageNum:5,  ageUnit:'yr', gender:'female', province:'BC', city:'Vancouver',   emoji:'🐱',     badge:'',       vaccinated:false, neutered:true,  colors:'linear-gradient(135deg,#fff0d8 0%,#f5e8f0 100%)', desc:'Loves to cuddle and follow you around. Very social and affectionate cat.' },
+        { id:5,  name:'Buddy',   species:'dog', breed:'Golden Retriever', size:'large',  ageNum:4,  ageUnit:'yr', gender:'male',   province:'QC', city:'Quebec City', emoji:'🐶',     badge:'',       vaccinated:true,  neutered:true,  colors:'linear-gradient(135deg,#fdf8d8 0%,#f8ead8 100%)', desc:'Gentle giant who loves fetch and long walks. Great with families and other dogs.' },
+        { id:6,  name:'Luna',    species:'cat', breed:'Maine Coon',       size:'medium', ageNum:1,  ageUnit:'yr', gender:'female', province:'QC', city:'Laval',       emoji:'🐈‍⬛', badge:'new',    vaccinated:true,  neutered:false, colors:'linear-gradient(135deg,#ead8f8 0%,#d8e8f8 100%)', desc:'Elegant and quiet. Loves high places and cozy naps. Fully litter-trained.' },
+        { id:7,  name:'Rex',     species:'dog', breed:'German Shepherd',  size:'large',  ageNum:7,  ageUnit:'yr', gender:'male',   province:'ON', city:'Ottawa',      emoji:'🦮',     badge:'urgent', vaccinated:true,  neutered:true,  colors:'linear-gradient(135deg,#e0ecd5 0%,#f0e8d5 100%)', desc:'Loyal and protective senior dog. Needs experienced owner. Currently in foster care.' },
+        { id:8,  name:'Mochi',   species:'dog', breed:'Pomeranian',       size:'small',  ageNum:8,  ageUnit:'mo', gender:'female', province:'BC', city:'Victoria',    emoji:'🐕',     badge:'new',    vaccinated:true,  neutered:false, colors:'linear-gradient(135deg,#fce8f0 0%,#f8e8fc 100%)', desc:'Tiny ball of fluff and energy! Loves cuddles and squeaky toys. Very playful.' },
+        { id:9,  name:'Shadow',  species:'cat', breed:'Russian Blue',     size:'small',  ageNum:3,  ageUnit:'yr', gender:'male',   province:'AB', city:'Edmonton',    emoji:'🐈',     badge:'',       vaccinated:true,  neutered:true,  colors:'linear-gradient(135deg,#d8e4fc 0%,#d8f0f4 100%)', desc:'Calm and independent. Adjusts well to new environments. Good with other cats.' },
+        { id:10, name:'Bella',   species:'dog', breed:'Labrador',         size:'large',  ageNum:2,  ageUnit:'yr', gender:'female', province:'QC', city:'Sherbrooke',  emoji:'🐶',     badge:'new',    vaccinated:true,  neutered:true,  colors:'linear-gradient(135deg,#eaf8d8 0%,#d8f0f8 100%)', desc:'Cheerful lab mix who loves swimming and playing ball. Great family dog.' },
+        { id:11, name:'Oliver',  species:'cat', breed:'British Shorthair',size:'medium', ageNum:6,  ageUnit:'yr', gender:'male',   province:'MB', city:'Winnipeg',    emoji:'🐱',     badge:'urgent', vaccinated:false, neutered:true,  colors:'linear-gradient(135deg,#e8dde8 0%,#dde8e0 100%)', desc:'Mellow senior cat looking for a quiet home. Loves lap time and window watching.' },
+        { id:12, name:'Nala',    species:'dog', breed:'Husky',            size:'large',  ageNum:3,  ageUnit:'yr', gender:'female', province:'SK', city:'Saskatoon',   emoji:'🐕',     badge:'new',    vaccinated:true,  neutered:false, colors:'linear-gradient(135deg,#d8e8fc 0%,#fce8d8 100%)', desc:'Stunning Husky with bright blue eyes. Needs an active family and lots of exercise.' }
+    ];
+
+    var PAGE_SIZE = 6;
+    var state = {
+        search: '', species: 'all', size: '', age: '',
+        genderM: false, genderF: false, province: '',
+        sort: 'newest', page: 1
+    };
+
+    function ageYears(p) { return p.ageUnit === 'mo' ? p.ageNum / 12 : p.ageNum; }
+    function ageCategory(p) {
+        var y = ageYears(p);
+        if (y < 1) return 'young';
+        if (y <= 5) return 'adult';
+        return 'senior';
+    }
+    function capFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+    function filterPets() {
+        return PETS.filter(function (p) {
+            if (state.species !== 'all' && p.species !== state.species) return false;
+            if (state.search) {
+                var q = state.search.toLowerCase();
+                if (!p.name.toLowerCase().includes(q) && !p.breed.toLowerCase().includes(q)) return false;
+            }
+            if (state.size && p.size !== state.size) return false;
+            if (state.age && ageCategory(p) !== state.age) return false;
+            if (state.genderM && !state.genderF && p.gender !== 'male') return false;
+            if (!state.genderM && state.genderF && p.gender !== 'female') return false;
+            if (state.province && p.province !== state.province) return false;
+            return true;
+        });
+    }
+
+    function sortPets(list) {
+        var s = list.slice();
+        switch (state.sort) {
+            case 'az':       return s.sort(function(a,b){ return a.name.localeCompare(b.name); });
+            case 'za':       return s.sort(function(a,b){ return b.name.localeCompare(a.name); });
+            case 'age-asc':  return s.sort(function(a,b){ return ageYears(a) - ageYears(b); });
+            case 'age-desc': return s.sort(function(a,b){ return ageYears(b) - ageYears(a); });
+            default: return s.sort(function(a,b){
+                var ua = a.badge==='urgent'?2:a.badge==='new'?1:0;
+                var ub = b.badge==='urgent'?2:b.badge==='new'?1:0;
+                return ub - ua || b.id - a.id;
+            });
+        }
+    }
+
+    function renderCard(p) {
+        var badgeHtml = '';
+        if (p.badge === 'new')    badgeHtml = '<span class="pet-badge-new">New</span>';
+        if (p.badge === 'urgent') badgeHtml = '<span class="pet-badge-urgent">Urgent</span>';
+
+        var genderTag = p.gender === 'male'
+            ? '<span class="pet-tag pet-tag-male">Male</span>'
+            : '<span class="pet-tag pet-tag-female">Female</span>';
+
+        return '<div class="pet-card adopt-pet-card" role="listitem" data-pet-id="' + p.id + '">' +
+            '<div class="pet-card-img" style="background:' + p.colors + ';">' +
+                badgeHtml +
+                '<span class="pet-emoji">' + p.emoji + '</span>' +
+            '</div>' +
+            '<div class="pet-card-body">' +
+                '<h5 class="pet-name">' + p.name + '</h5>' +
+                '<div class="pet-tags" style="margin-bottom:0.45rem">' +
+                    genderTag +
+                    '<span class="pet-tag">' + p.breed + '</span>' +
+                    '<span class="pet-tag">' + p.ageNum + ' ' + p.ageUnit + '</span>' +
+                    '<span class="pet-tag">' + capFirst(p.size) + '</span>' +
+                '</div>' +
+                '<p class="pet-card-desc">' + p.desc + '</p>' +
+                '<p class="pet-location">' +
+                    '<svg width="11" height="11" viewBox="0 0 24 24" fill="#ef4444"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>' +
+                    p.city + ', ' + p.province +
+                '</p>' +
+                '<a href="#" class="rl-contact-btn">Contact owner →</a>' +
+            '</div>' +
+        '</div>';
+    }
+
+    function renderPagination(total, current) {
+        var pg = document.getElementById('rlPagination');
+        if (!pg) return;
+        var totalPages = Math.ceil(total / PAGE_SIZE);
+        if (totalPages <= 1) { pg.innerHTML = ''; return; }
+        var html = '<button class="pg-btn pg-arrow" id="rlPgPrev"' + (current===1?' disabled':'') + '>&#8249;</button>';
+        for (var i = 1; i <= totalPages; i++) {
+            html += '<button class="pg-btn' + (i===current?' active':'') + '" data-rl-pg="' + i + '">' + i + '</button>';
+        }
+        html += '<button class="pg-btn pg-arrow" id="rlPgNext"' + (current===totalPages?' disabled':'') + '>&#8250;</button>';
+        pg.innerHTML = html;
+        pg.querySelectorAll('[data-rl-pg]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                state.page = parseInt(this.dataset.rlPg, 10); render();
+                document.getElementById('rlGrid').scrollIntoView({ behavior:'smooth', block:'start' });
+            });
+        });
+        var prev = document.getElementById('rlPgPrev');
+        if (prev && !prev.disabled) prev.addEventListener('click', function () { state.page--; render(); });
+        var next = document.getElementById('rlPgNext');
+        if (next && !next.disabled) next.addEventListener('click', function () { state.page++; render(); });
+    }
+
+    function updateChips() {
+        var row = document.getElementById('rlFiltersRow');
+        var chips = document.getElementById('rlFiltersChips');
+        var active = [];
+        if (state.search)   active.push({ key:'search',   label:'"' + state.search + '"' });
+        if (state.size)     active.push({ key:'size',     label:capFirst(state.size) });
+        if (state.age)      active.push({ key:'age',      label:capFirst(state.age) });
+        if (state.province) active.push({ key:'province', label:state.province });
+        if (state.genderM && !state.genderF) active.push({ key:'genderM', label:'Male' });
+        if (!state.genderM && state.genderF) active.push({ key:'genderF', label:'Female' });
+
+        if (active.length) {
+            row.style.display = '';
+            chips.innerHTML = active.map(function (f) {
+                return '<button class="filter-chip" data-chip-key="' + f.key + '">' +
+                    '<span>' + f.label + '</span><span class="chip-remove" aria-hidden="true">&times;</span>' +
+                '</button>';
+            }).join('');
+            chips.querySelectorAll('.filter-chip').forEach(function (chip) {
+                chip.addEventListener('click', function () {
+                    var k = this.dataset.chipKey;
+                    if (k==='search')   { state.search=''; var si=document.getElementById('rlSearchInput'); if(si) si.value=''; }
+                    else if (k==='size')     { state.size='';     syncRlPills('size'); }
+                    else if (k==='age')      { state.age='';      syncRlPills('age'); }
+                    else if (k==='province') { state.province=''; document.getElementById('rlProvinceSelect').value=''; }
+                    else if (k==='genderM')  { state.genderM=false; document.getElementById('rlCheckMale').checked=false; }
+                    else if (k==='genderF')  { state.genderF=false; document.getElementById('rlCheckFemale').checked=false; }
+                    state.page=1; render();
+                });
+            });
+        } else {
+            row.style.display = 'none';
+        }
+    }
+
+    function syncRlPills(filter) {
+        document.querySelectorAll('.sb-pill[data-rl-filter="' + filter + '"]').forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.val === state[filter]);
+        });
+    }
+
+    function syncSpeciesBtns() {
+        document.querySelectorAll('.sb-type-btn[data-rl-species]').forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.rlSpecies === state.species);
+        });
+    }
+
+    function clearAll() {
+        state.search=''; state.species='all'; state.size=''; state.age='';
+        state.genderM=false; state.genderF=false; state.province=''; state.page=1;
+        var si=document.getElementById('rlSearchInput'); if(si) si.value='';
+        document.getElementById('rlCheckMale').checked=false;
+        document.getElementById('rlCheckFemale').checked=false;
+        document.getElementById('rlProvinceSelect').value='';
+        syncSpeciesBtns(); syncRlPills('size'); syncRlPills('age');
+        render();
+    }
+
+    function render() {
+        var filtered = filterPets();
+        var sorted   = sortPets(filtered);
+        var start    = (state.page - 1) * PAGE_SIZE;
+        var visible  = sorted.slice(start, start + PAGE_SIZE);
+        var grid     = document.getElementById('rlGrid');
+        var empty    = document.getElementById('rlEmpty');
+        var countEl  = document.getElementById('rlCountNum');
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '';
+            empty.style.display = '';
+        } else {
+            empty.style.display = 'none';
+            grid.innerHTML = visible.map(renderCard).join('');
+            countEl.textContent = filtered.length;
+        }
+        renderPagination(filtered.length, state.page);
+        updateChips();
+    }
+
+    // ── Event wiring ──────────────────────────────────────
+    document.querySelectorAll('.sb-type-btn[data-rl-species]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            state.species = this.dataset.rlSpecies; state.page=1;
+            syncSpeciesBtns(); render();
+        });
+    });
+
+    document.querySelectorAll('.sb-pill[data-rl-filter]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            state[this.dataset.rlFilter] = this.dataset.val; state.page=1;
+            syncRlPills(this.dataset.rlFilter); render();
+        });
+    });
+
+    document.getElementById('rlCheckMale').addEventListener('change',   function () { state.genderM=this.checked; state.page=1; render(); });
+    document.getElementById('rlCheckFemale').addEventListener('change', function () { state.genderF=this.checked; state.page=1; render(); });
+    document.getElementById('rlProvinceSelect').addEventListener('change', function () { state.province=this.value; state.page=1; render(); });
+    document.getElementById('rlSortSelect').addEventListener('change', function () { state.sort=this.value; render(); });
+    document.getElementById('rlApplyBtn').addEventListener('click', function () { state.page=1; render(); });
+    document.getElementById('rlResetBtn').addEventListener('click', clearAll);
+    document.getElementById('rlEmptyClearBtn').addEventListener('click', clearAll);
+
+    var searchTimer;
+    var si = document.getElementById('rlSearchInput');
+    si.addEventListener('input', function () {
+        clearTimeout(searchTimer);
+        var val = this.value;
+        searchTimer = setTimeout(function () { state.search=val.trim(); state.page=1; render(); }, 280);
+    });
+    si.addEventListener('keydown', function (e) {
+        if (e.key==='Enter') { clearTimeout(searchTimer); state.search=this.value.trim(); state.page=1; render(); }
+    });
+    document.getElementById('rlSearchBtn').addEventListener('click', function () {
+        clearTimeout(searchTimer); state.search=si.value.trim(); state.page=1; render();
+    });
+
+    syncRlPills('size'); syncRlPills('age');
+    render();
+
+})();
+</script>
+}

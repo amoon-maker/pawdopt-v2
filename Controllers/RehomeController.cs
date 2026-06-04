@@ -9,6 +9,11 @@ public class RehomeController : Controller
         return View();
     }
 
+    public IActionResult NewListing()
+    {
+        return View();
+    }
+
     [HttpPost]
     public IActionResult SaveStep1()
     {
