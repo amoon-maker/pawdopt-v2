@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#1A6B8A;--teal2:#2B8CAD;--teal-light:#D5EEF5;
+  --pink:#E8A0B4;--pink-light:#FBEAF0;
+  --dark:#1A1A2E;--gray:#F5F7F9;--mid:#8899AA;
+  --white:#FFFFFF;--border:#DDE4EA;--green:#28CA41;
+}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f7;padding:20px;color:var(--dark)}
+.label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.screen{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);margin-bottom:32px}
+.screen-title{background:var(--dark);color:white;padding:10px 18px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%}
+.sec-label{background:var(--teal);color:white;padding:7px 20px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+/* NAV */
+.nav{background:white;border-bottom:1px solid var(--border);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo-wrap{display:flex;align-items:center;gap:8px}
+.logo-mark{width:30px;height:30px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px}
+.logo-text{font-size:16px;font-weight:800;color:var(--teal)}
+.logo-text span{color:var(--pink)}
+.nav-links{display:flex;gap:24px;font-size:13px}
+.nav-links a{text-decoration:none;color:var(--dark);font-weight:500;opacity:0.6}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-toggle{background:var(--gray);border:none;border-radius:16px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer}
+
+/* AUTH PAGE WRAPPER */
+.auth-page{display:flex;min-height:640px}
+.auth-left{flex:1;background:linear-gradient(135deg,#0F3E53 0%,#1A6B8A 50%,#2B8CAD 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;position:relative;overflow:hidden}
+.auth-left::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:rgba(255,255,255,0.05);border-radius:50%}
+.auth-left::after{content:'';position:absolute;bottom:-80px;left:-40px;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%}
+.auth-brand{font-size:28px;font-weight:900;color:white;margin-bottom:8px;position:relative;z-index:1}
+.auth-brand span{color:var(--pink)}
+.auth-tagline{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:40px;position:relative;z-index:1}
+.auth-mascot{font-size:90px;margin-bottom:32px;position:relative;z-index:1;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.auth-bullets{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+.auth-bullet{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.85);font-size:13px}
+.bullet-icon{width:32px;height:32px;background:rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+
+/* AUTH RIGHT — FORM PANEL */
+.auth-right{width:440px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;padding:48px 40px;background:white}
+.auth-title{font-size:24px;font-weight:900;margin-bottom:4px}
+.auth-sub{font-size:13px;color:var(--mid);margin-bottom:28px}
+
+/* TABS */
+.auth-tabs{display:flex;background:var(--gray);border-radius:10px;padding:4px;margin-bottom:28px;gap:4px}
+.auth-tab{flex:1;text-align:center;padding:8px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;color:var(--mid)}
+.auth-tab.active{background:white;color:var(--teal);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+
+/* ROLE SELECTOR */
+.role-selector{display:flex;gap:10px;margin-bottom:24px}
+.role-btn{flex:1;border:2px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.2s}
+.role-btn.active{border-color:var(--teal);background:var(--teal-light)}
+.role-icon{font-size:24px;margin-bottom:6px}
+.role-label{font-size:12px;font-weight:800;color:var(--dark)}
+.role-sub{font-size:10px;color:var(--mid);margin-top:2px}
+.role-btn.active .role-label{color:var(--teal)}
+
+/* FORM FIELDS */
+.form-group{margin-bottom:16px}
+.form-label{font-size:11px;font-weight:700;color:var(--dark);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.5px}
+.form-input{width:100%;background:var(--gray);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--dark);display:flex;align-items:center;gap:8px}
+.form-input.focus{border-color:var(--teal);background:white}
+.form-input.error{border-color:#E24B4A;background:#FFF5F5}
+.form-hint{font-size:10px;color:var(--mid);margin-top:4px}
+.form-error{font-size:10px;color:#E24B4A;margin-top:4px;font-weight:600}
+.form-row{display:flex;gap:10px}
+.form-row .form-group{flex:1}
+
+/* PASSWORD STRENGTH */
+.pwd-strength{margin-top:6px}
+.pwd-bars{display:flex;gap:4px;margin-bottom:4px}
+.pwd-bar{flex:1;height:3px;border-radius:2px;background:var(--border)}
+.pwd-bar.filled{background:var(--green)}
+.pwd-bar.medium{background:#EF9F27}
+.pwd-strength-label{font-size:10px;color:var(--mid)}
+
+/* AGREE */
+.agree-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:20px;font-size:11px;color:var(--mid);line-height:1.5}
+.agree-check{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border);flex-shrink:0;margin-top:1px}
+.agree-check.checked{background:var(--teal);border-color:var(--teal)}
+.agree-link{color:var(--teal);font-weight:700}
+
+/* SUBMIT BTN */
+.submit-btn{width:100%;background:var(--teal);color:white;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:20px}
+
+/* DIVIDER */
+.auth-divider{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-text{font-size:11px;color:var(--mid);font-weight:600}
+
+/* SOCIAL BTNS */
+.social-btns{display:flex;gap:10px;margin-bottom:24px}
+.social-btn{flex:1;background:white;border:1.5px solid var(--border);border-radius:10px;padding:10px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.social-btn:hover{border-color:var(--teal);background:var(--teal-light)}
+.google-icon{width:16px;height:16px;background:#EA4335;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:9px;font-weight:900}
+.fb-icon{width:16px;height:16px;background:#1877F2;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:9px;font-weight:900}
+
+/* SWITCH LINK */
+.auth-switch{text-align:center;font-size:12px;color:var(--mid)}
+.auth-switch a{color:var(--teal);font-weight:700;text-decoration:none}
+
+/* VERIFICATION SCREEN */
+.verify-screen{display:flex;min-height:480px;align-items:center;justify-content:center;background:linear-gradient(135deg,#F5F9FB,#EEF5F8);padding:40px}
+.verify-card{background:white;border-radius:20px;padding:40px;max-width:420px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.08)}
+.verify-icon{font-size:52px;margin-bottom:16px;display:block}
+.verify-title{font-size:20px;font-weight:900;margin-bottom:6px}
+.verify-sub{font-size:13px;color:var(--mid);margin-bottom:28px;line-height:1.6}
+.otp-row{display:flex;gap:10px;justify-content:center;margin-bottom:20px}
+.otp-box{width:48px;height:56px;background:var(--gray);border:2px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:var(--teal)}
+.otp-box.filled{border-color:var(--teal);background:var(--teal-light)}
+.otp-box.active{border-color:var(--teal);background:white;box-shadow:0 0 0 3px rgba(26,107,138,0.15)}
+.verify-btn{width:100%;background:var(--teal);color:white;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:16px}
+.resend-text{font-size:12px;color:var(--mid)}
+.resend-link{color:var(--teal);font-weight:700;cursor:pointer}
+.countdown{font-size:11px;color:var(--mid);margin-top:6px}
+
+/* FORGOT PASSWORD */
+.forgot-card{background:white;border-radius:20px;padding:40px;max-width:400px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.08)}
+.forgot-steps{display:flex;gap:0;margin-bottom:28px}
+.forgot-step{flex:1;text-align:center;position:relative}
+.forgot-step::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:2px;background:var(--border);z-index:0}
+.forgot-step:last-child::after{display:none}
+.forgot-step-dot{width:28px;height:28px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin:0 auto 6px;position:relative;z-index:1;color:var(--mid)}
+.forgot-step-dot.done{background:var(--teal);color:white}
+.forgot-step-dot.active{background:var(--teal);color:white;box-shadow:0 0 0 4px var(--teal-light)}
+.forgot-step-label{font-size:10px;color:var(--mid);font-weight:600}
+
+/* MOBILE FRAME */
+.mobile-frame{width:375px;margin:0 auto;background:white;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.15)}
+.mobile-auth-header{background:linear-gradient(135deg,#0F3E53,#1A6B8A);padding:32px 24px 28px;text-align:center}
+.mobile-auth-logo{font-size:22px;font-weight:900;color:white;margin-bottom:4px}
+.mobile-auth-logo span{color:var(--pink)}
+.mobile-auth-mascot{font-size:48px;margin-bottom:8px;display:block}
+.mobile-auth-tagline{font-size:12px;color:rgba(255,255,255,0.7)}
+.mobile-auth-body{padding:24px}
+.mobile-auth-tabs{display:flex;background:var(--gray);border-radius:10px;padding:4px;margin-bottom:20px;gap:4px}
+.mobile-auth-tab{flex:1;text-align:center;padding:8px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;color:var(--mid)}
+.mobile-auth-tab.active{background:white;color:var(--teal);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.mobile-role-row{display:flex;gap:8px;margin-bottom:18px}
+.mobile-role-btn{flex:1;border:2px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer}
+.mobile-role-btn.active{border-color:var(--teal);background:var(--teal-light)}
+.mobile-role-icon{font-size:20px;margin-bottom:4px}
+.mobile-role-label{font-size:10px;font-weight:800;color:var(--dark)}
+.mobile-role-btn.active .mobile-role-label{color:var(--teal)}
+.mobile-form-group{margin-bottom:14px}
+.mobile-form-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:5px;display:block}
+.mobile-form-input{width:100%;background:var(--gray);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;color:var(--mid)}
+.mobile-submit-btn{width:100%;background:var(--teal);color:white;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:16px}
+.mobile-divider{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mobile-div-line{flex:1;height:1px;background:var(--border)}
+.mobile-div-text{font-size:11px;color:var(--mid);font-weight:600}
+.mobile-social-btns{display:flex;gap:8px;margin-bottom:18px}
+.mobile-social-btn{flex:1;background:white;border:1.5px solid var(--border);border-radius:10px;padding:10px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
+.mobile-switch{text-align:center;font-size:12px;color:var(--mid)}
+.mobile-switch a{color:var(--teal);font-weight:700}
+
+/* MOBILE VERIFY */
+.mobile-verify-body{padding:28px 24px;text-align:center}
+.mobile-otp-row{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.mobile-otp-box{width:44px;height:52px;background:var(--gray);border:2px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:var(--teal)}
+.mobile-otp-box.filled{border-color:var(--teal);background:var(--teal-light)}
+.mobile-otp-box.active{border-color:var(--teal);background:white;box-shadow:0 0 0 3px rgba(26,107,138,0.15)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DESKTOP — REGISTER PAGE -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Register Page</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/register — Register (Desktop)</span>
+  </div>
+  <div class="sec-label">① Navigation</div>
+  <div class="nav">
+    <div class="logo-wrap"><div class="logo-mark">🐾</div><div class="logo-text">Paw<span>dopt</span></div></div>
+    <div class="nav-links">
+      <a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#">About Us</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-toggle">EN / FR</div>
+      <div class="nav-toggle">🌙</div>
+    </div>
+  </div>
+  <div class="sec-label">② Left panel (branding) + ③ Register form</div>
+  <div class="auth-page">
+    <!-- LEFT BRAND PANEL -->
+    <div class="auth-left">
+      <div class="auth-brand">Paw<span>dopt</span></div>
+      <div class="auth-tagline">Quebec's trusted pet platform</div>
+      <div class="auth-mascot">🐶</div>
+      <div class="auth-bullets">
+        <div class="auth-bullet"><div class="bullet-icon">🐾</div>Browse hundreds of pets near you</div>
+        <div class="auth-bullet"><div class="bullet-icon">🏠</div>Safely rehome your pet with ease</div>
+        <div class="auth-bullet"><div class="bullet-icon">💬</div>Chat directly with owners</div>
+        <div class="auth-bullet"><div class="bullet-icon">✅</div>Verified listings and trusted profiles</div>
+      </div>
+    </div>
+    <!-- RIGHT FORM PANEL -->
+    <div class="auth-right">
+      <div class="auth-title">Create your account</div>
+      <div class="auth-sub">Join Pawdopt and find your perfect companion</div>
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <div class="auth-tab">Login</div>
+        <div class="auth-tab active">Register</div>
+      </div>
+      <!-- ROLE SELECTOR -->
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">I want to</div>
+      <div class="role-selector">
+        <div class="role-btn active">
+          <div class="role-icon">🐾</div>
+          <div class="role-label">Adopt a pet</div>
+          <div class="role-sub">Browse & apply</div>
+        </div>
+        <div class="role-btn">
+          <div class="role-icon">🏠</div>
+          <div class="role-label">Rehome a pet</div>
+          <div class="role-sub">List & manage</div>
+        </div>
+      </div>
+      <!-- FORM FIELDS -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First name</label>
+          <div class="form-input focus">👤 &nbsp; Amina</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last name</label>
+          <div class="form-input">👤 &nbsp; Last name</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <div class="form-input">✉️ &nbsp; your@email.com</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="form-input">🔒 &nbsp; ••••••••&nbsp;&nbsp;&nbsp;<span style="margin-left:auto;font-size:12px;cursor:pointer;color:var(--mid)">👁</span></div>
+        <div class="pwd-strength">
+          <div class="pwd-bars">
+            <div class="pwd-bar filled"></div>
+            <div class="pwd-bar filled"></div>
+            <div class="pwd-bar medium"></div>
+            <div class="pwd-bar"></div>
+          </div>
+          <div class="pwd-strength-label">Medium strength — add numbers or symbols</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm password</label>
+        <div class="form-input error">🔒 &nbsp; ••••••••&nbsp;&nbsp;&nbsp;<span style="margin-left:auto;font-size:12px;cursor:pointer;color:var(--mid)">👁</span></div>
+        <div class="form-error">⚠ Passwords do not match</div>
+      </div>
+      <div class="agree-row">
+        <div class="agree-check checked"></div>
+        I agree to all <span class="agree-link">&nbsp;Terms &amp; Conditions</span>&nbsp;and&nbsp;<span class="agree-link">Privacy Policy</span>
+      </div>
+      <button class="submit-btn">Create Account →</button>
+      <div class="auth-divider"><div class="divider-line"></div><div class="divider-text">Or sign up with</div><div class="divider-line"></div></div>
+      <div class="social-btns">
+        <div class="social-btn"><div class="google-icon">G</div>Google</div>
+        <div class="social-btn"><div class="fb-icon">f</div>Facebook</div>
+      </div>
+      <div class="auth-switch">Already have an account? <a href="#">Sign in →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DESKTOP — LOGIN PAGE -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Login Page</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/login — Login (Desktop)</span>
+  </div>
+  <div class="nav">
+    <div class="logo-wrap"><div class="logo-mark">🐾</div><div class="logo-text">Paw<span>dopt</span></div></div>
+    <div class="nav-links">
+      <a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#">About Us</a>
+    </div>
+    <div class="nav-right"><div class="nav-toggle">EN / FR</div><div class="nav-toggle">🌙</div></div>
+  </div>
+  <div class="auth-page">
+    <div class="auth-left">
+      <div class="auth-brand">Paw<span>dopt</span></div>
+      <div class="auth-tagline">Welcome back 🐾</div>
+      <div class="auth-mascot">🐈</div>
+      <div class="auth-bullets">
+        <div class="auth-bullet"><div class="bullet-icon">📋</div>Track your adoption applications</div>
+        <div class="auth-bullet"><div class="bullet-icon">💬</div>Message pet owners directly</div>
+        <div class="auth-bullet"><div class="bullet-icon">🔔</div>Get notified on new matches</div>
+        <div class="auth-bullet"><div class="bullet-icon">🏠</div>Manage your rehome listings</div>
+      </div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-title">Log in to Pawdopt</div>
+      <div class="auth-sub">Enter your credentials to continue</div>
+      <div class="auth-tabs">
+        <div class="auth-tab active">Login</div>
+        <div class="auth-tab">Register</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <div class="form-input focus">✉️ &nbsp; your@email.com</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="form-input">🔒 &nbsp; ••••••••&nbsp;&nbsp;&nbsp;<span style="margin-left:auto;font-size:12px;cursor:pointer;color:var(--mid)">👁</span></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <div class="agree-row" style="margin:0">
+          <div class="agree-check checked"></div>
+          <span style="font-size:12px;color:var(--mid)">Keep me logged in</span>
+        </div>
+        <a href="#" style="font-size:12px;color:var(--teal);font-weight:700;text-decoration:none">Forgot password?</a>
+      </div>
+      <button class="submit-btn">Log In →</button>
+      <div class="auth-divider"><div class="divider-line"></div><div class="divider-text">Or sign in with</div><div class="divider-line"></div></div>
+      <div class="social-btns">
+        <div class="social-btn"><div class="google-icon">G</div>Google</div>
+        <div class="social-btn"><div class="fb-icon">f</div>Facebook</div>
+      </div>
+      <div class="auth-switch">Don't have an account? <a href="#">Register →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DESKTOP — EMAIL VERIFICATION -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Email Verification (OTP)</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/verify — Email Verification (Desktop)</span>
+  </div>
+  <div class="nav">
+    <div class="logo-wrap"><div class="logo-mark">🐾</div><div class="logo-text">Paw<span>dopt</span></div></div>
+    <div class="nav-right"><div class="nav-toggle">EN / FR</div><div class="nav-toggle">🌙</div></div>
+  </div>
+  <div class="verify-screen">
+    <div class="verify-card">
+      <span class="verify-icon">📧</span>
+      <div class="verify-title">Check your email</div>
+      <div class="verify-sub">We sent a 6-digit verification code to<br><strong>amina@email.com</strong><br>Enter it below to verify your account.</div>
+      <div class="otp-row">
+        <div class="otp-box filled">3</div>
+        <div class="otp-box filled">7</div>
+        <div class="otp-box filled">8</div>
+        <div class="otp-box active">_</div>
+        <div class="otp-box"></div>
+        <div class="otp-box"></div>
+      </div>
+      <button class="verify-btn">✓ Verify Email</button>
+      <div class="resend-text">Didn't receive it? <span class="resend-link">Resend code</span></div>
+      <div class="countdown">Code expires in 4:32</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- DESKTOP — FORGOT PASSWORD FLOW -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Forgot Password (3-step flow)</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/forgot-password — Forgot Password (Desktop)</span>
+  </div>
+  <div class="nav">
+    <div class="logo-wrap"><div class="logo-mark">🐾</div><div class="logo-text">Paw<span>dopt</span></div></div>
+    <div class="nav-right"><div class="nav-toggle">EN / FR</div><div class="nav-toggle">🌙</div></div>
+  </div>
+  <div class="verify-screen" style="gap:24px;flex-direction:column;align-items:center">
+    <!-- STEP INDICATOR -->
+    <div style="display:flex;gap:0;max-width:340px;width:100%">
+      <div class="forgot-step">
+        <div class="forgot-step-dot done">✓</div>
+        <div class="forgot-step-label">Enter email</div>
+      </div>
+      <div class="forgot-step">
+        <div class="forgot-step-dot active">2</div>
+        <div class="forgot-step-label">Verify code</div>
+      </div>
+      <div class="forgot-step">
+        <div class="forgot-step-dot">3</div>
+        <div class="forgot-step-label">New password</div>
+      </div>
+    </div>
+    <!-- STEP 2 CARD -->
+    <div class="forgot-card">
+      <div style="text-align:center;margin-bottom:24px">
+        <span style="font-size:44px;display:block;margin-bottom:12px">🔑</span>
+        <div class="verify-title">Enter verification code</div>
+        <div style="font-size:12px;color:var(--mid);margin-top:4px;line-height:1.6">We sent a code to <strong>amina@email.com</strong></div>
+      </div>
+      <div class="otp-row" style="margin-bottom:20px">
+        <div class="otp-box filled">5</div>
+        <div class="otp-box filled">2</div>
+        <div class="otp-box active">_</div>
+        <div class="otp-box"></div>
+        <div class="otp-box"></div>
+        <div class="otp-box"></div>
+      </div>
+      <button class="verify-btn">Continue →</button>
+      <div style="text-align:center;margin-top:8px">
+        <div class="resend-text">Didn't get it? <span class="resend-link">Resend</span></div>
+        <div class="countdown">Expires in 3:54</div>
+      </div>
+      <div style="text-align:center;margin-top:16px">
+        <a href="#" style="font-size:12px;color:var(--mid);text-decoration:none">← Back to login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MOBILE — REGISTER + VERIFY -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="label">Mobile Wireframes — Register + Email Verification (375px)</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">Mobile — Register + Verify (375px)</span>
+  </div>
+  <div style="padding:24px;background:var(--gray);display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+
+    <!-- MOBILE REGISTER -->
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mid);text-align:center;margin-bottom:10px">Register</div>
+      <div class="mobile-frame">
+        <div class="mobile-auth-header">
+          <span class="mobile-auth-mascot">🐶</span>
+          <div class="mobile-auth-logo">Paw<span>dopt</span></div>
+          <div class="mobile-auth-tagline">Quebec's trusted pet platform</div>
+        </div>
+        <div class="mobile-auth-body">
+          <div class="mobile-auth-tabs">
+            <div class="mobile-auth-tab">Login</div>
+            <div class="mobile-auth-tab active">Register</div>
+          </div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">I want to</div>
+          <div class="mobile-role-row">
+            <div class="mobile-role-btn active">
+              <div class="mobile-role-icon">🐾</div>
+              <div class="mobile-role-label">Adopt a pet</div>
+            </div>
+            <div class="mobile-role-btn">
+              <div class="mobile-role-icon">🏠</div>
+              <div class="mobile-role-label">Rehome a pet</div>
+            </div>
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label">Full name</label>
+            <div class="mobile-form-input" style="background:white;border-color:var(--teal);color:var(--dark)">Amina Ayad...</div>
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label">Email address</label>
+            <div class="mobile-form-input">your@email.com</div>
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label">Password</label>
+            <div class="mobile-form-input">••••••••</div>
+          </div>
+          <div class="agree-row" style="margin-bottom:16px;font-size:11px">
+            <div class="agree-check checked"></div>
+            I agree to <span class="agree-link">&nbsp;Terms</span> &amp; <span class="agree-link">Privacy</span>
+          </div>
+          <button class="mobile-submit-btn">Create Account →</button>
+          <div class="mobile-divider"><div class="mobile-div-line"></div><div class="mobile-div-text">Or sign up with</div><div class="mobile-div-line"></div></div>
+          <div class="mobile-social-btns">
+            <div class="mobile-social-btn"><div class="google-icon">G</div>Google</div>
+            <div class="mobile-social-btn"><div class="fb-icon">f</div>Facebook</div>
+          </div>
+          <div class="mobile-switch">Already have an account? <a href="#">Sign in</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE LOGIN -->
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mid);text-align:center;margin-bottom:10px">Login</div>
+      <div class="mobile-frame">
+        <div class="mobile-auth-header">
+          <span class="mobile-auth-mascot">🐈</span>
+          <div class="mobile-auth-logo">Paw<span>dopt</span></div>
+          <div class="mobile-auth-tagline">Welcome back</div>
+        </div>
+        <div class="mobile-auth-body">
+          <div class="mobile-auth-tabs">
+            <div class="mobile-auth-tab active">Login</div>
+            <div class="mobile-auth-tab">Register</div>
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label">Email address</label>
+            <div class="mobile-form-input" style="background:white;border-color:var(--teal);color:var(--dark)">your@email.com</div>
+          </div>
+          <div class="mobile-form-group">
+            <label class="mobile-form-label">Password</label>
+            <div class="mobile-form-input">••••••••</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:18px;align-items:center">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mid)">
+              <div class="agree-check checked"></div>Keep me logged in
+            </div>
+            <a href="#" style="font-size:11px;color:var(--teal);font-weight:700;text-decoration:none">Forgot password?</a>
+          </div>
+          <button class="mobile-submit-btn">Log In →</button>
+          <div class="mobile-divider"><div class="mobile-div-line"></div><div class="mobile-div-text">Or sign in with</div><div class="mobile-div-line"></div></div>
+          <div class="mobile-social-btns">
+            <div class="mobile-social-btn"><div class="google-icon">G</div>Google</div>
+            <div class="mobile-social-btn"><div class="fb-icon">f</div>Facebook</div>
+          </div>
+          <div class="mobile-switch">Don't have an account? <a href="#">Register</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE VERIFY -->
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mid);text-align:center;margin-bottom:10px">Email Verify</div>
+      <div class="mobile-frame">
+        <div class="mobile-auth-header" style="padding:24px">
+          <div class="mobile-auth-logo">Paw<span>dopt</span></div>
+        </div>
+        <div class="mobile-verify-body">
+          <span style="font-size:48px;display:block;margin-bottom:14px">📧</span>
+          <div style="font-size:18px;font-weight:900;margin-bottom:6px">Verify your email</div>
+          <div style="font-size:12px;color:var(--mid);margin-bottom:24px;line-height:1.6">Enter the 6-digit code sent to<br><strong style="color:var(--dark)">amina@email.com</strong></div>
+          <div class="mobile-otp-row">
+            <div class="mobile-otp-box filled">3</div>
+            <div class="mobile-otp-box filled">7</div>
+            <div class="mobile-otp-box filled">8</div>
+            <div class="mobile-otp-box active">_</div>
+            <div class="mobile-otp-box"></div>
+            <div class="mobile-otp-box"></div>
+          </div>
+          <button style="width:100%;background:var(--teal);color:white;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:14px">✓ Verify Email</button>
+          <div style="font-size:12px;color:var(--mid)">Didn't receive it? <span style="color:var(--teal);font-weight:700;cursor:pointer">Resend code</span></div>
+          <div style="font-size:11px;color:var(--mid);margin-top:6px">Code expires in 4:32</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

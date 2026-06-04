@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#1A6B8A;--teal2:#2B8CAD;--teal-light:#D5EEF5;
+  --pink:#E8A0B4;--pink-light:#FBEAF0;--pink-dark:#993356;
+  --dark:#1A1A2E;--gray:#F5F7F9;--mid:#8899AA;
+  --white:#FFFFFF;--border:#DDE4EA;--green:#28CA41;
+  --amber:#EF9F27;--red:#E24B4A;
+}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f7;padding:20px;color:var(--dark)}
+.label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.screen{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);margin-bottom:32px}
+.screen-title{background:var(--dark);color:white;padding:10px 18px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%}
+.sec-label{background:var(--teal);color:white;padding:7px 20px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.sec-label.pink{background:#993356}
+
+/* NAV */
+.nav{background:white;border-bottom:1px solid var(--border);padding:0 24px;height:54px;display:flex;align-items:center;justify-content:space-between}
+.logo-wrap{display:flex;align-items:center;gap:8px}
+.logo-mark{width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px}
+.logo-text{font-size:15px;font-weight:800;color:var(--teal)}
+.logo-text span{color:var(--pink)}
+.nav-links{display:flex;gap:20px;font-size:12px}
+.nav-links a{text-decoration:none;color:var(--dark);font-weight:500;opacity:0.6}
+.nav-links a.active{color:var(--teal);opacity:1;font-weight:700}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-toggle{background:var(--gray);border:none;border-radius:14px;padding:4px 9px;font-size:10px;font-weight:600;cursor:pointer}
+.nav-bell{width:28px;height:28px;background:var(--gray);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;position:relative}
+.notif-dot{position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid white}
+.user-chip{display:flex;align-items:center;gap:7px;background:var(--gray);border-radius:20px;padding:4px 12px 4px 4px;cursor:pointer}
+.user-avatar{width:26px;height:26px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--teal)}
+.user-name{font-size:12px;font-weight:700}
+
+/* DASHBOARD LAYOUT */
+.dash-layout{display:flex;min-height:700px}
+
+/* SIDEBAR */
+.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--border);background:var(--dark);display:flex;flex-direction:column}
+.sidebar-user{padding:20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-avatar{width:48px;height:48px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--teal);margin-bottom:8px}
+.sidebar-name{font-size:13px;font-weight:800;color:white}
+.sidebar-role{font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+.sidebar-nav{padding:12px 0;flex:1}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);cursor:pointer;border-left:3px solid transparent;transition:all 0.2s}
+.sidebar-item:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.8)}
+.sidebar-item.active{color:white;background:rgba(255,255,255,0.08);border-left-color:var(--teal)}
+.sidebar-item.active.pink{border-left-color:var(--pink)}
+.sidebar-icon{font-size:15px;width:18px;text-align:center}
+.sidebar-badge{margin-left:auto;background:var(--red);color:white;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px}
+.sidebar-badge.teal{background:var(--teal)}
+.sidebar-section{padding:6px 16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.2);margin-top:8px}
+.sidebar-bottom{padding:12px 16px;border-top:1px solid rgba(255,255,255,0.08)}
+.sidebar-logout{font-size:11px;color:rgba(255,255,255,0.3);cursor:pointer;display:flex;align-items:center;gap:8px}
+
+/* MAIN CONTENT */
+.dash-main{flex:1;background:var(--gray);overflow:auto}
+.dash-header{background:white;padding:16px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.dash-title{font-size:18px;font-weight:900}
+.dash-sub{font-size:12px;color:var(--mid);margin-top:2px}
+.dash-header-actions{display:flex;gap:10px}
+.action-btn{background:var(--teal);color:white;border:none;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer}
+.action-btn.outline{background:white;color:var(--teal);border:1.5px solid var(--teal)}
+.action-btn.pink-btn{background:var(--pink-dark)}
+
+/* STAT CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px}
+.stat-card{background:white;border-radius:12px;padding:16px;border:1px solid var(--border)}
+.stat-icon{font-size:22px;margin-bottom:8px}
+.stat-num{font-size:24px;font-weight:900;color:var(--dark)}
+.stat-label{font-size:11px;color:var(--mid);font-weight:600;margin-top:2px}
+.stat-change{font-size:10px;margin-top:4px;font-weight:700}
+.stat-change.up{color:var(--green)}
+.stat-change.down{color:var(--red)}
+
+/* APPLICATIONS TABLE */
+.section-block{background:white;border-radius:12px;margin:0 16px 16px;border:1px solid var(--border);overflow:hidden}
+.section-block-header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.section-block-title{font-size:13px;font-weight:800}
+.view-all{font-size:11px;color:var(--teal);font-weight:700;cursor:pointer}
+.apps-table{width:100%;border-collapse:collapse;font-size:12px}
+.apps-table th{padding:10px 18px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--mid);border-bottom:1px solid var(--border);background:var(--gray)}
+.apps-table td{padding:12px 18px;border-bottom:1px solid var(--border)}
+.apps-table tr:last-child td{border-bottom:none}
+.apps-table tr:hover td{background:var(--gray)}
+.pet-cell{display:flex;align-items:center;gap:10px}
+.pet-thumb{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.pet-thumb.d{background:linear-gradient(135deg,#E8F4F8,#C5E4EF)}
+.pet-thumb.c{background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.pet-thumb.d2{background:linear-gradient(135deg,#EAF3DE,#C0DD97)}
+.pet-cell-name{font-size:12px;font-weight:700}
+.pet-cell-meta{font-size:10px;color:var(--mid)}
+.status-pill{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.status-pill.pending{background:#FFF8E8;color:var(--amber)}
+.status-pill.approved{background:#EAF3DE;color:#3B6D11}
+.status-pill.rejected{background:#FCF0F0;color:var(--red)}
+.status-pill.reviewing{background:var(--teal-light);color:var(--teal)}
+.table-actions{display:flex;gap:6px}
+.tbl-btn{padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;border:none}
+.tbl-btn.view{background:var(--teal-light);color:var(--teal)}
+.tbl-btn.cancel{background:#FCF0F0;color:var(--red)}
+
+/* SAVED FAVOURITES */
+.favs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
+.fav-card{background:var(--gray);border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.fav-img{height:90px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative}
+.fav-img.d{background:linear-gradient(135deg,#E8F4F8,#C5E4EF)}
+.fav-img.c{background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.fav-img.d2{background:linear-gradient(135deg,#EAF3DE,#C0DD97)}
+.fav-heart{position:absolute;top:8px;right:8px;width:24px;height:24px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+.fav-info{padding:10px}
+.fav-name{font-size:12px;font-weight:800;margin-bottom:3px}
+.fav-meta{font-size:10px;color:var(--mid);margin-bottom:8px}
+.fav-btn{width:100%;background:var(--teal-light);color:var(--teal);border:none;border-radius:7px;padding:6px;font-size:11px;font-weight:700;cursor:pointer}
+
+/* MESSAGES PANEL */
+.messages-layout{display:flex;height:420px}
+.msg-list{width:200px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto}
+.msg-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;gap:8px;align-items:flex-start}
+.msg-item.active{background:var(--teal-light)}
+.msg-avatar{width:32px;height:32px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--teal);flex-shrink:0}
+.msg-avatar.pink-av{background:var(--pink-light);color:var(--pink-dark)}
+.msg-preview{flex:1}
+.msg-name{font-size:11px;font-weight:800;margin-bottom:2px}
+.msg-text{font-size:10px;color:var(--mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+.msg-time{font-size:9px;color:var(--mid)}
+.msg-unread{width:7px;height:7px;background:var(--teal);border-radius:50%;margin-top:4px;flex-shrink:0}
+.msg-thread{flex:1;display:flex;flex-direction:column}
+.msg-thread-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:white}
+.msg-thread-name{font-size:13px;font-weight:800}
+.msg-thread-pet{font-size:11px;color:var(--mid)}
+.msg-thread-body{flex:1;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--gray)}
+.msg-bubble{max-width:70%;padding:10px 14px;border-radius:14px;font-size:12px;line-height:1.5}
+.msg-bubble.them{background:white;border-radius:4px 14px 14px 14px;color:var(--dark);align-self:flex-start}
+.msg-bubble.me{background:var(--teal);color:white;border-radius:14px 4px 14px 14px;align-self:flex-end}
+.msg-bubble-time{font-size:9px;opacity:0.6;margin-top:4px;text-align:right}
+.msg-input-row{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;background:white}
+.msg-input{flex:1;background:var(--gray);border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:12px;color:var(--mid)}
+.msg-send-btn{background:var(--teal);color:white;border:none;border-radius:50%;width:34px;height:34px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* PROFILE */
+.profile-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px}
+.profile-card{background:white;border-radius:12px;padding:20px;border:1px solid var(--border)}
+.profile-card.full{grid-column:1/-1}
+.profile-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.profile-avatar-big{width:64px;height:64px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--teal);position:relative}
+.avatar-edit{position:absolute;bottom:0;right:0;width:20px;height:20px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:white;cursor:pointer}
+.profile-name{font-size:16px;font-weight:900}
+.profile-email{font-size:12px;color:var(--mid)}
+.profile-role-badge{display:inline-block;background:var(--teal-light);color:var(--teal);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:4px}
+.edit-field{margin-bottom:14px}
+.edit-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--mid);margin-bottom:5px}
+.edit-input{width:100%;background:var(--gray);border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--dark)}
+.edit-input.focus{border-color:var(--teal);background:white}
+.save-btn{background:var(--teal);color:white;border:none;border-radius:8px;padding:9px 20px;font-size:12px;font-weight:700;cursor:pointer}
+.danger-zone{background:#FFF5F5;border:1px solid #F7C1C1;border-radius:10px;padding:14px;margin-top:14px}
+.danger-title{font-size:12px;font-weight:800;color:var(--red);margin-bottom:6px}
+.danger-text{font-size:11px;color:var(--mid);margin-bottom:10px}
+.danger-btn{background:var(--red);color:white;border:none;border-radius:7px;padding:7px 14px;font-size:11px;font-weight:700;cursor:pointer}
+
+/* REHOMER — MY LISTED PETS */
+.listed-pets{display:flex;flex-direction:column;gap:0}
+.listed-pet-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.listed-pet-row:last-child{border-bottom:none}
+.lp-img{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.lp-img.d{background:linear-gradient(135deg,#E8F4F8,#C5E4EF)}
+.lp-img.c{background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.lp-info{flex:1}
+.lp-name{font-size:13px;font-weight:800;margin-bottom:3px}
+.lp-meta{font-size:11px;color:var(--mid)}
+.lp-stats{display:flex;gap:14px;text-align:center}
+.lp-stat{text-align:center}
+.lp-stat-num{font-size:14px;font-weight:900;color:var(--teal)}
+.lp-stat-label{font-size:9px;color:var(--mid);text-transform:uppercase}
+.lp-actions{display:flex;gap:6px}
+.lp-btn{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none}
+.lp-btn.view{background:var(--teal-light);color:var(--teal)}
+.lp-btn.edit{background:var(--gray);color:var(--dark)}
+.lp-btn.del{background:#FCF0F0;color:var(--red)}
+
+/* REQUESTS TABLE */
+.requests-header{padding:12px 18px;background:var(--gray);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.pet-filter-pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--mid)}
+.pet-filter-pill.active{background:var(--teal-light);color:var(--teal);border-color:var(--teal)}
+.match-score{display:flex;align-items:center;gap:6px}
+.match-ring{width:36px;height:36px;border-radius:50%;background:conic-gradient(var(--teal) 70%,var(--border) 0);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:var(--teal)}
+.req-actions{display:flex;gap:6px}
+.req-btn{padding:5px 10px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:none}
+.req-btn.accept{background:#EAF3DE;color:#3B6D11}
+.req-btn.reject{background:#FCF0F0;color:var(--red)}
+.req-btn.msg{background:var(--teal-light);color:var(--teal)}
+
+/* NOTIFICATIONS */
+.notifs-list{display:flex;flex-direction:column;gap:0}
+.notif-item{display:flex;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);align-items:flex-start}
+.notif-item.unread{background:#F8FEFF}
+.notif-icon-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.notif-icon-circle.teal{background:var(--teal-light)}
+.notif-icon-circle.green{background:#EAF3DE}
+.notif-icon-circle.amber{background:#FFF8E8}
+.notif-icon-circle.red{background:#FCF0F0}
+.notif-text{flex:1;font-size:12px;line-height:1.6}
+.notif-text strong{color:var(--dark)}
+.notif-time{font-size:10px;color:var(--mid);margin-top:4px}
+.notif-unread-dot{width:8px;height:8px;background:var(--teal);border-radius:50%;margin-top:4px;flex-shrink:0}
+
+/* MOBILE */
+.mobile-frame{width:375px;margin:0 auto;background:white;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.15)}
+.mobile-dash-header{background:var(--teal);padding:20px 18px 16px}
+.mobile-dash-header.pink{background:var(--pink-dark)}
+.mobile-dash-welcome{font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:2px}
+.mobile-dash-name{font-size:18px;font-weight:900;color:white}
+.mobile-dash-role{font-size:10px;background:rgba(255,255,255,0.15);color:white;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:4px;font-weight:600}
+.mobile-stats-row{display:flex;gap:0;background:white;border-bottom:1px solid var(--border)}
+.mobile-stat{flex:1;padding:12px;text-align:center;border-right:1px solid var(--border)}
+.mobile-stat:last-child{border-right:none}
+.mobile-stat-num{font-size:18px;font-weight:900;color:var(--teal)}
+.mobile-stat-label{font-size:9px;color:var(--mid);text-transform:uppercase;letter-spacing:0.3px}
+.mobile-section{padding:16px 18px;border-bottom:1px solid var(--border)}
+.mobile-section-title{font-size:13px;font-weight:800;margin-bottom:12px}
+.mobile-app-item{display:flex;gap:10px;padding:10px;background:var(--gray);border-radius:12px;margin-bottom:8px;align-items:center}
+.mobile-app-img{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mobile-app-info{flex:1}
+.mobile-app-name{font-size:12px;font-weight:800}
+.mobile-app-date{font-size:10px;color:var(--mid)}
+.mobile-bottom-nav{display:flex;border-top:1px solid var(--border);background:white}
+.bnav-item{flex:1;padding:10px 0;text-align:center;font-size:9px;color:var(--mid);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bnav-item.active{color:var(--teal)}
+.bnav-item.active.pink{color:var(--pink-dark)}
+.bnav-icon{font-size:17px}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- ADOPTER DASHBOARD — DESKTOP -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Adopter Dashboard</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/dashboard — Adopter Dashboard (Desktop)</span>
+  </div>
+  <div class="sec-label">① Top navigation bar (logged in)</div>
+  <div class="nav">
+    <div class="logo-wrap"><div class="logo-mark">🐾</div><div class="logo-text">Paw<span>dopt</span></div></div>
+    <div class="nav-links">
+      <a href="#">Home</a><a href="#" class="active">Dashboard</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-toggle">EN / FR</div>
+      <div class="nav-toggle">🌙</div>
+      <div class="nav-bell">🔔<div class="notif-dot"></div></div>
+      <div class="user-chip">
+        <div class="user-avatar">S</div>
+        <div class="user-name">Samanta</div>
+        <span style="font-size:10px;color:var(--mid)">▾</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-label">② Sidebar + ③ Dashboard content</div>
+  <div class="dash-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">S</div>
+        <div class="sidebar-name">Samanta Smith</div>
+        <div class="sidebar-role">Adopter account</div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="sidebar-section">Main</div>
+        <div class="sidebar-item active"><span class="sidebar-icon">🏠</span>Overview</div>
+        <div class="sidebar-item"><span class="sidebar-icon">📋</span>My Applications<span class="sidebar-badge">3</span></div>
+        <div class="sidebar-item"><span class="sidebar-icon">🤍</span>Saved Favourites<span class="sidebar-badge teal">5</span></div>
+        <div class="sidebar-section">Communication</div>
+        <div class="sidebar-item"><span class="sidebar-icon">💬</span>Messages<span class="sidebar-badge">2</span></div>
+        <div class="sidebar-item"><span class="sidebar-icon">🔔</span>Notifications<span class="sidebar-badge">4</span></div>
+        <div class="sidebar-section">Account</div>
+        <div class="sidebar-item"><span class="sidebar-icon">👤</span>My Profile</div>
+        <div class="sidebar-item"><span class="sidebar-icon">⚙</span>Settings</div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="sidebar-logout"><span>🚪</span>Log out</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <div class="dash-title">Good morning, Samanta 👋</div>
+          <div class="dash-sub">Here's an overview of your adoption activity</div>
+        </div>
+        <div class="dash-header-actions">
+          <button class="action-btn outline">Browse pets</button>
+          <button class="action-btn">+ New application</button>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Active applications</div>
+          <div class="stat-change up">↑ 1 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🤍</div>
+          <div class="stat-num">5</div>
+          <div class="stat-label">Saved favourites</div>
+          <div class="stat-change up">↑ 2 new matches</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💬</div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">Unread messages</div>
+          <div class="stat-change" style="color:var(--amber)">● Reply needed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">Approved application</div>
+          <div class="stat-change up">🎉 Congrats!</div>
+        </div>
+      </div>
+
+      <!-- APPLICATIONS TABLE -->
+      <div class="section-block">
+        <div class="section-block-header">
+          <div class="section-block-title">📋 My applications</div>
+          <div class="view-all">View all →</div>
+        </div>
+        <table class="apps-table">
+          <thead>
+            <tr>
+              <th>Pet</th><th>Submitted</th><th>Status</th><th>Last update</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="pet-cell"><div class="pet-thumb d">🐕</div><div><div class="pet-cell-name">Pitter</div><div class="pet-cell-meta">Pit Bull · Quebec</div></div></div></td>
+              <td>May 10, 2026</td>
+              <td><span class="status-pill approved">✓ Approved</span></td>
+              <td>May 14, 2026</td>
+              <td><div class="table-actions"><div class="tbl-btn view">View</div><div class="tbl-btn" style="background:#EAF3DE;color:#3B6D11">Contact owner</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="pet-cell"><div class="pet-thumb c">🐈</div><div><div class="pet-cell-name">Hero</div><div class="pet-cell-meta">DLH Cat · Alberta</div></div></div></td>
+              <td>May 12, 2026</td>
+              <td><span class="status-pill reviewing">● Under review</span></td>
+              <td>May 15, 2026</td>
+              <td><div class="table-actions"><div class="tbl-btn view">View</div><div class="tbl-btn cancel">Cancel</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="pet-cell"><div class="pet-thumb d2">🐕‍🦺</div><div><div class="pet-cell-name">Magie</div><div class="pet-cell-meta">Shiba Inu · Ontario</div></div></div></td>
+              <td>May 14, 2026</td>
+              <td><span class="status-pill pending">⏳ Pending</span></td>
+              <td>May 14, 2026</td>
+              <td><div class="table-actions"><div class="tbl-btn view">View</div><div class="tbl-btn cancel">Cancel</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SAVED FAVOURITES -->
+      <div class="section-block">
+        <div class="section-block-header">
+          <div class="section-block-title">🤍 Saved favourites</div>
+          <div class="view-all">View all →</div>
+        </div>
+        <div class="favs-grid">
+          <div class="fav-card"><div class="fav-img d">🐕<div class="fav-heart">❤️</div></div><div class="fav-info"><div class="fav-name">Bruno</div><div class="fav-meta">Male · Labrador · Montreal</div><button class="fav-btn">More info →</button></div></div>
+          <div class="fav-card"><div class="fav-img c">🐈<div class="fav-heart">❤️</div></div><div class="fav-info"><div class="fav-name">Luna</div><div class="fav-meta">Female · Siamese · Laval</div><button class="fav-btn">More info →</button></div></div>
+          <div class="fav-card"><div class="fav-img d2">🐕‍🦺<div class="fav-heart">❤️</div></div><div class="fav-info"><div class="fav-name">Rocky</div><div class="fav-meta">Male · Beagle · Quebec City</div><button class="fav-btn">More info →</button></div></div>
+        </div>
+      </div>
+
+      <!-- MESSAGES PREVIEW -->
+      <div class="section-block">
+        <div class="section-block-header">
+          <div class="section-block-title">💬 Messages</div>
+          <div class="view-all">Open inbox →</div>
+        </div>
+        <div class="messages-layout">
+          <div class="msg-list">
+            <div class="msg-item active">
+              <div class="msg-avatar">J</div>
+              <div class="msg-preview">
+                <div class="msg-name">John Collins</div>
+                <div class="msg-text">Hi! Pitter is available for...</div>
+                <div class="msg-time">10:32 AM</div>
+              </div>
+              <div class="msg-unread"></div>
+            </div>
+            <div class="msg-item">
+              <div class="msg-avatar pink-av">A</div>
+              <div class="msg-preview">
+                <div class="msg-name">Alice B.</div>
+                <div class="msg-text">Your application for Hero...</div>
+                <div class="msg-time">Yesterday</div>
+              </div>
+              <div class="msg-unread"></div>
+            </div>
+            <div class="msg-item">
+              <div class="msg-avatar" style="background:#EAF3DE;color:#3B6D11">M</div>
+              <div class="msg-preview">
+                <div class="msg-name">Marie L.</div>
+                <div class="msg-text">Thank you for your interest...</div>
+                <div class="msg-time">May 13</div>
+              </div>
+            </div>
+          </div>
+          <div class="msg-thread">
+            <div class="msg-thread-header">
+              <div class="msg-avatar">J</div>
+              <div>
+                <div class="msg-thread-name">John Collins</div>
+                <div class="msg-thread-pet">Re: Pitter · Pit Bull · Quebec</div>
+              </div>
+            </div>
+            <div class="msg-thread-body">
+              <div class="msg-bubble them">Hi Samanta! Pitter is doing well and is still available. Have you had a chance to review the home visit requirements?<div class="msg-bubble-time">10:15 AM</div></div>
+              <div class="msg-bubble me">Yes, I've read through everything! We have a yard and the kids are very excited. When can we arrange a meeting?<div class="msg-bubble-time">10:28 AM</div></div>
+              <div class="msg-bubble them">That's wonderful to hear! How about this Saturday at 2pm in Quebec City?<div class="msg-bubble-time">10:32 AM</div></div>
+            </div>
+            <div class="msg-input-row">
+              <div class="msg-input">Type a message...</div>
+              <div class="msg-send-btn">➤</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- REHOMER DASHBOARD — DESKTOP -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Rehomer Dashboard</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/dashboard — Rehomer Dashboard (Desktop)</span>
+  </div>
+  <div class="sec-label pink">① Rehomer nav + sidebar (pink theme)</div>
+  <div class="nav">
+    <div class="logo-wrap"><div class="logo-mark">🐾</div><div class="logo-text">Paw<span>dopt</span></div></div>
+    <div class="nav-links">
+      <a href="#">Home</a><a href="#" class="active">Dashboard</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-toggle">EN / FR</div>
+      <div class="nav-toggle">🌙</div>
+      <div class="nav-bell">🔔<div class="notif-dot"></div></div>
+      <div class="user-chip">
+        <div class="user-avatar" style="background:var(--pink-light);color:var(--pink-dark)">J</div>
+        <div class="user-name">John</div>
+        <span style="font-size:10px;color:var(--mid)">▾</span>
+      </div>
+    </div>
+  </div>
+  <div class="dash-layout">
+    <div class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" style="background:var(--pink-light);color:var(--pink-dark)">J</div>
+        <div class="sidebar-name">John Collins</div>
+        <div class="sidebar-role">Rehomer account</div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="sidebar-section">Main</div>
+        <div class="sidebar-item active pink"><span class="sidebar-icon">🏠</span>Overview</div>
+        <div class="sidebar-item"><span class="sidebar-icon">🐾</span>My Listed Pets<span class="sidebar-badge teal">2</span></div>
+        <div class="sidebar-item"><span class="sidebar-icon">📥</span>Adoption Requests<span class="sidebar-badge">6</span></div>
+        <div class="sidebar-section">Communication</div>
+        <div class="sidebar-item"><span class="sidebar-icon">💬</span>Messages<span class="sidebar-badge">3</span></div>
+        <div class="sidebar-item"><span class="sidebar-icon">🔔</span>Notifications<span class="sidebar-badge">7</span></div>
+        <div class="sidebar-section">Account</div>
+        <div class="sidebar-item"><span class="sidebar-icon">👤</span>My Profile</div>
+        <div class="sidebar-item"><span class="sidebar-icon">⚙</span>Settings</div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="sidebar-logout"><span>🚪</span>Log out</div>
+      </div>
+    </div>
+
+    <div class="dash-main">
+      <div class="dash-header">
+        <div>
+          <div class="dash-title">Welcome back, John 👋</div>
+          <div class="dash-sub">Manage your pet listings and review adoption requests</div>
+        </div>
+        <div class="dash-header-actions">
+          <button class="action-btn outline">View my pets</button>
+          <button class="action-btn pink-btn">+ List a new pet</button>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">🐾</div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">Pets listed</div>
+          <div class="stat-change" style="color:var(--mid)">Active listings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📥</div>
+          <div class="stat-num">6</div>
+          <div class="stat-label">Adoption requests</div>
+          <div class="stat-change up">↑ 3 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💬</div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Unread messages</div>
+          <div class="stat-change" style="color:var(--amber)">● Reply needed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">Accepted adopter</div>
+          <div class="stat-change up">🎉 Match made!</div>
+        </div>
+      </div>
+
+      <!-- MY LISTED PETS -->
+      <div class="section-block">
+        <div class="section-block-header">
+          <div class="section-block-title">🐾 My listed pets</div>
+          <button class="action-btn pink-btn" style="font-size:11px;padding:6px 14px">+ Add new pet</button>
+        </div>
+        <div class="listed-pets">
+          <div class="listed-pet-row">
+            <div class="lp-img d">🐕</div>
+            <div class="lp-info">
+              <div class="lp-name">Magie</div>
+              <div class="lp-meta">Female · Shiba Inu · 14 months · Ontario</div>
+            </div>
+            <span class="status-pill approved">✓ Active</span>
+            <div class="lp-stats">
+              <div class="lp-stat"><div class="lp-stat-num">4</div><div class="lp-stat-label">Requests</div></div>
+              <div class="lp-stat"><div class="lp-stat-num">127</div><div class="lp-stat-label">Views</div></div>
+              <div class="lp-stat"><div class="lp-stat-num">18</div><div class="lp-stat-label">Saved</div></div>
+            </div>
+            <div class="lp-actions">
+              <div class="lp-btn view">View requests</div>
+              <div class="lp-btn edit">Edit</div>
+              <div class="lp-btn del">Remove</div>
+            </div>
+          </div>
+          <div class="listed-pet-row">
+            <div class="lp-img c">🐈</div>
+            <div class="lp-info">
+              <div class="lp-name">Whiskers</div>
+              <div class="lp-meta">Male · Tabby · 3 years · Quebec City</div>
+            </div>
+            <span class="status-pill pending">⏳ Under review</span>
+            <div class="lp-stats">
+              <div class="lp-stat"><div class="lp-stat-num">2</div><div class="lp-stat-label">Requests</div></div>
+              <div class="lp-stat"><div class="lp-stat-num">63</div><div class="lp-stat-label">Views</div></div>
+              <div class="lp-stat"><div class="lp-stat-num">9</div><div class="lp-stat-label">Saved</div></div>
+            </div>
+            <div class="lp-actions">
+              <div class="lp-btn view">View requests</div>
+              <div class="lp-btn edit">Edit</div>
+              <div class="lp-btn del">Remove</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADOPTION REQUESTS -->
+      <div class="section-block">
+        <div class="section-block-header">
+          <div class="section-block-title">📥 Adoption requests for Magie</div>
+          <div class="view-all">View all →</div>
+        </div>
+        <div class="requests-header">
+          <span style="font-size:11px;font-weight:700;color:var(--mid)">Filter by pet:</span>
+          <div class="pet-filter-pill active">Magie</div>
+          <div class="pet-filter-pill">Whiskers</div>
+          <div class="pet-filter-pill">All pets</div>
+        </div>
+        <table class="apps-table">
+          <thead><tr><th>Applicant</th><th>Location</th><th>Date</th><th>Match score</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="pet-cell"><div class="msg-avatar">S</div><div><div class="pet-cell-name">Samanta Smith</div><div class="pet-cell-meta">samanta@email.com</div></div></div></td>
+              <td>📍 Las Vegas, NV</td>
+              <td>Apr 23</td>
+              <td><div class="match-score"><div class="match-ring">70%</div><span style="font-size:11px;font-weight:700;color:var(--teal)">70%</span></div></td>
+              <td><span class="status-pill reviewing">● Reviewing</span></td>
+              <td><div class="req-actions"><div class="req-btn accept">✓ Accept</div><div class="req-btn reject">✕ Reject</div><div class="req-btn msg">💬 Message</div></div></td>
+            </tr>
+            <tr>
+              <td><div class="pet-cell"><div class="msg-avatar pink-av">A</div><div><div class="pet-cell-name">Alice Bouchard</div><div class="pet-cell-meta">alice@email.com</div></div></div></td>
+              <td>📍 New York, NY</td>
+              <td>Apr 06</td>
+              <td><div class="match-score"><div class="match-ring" style="background:conic-gradient(var(--amber) 55%,var(--border) 0)">55%</div><span style="font-size:11px;font-weight:700;color:var(--amber)">55%</span></div></td>
+              <td><span class="status-pill pending">⏳ Pending</span></td>
+              <td><div class="req-actions"><div class="req-btn accept">✓ Accept</div><div class="req-btn reject">✕ Reject</div><div class="req-btn msg">💬 Message</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PROFILE & NOTIFICATIONS — DESKTOP -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="label">Desktop Wireframe — Profile + Notifications</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/dashboard/profile — Profile + Notifications (Desktop)</span>
+  </div>
+  <div class="dash-layout" style="min-height:500px">
+    <div class="sidebar">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">S</div>
+        <div class="sidebar-name">Samanta Smith</div>
+        <div class="sidebar-role">Adopter account</div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="sidebar-section">Main</div>
+        <div class="sidebar-item"><span class="sidebar-icon">🏠</span>Overview</div>
+        <div class="sidebar-item"><span class="sidebar-icon">📋</span>My Applications</div>
+        <div class="sidebar-item"><span class="sidebar-icon">🤍</span>Saved Favourites</div>
+        <div class="sidebar-section">Communication</div>
+        <div class="sidebar-item"><span class="sidebar-icon">💬</span>Messages</div>
+        <div class="sidebar-item"><span class="sidebar-icon">🔔</span>Notifications<span class="sidebar-badge">4</span></div>
+        <div class="sidebar-section">Account</div>
+        <div class="sidebar-item active"><span class="sidebar-icon">👤</span>My Profile</div>
+        <div class="sidebar-item"><span class="sidebar-icon">⚙</span>Settings</div>
+      </div>
+      <div class="sidebar-bottom"><div class="sidebar-logout"><span>🚪</span>Log out</div></div>
+    </div>
+    <div class="dash-main">
+      <div class="dash-header">
+        <div><div class="dash-title">My profile</div><div class="dash-sub">Manage your personal information and account settings</div></div>
+      </div>
+      <div class="profile-layout">
+        <!-- PROFILE CARD -->
+        <div class="profile-card full">
+          <div class="profile-header">
+            <div class="profile-avatar-big">S<div class="avatar-edit">✏</div></div>
+            <div>
+              <div class="profile-name">Samanta Smith</div>
+              <div class="profile-email">samanta@email.com</div>
+              <div class="profile-role-badge">🐾 Adopter</div>
+            </div>
+            <button class="save-btn" style="margin-left:auto">Save changes</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="edit-field"><div class="edit-label">First name</div><div class="edit-input focus">Samanta</div></div>
+            <div class="edit-field"><div class="edit-label">Last name</div><div class="edit-input">Smith</div></div>
+            <div class="edit-field"><div class="edit-label">Email address</div><div class="edit-input">samanta@email.com</div></div>
+            <div class="edit-field"><div class="edit-label">Phone number</div><div class="edit-input">+1 (702) 884-2821</div></div>
+            <div class="edit-field"><div class="edit-label">Location</div><div class="edit-input">Montreal, QC</div></div>
+            <div class="edit-field"><div class="edit-label">Instagram handle</div><div class="edit-input">@Samanta.S18</div></div>
+          </div>
+          <div class="danger-zone">
+            <div class="danger-title">⚠ Danger zone</div>
+            <div class="danger-text">Deleting your account is permanent and cannot be undone. All your applications and data will be removed.</div>
+            <button class="danger-btn">Delete my account</button>
+          </div>
+        </div>
+
+        <!-- NOTIFICATIONS CARD -->
+        <div class="profile-card full">
+          <div class="section-block-header" style="padding:0 0 12px;margin-bottom:0">
+            <div class="section-block-title">🔔 Notifications</div>
+            <div class="view-all" style="cursor:pointer">Mark all as read</div>
+          </div>
+          <div class="notifs-list">
+            <div class="notif-item unread">
+              <div class="notif-icon-circle green">✅</div>
+              <div class="notif-text"><strong>Your application for Pitter was approved!</strong> John Collins accepted your request. You can now contact him to arrange a meeting.<div class="notif-time">Today · 10:32 AM</div></div>
+              <div class="notif-unread-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon-circle teal">💬</div>
+              <div class="notif-text"><strong>New message from John Collins</strong> — "Hi Samanta! Pitter is doing well and is still available..."<div class="notif-time">Today · 10:15 AM</div></div>
+              <div class="notif-unread-dot"></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-icon-circle amber">🐾</div>
+              <div class="notif-text"><strong>New pet match!</strong> Bruno (Labrador, Montreal) matches your saved preferences. <span style="color:var(--teal);font-weight:700;cursor:pointer">View pet</span><div class="notif-time">Yesterday · 3:45 PM</div></div>
+              <div class="notif-unread-dot"></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon-circle" style="background:#FCF0F0">📋</div>
+              <div class="notif-text"><strong>Application status update</strong> — Your application for Hero is now under review by the owner.<div class="notif-time">May 15 · 9:00 AM</div></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-icon-circle teal">🏠</div>
+              <div class="notif-text"><strong>Welcome to Pawdopt!</strong> Your account has been verified. Start browsing pets near you.<div class="notif-time">May 10 · 2:00 PM</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- MOBILE — ADOPTER + REHOMER DASHBOARDS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="label">Mobile Wireframes — Adopter + Rehomer Dashboards (375px)</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">Mobile — Dashboards (375px)</span>
+  </div>
+  <div style="padding:24px;background:var(--gray);display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+
+    <!-- MOBILE ADOPTER -->
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mid);text-align:center;margin-bottom:10px">Adopter dashboard</div>
+      <div class="mobile-frame">
+        <div class="mobile-dash-header">
+          <div class="mobile-dash-welcome">Good morning 👋</div>
+          <div class="mobile-dash-name">Samanta Smith</div>
+          <div class="mobile-dash-role">🐾 Adopter account</div>
+        </div>
+        <div class="mobile-stats-row">
+          <div class="mobile-stat"><div class="mobile-stat-num">3</div><div class="mobile-stat-label">Applications</div></div>
+          <div class="mobile-stat"><div class="mobile-stat-num">5</div><div class="mobile-stat-label">Favourites</div></div>
+          <div class="mobile-stat"><div class="mobile-stat-num">2</div><div class="mobile-stat-label">Messages</div></div>
+        </div>
+        <div class="mobile-section">
+          <div class="mobile-section-title">📋 My applications</div>
+          <div class="mobile-app-item">
+            <div class="mobile-app-img" style="background:linear-gradient(135deg,#E8F4F8,#C5E4EF)">🐕</div>
+            <div class="mobile-app-info"><div class="mobile-app-name">Pitter</div><div class="mobile-app-date">Submitted May 10</div></div>
+            <span class="status-pill approved" style="font-size:9px">✓ Approved</span>
+          </div>
+          <div class="mobile-app-item">
+            <div class="mobile-app-img" style="background:linear-gradient(135deg,#FBEAF0,#F4C0D1)">🐈</div>
+            <div class="mobile-app-info"><div class="mobile-app-name">Hero</div><div class="mobile-app-date">Submitted May 12</div></div>
+            <span class="status-pill reviewing" style="font-size:9px">● Review</span>
+          </div>
+          <div class="mobile-app-item">
+            <div class="mobile-app-img" style="background:linear-gradient(135deg,#EAF3DE,#C0DD97)">🐕‍🦺</div>
+            <div class="mobile-app-info"><div class="mobile-app-name">Magie</div><div class="mobile-app-date">Submitted May 14</div></div>
+            <span class="status-pill pending" style="font-size:9px">⏳ Pending</span>
+          </div>
+        </div>
+        <div class="mobile-section">
+          <div class="mobile-section-title">💬 Recent messages</div>
+          <div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--teal-light);border-radius:10px;margin-bottom:8px">
+            <div class="msg-avatar" style="width:32px;height:32px;font-size:12px">J</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:800">John Collins</div><div style="font-size:10px;color:var(--mid)">Re: Pitter — Hi Samanta!...</div></div>
+            <div class="msg-unread"></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--gray);border-radius:10px">
+            <div class="msg-avatar pink-av" style="width:32px;height:32px;font-size:12px">A</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:800">Alice B.</div><div style="font-size:10px;color:var(--mid)">Re: Hero — Your application...</div></div>
+            <div class="msg-unread"></div>
+          </div>
+        </div>
+        <div class="mobile-bottom-nav">
+          <div class="bnav-item active"><div class="bnav-icon">🏠</div><div>Home</div></div>
+          <div class="bnav-item"><div class="bnav-icon">📋</div><div>Apps</div></div>
+          <div class="bnav-item"><div class="bnav-icon">💬</div><div>Messages</div></div>
+          <div class="bnav-item"><div class="bnav-icon">🤍</div><div>Saved</div></div>
+          <div class="bnav-item"><div class="bnav-icon">👤</div><div>Profile</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE REHOMER -->
+    <div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mid);text-align:center;margin-bottom:10px">Rehomer dashboard</div>
+      <div class="mobile-frame">
+        <div class="mobile-dash-header pink">
+          <div class="mobile-dash-welcome">Welcome back 👋</div>
+          <div class="mobile-dash-name">John Collins</div>
+          <div class="mobile-dash-role">🏠 Rehomer account</div>
+        </div>
+        <div class="mobile-stats-row">
+          <div class="mobile-stat"><div class="mobile-stat-num" style="color:var(--pink-dark)">2</div><div class="mobile-stat-label">Pets listed</div></div>
+          <div class="mobile-stat"><div class="mobile-stat-num" style="color:var(--pink-dark)">6</div><div class="mobile-stat-label">Requests</div></div>
+          <div class="mobile-stat"><div class="mobile-stat-num" style="color:var(--pink-dark)">3</div><div class="mobile-stat-label">Messages</div></div>
+        </div>
+        <div class="mobile-section">
+          <div class="mobile-section-title">🐾 My listed pets</div>
+          <div class="mobile-app-item">
+            <div class="mobile-app-img" style="background:linear-gradient(135deg,#FBEAF0,#F4C0D1)">🐕‍🦺</div>
+            <div class="mobile-app-info"><div class="mobile-app-name">Magie</div><div class="mobile-app-date">4 requests · 127 views</div></div>
+            <span class="status-pill approved" style="font-size:9px">✓ Active</span>
+          </div>
+          <div class="mobile-app-item">
+            <div class="mobile-app-img" style="background:linear-gradient(135deg,#E8F4F8,#C5E4EF)">🐈</div>
+            <div class="mobile-app-info"><div class="mobile-app-name">Whiskers</div><div class="mobile-app-date">2 requests · 63 views</div></div>
+            <span class="status-pill pending" style="font-size:9px">⏳ Review</span>
+          </div>
+          <button style="width:100%;background:var(--pink-dark);color:white;border:none;border-radius:10px;padding:11px;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px">+ List a new pet</button>
+        </div>
+        <div class="mobile-section">
+          <div class="mobile-section-title">📥 Recent requests for Magie</div>
+          <div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--gray);border-radius:10px;margin-bottom:8px">
+            <div class="msg-avatar" style="width:32px;height:32px;font-size:12px">S</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:800">Samanta Smith</div><div style="font-size:10px;color:var(--mid)">Las Vegas · Apr 23 · 70% match</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div class="req-btn accept" style="font-size:9px">✓</div>
+              <div class="req-btn reject" style="font-size:9px">✕</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;padding:10px;background:var(--gray);border-radius:10px">
+            <div class="msg-avatar pink-av" style="width:32px;height:32px;font-size:12px">A</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:800">Alice Bouchard</div><div style="font-size:10px;color:var(--mid)">New York · Apr 6 · 55% match</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div class="req-btn accept" style="font-size:9px">✓</div>
+              <div class="req-btn reject" style="font-size:9px">✕</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-bottom-nav">
+          <div class="bnav-item active pink"><div class="bnav-icon">🏠</div><div>Home</div></div>
+          <div class="bnav-item"><div class="bnav-icon">🐾</div><div>My Pets</div></div>
+          <div class="bnav-item"><div class="bnav-icon">📥</div><div>Requests</div></div>
+          <div class="bnav-item"><div class="bnav-icon">💬</div><div>Messages</div></div>
+          <div class="bnav-item"><div class="bnav-icon">👤</div><div>Profile</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

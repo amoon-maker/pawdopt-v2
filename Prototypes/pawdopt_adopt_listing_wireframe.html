@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#1A6B8A;--teal2:#2B8CAD;--teal-light:#D5EEF5;
+  --pink:#E8A0B4;--pink-light:#FBEAF0;
+  --dark:#1A1A2E;--gray:#F5F7F9;--mid:#8899AA;
+  --white:#FFFFFF;--border:#DDE4EA;
+}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f7;padding:20px;color:var(--dark)}
+.label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.screen{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);margin-bottom:32px}
+.screen-title{background:var(--dark);color:white;padding:10px 18px;font-size:12px;font-weight:600;letter-spacing:0.5px;display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%}
+.page-section-label{background:var(--teal);color:white;padding:7px 20px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+/* NAV */
+.nav{background:white;border-bottom:1px solid var(--border);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.logo-mark{width:30px;height:30px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:800}
+.logo-text{font-size:16px;font-weight:800;color:var(--teal)}
+.logo-text span{color:var(--pink)}
+.nav-links{display:flex;gap:24px;font-size:13px}
+.nav-links a{text-decoration:none;color:var(--dark);font-weight:500;opacity:0.6}
+.nav-links a.active{color:var(--teal);opacity:1;font-weight:700;border-bottom:2px solid var(--teal);padding-bottom:2px}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-toggle{background:var(--gray);border:none;border-radius:16px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;color:var(--dark)}
+.nav-btn{background:var(--teal);color:white;border:none;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer}
+.nav-bell{width:30px;height:30px;background:var(--gray);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+/* BREADCRUMB */
+.breadcrumb{padding:10px 32px;font-size:11px;color:var(--mid);background:var(--gray);border-bottom:1px solid var(--border)}
+.breadcrumb span{color:var(--teal);font-weight:600}
+
+/* SEARCH BAR */
+.search-bar{padding:16px 32px;background:white;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center}
+.search-input{flex:1;background:var(--gray);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;display:flex;align-items:center;gap:8px;color:var(--mid)}
+.search-btn{background:var(--teal);color:white;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer}
+
+/* MAIN LAYOUT */
+.adopt-layout{display:flex;min-height:600px}
+
+/* FILTER SIDEBAR */
+.filter-sidebar{width:220px;flex-shrink:0;border-right:1px solid var(--border);padding:20px;background:white}
+.filter-title{font-size:13px;font-weight:800;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.filter-reset{font-size:11px;color:var(--teal);font-weight:600;cursor:pointer}
+.filter-group{margin-bottom:20px}
+.filter-group-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--mid);margin-bottom:10px}
+
+/* TYPE TOGGLE */
+.type-toggle{display:flex;gap:8px;flex-wrap:wrap}
+.type-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border);cursor:pointer;font-size:10px;font-weight:600;color:var(--mid);background:white;flex:1;min-width:50px}
+.type-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
+.type-icon{font-size:20px}
+
+/* LOCATION INPUT */
+.loc-input{width:100%;background:var(--gray);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--mid);display:flex;align-items:center;gap:6px}
+.loc-btn{margin-top:6px;font-size:11px;color:var(--teal);font-weight:600;cursor:pointer}
+
+/* RANGE */
+.range-bar{width:100%;height:4px;background:var(--teal-light);border-radius:2px;position:relative;margin:10px 0}
+.range-fill{height:100%;background:var(--teal);border-radius:2px;width:40%}
+.range-handle{width:14px;height:14px;background:var(--teal);border-radius:50%;position:absolute;top:-5px;left:38%;cursor:pointer;box-shadow:0 2px 6px rgba(26,107,138,0.3)}
+.range-label{display:flex;justify-content:space-between;font-size:10px;color:var(--mid)}
+
+/* SIZE PILLS */
+.size-pills{display:flex;gap:6px;flex-wrap:wrap}
+.size-pill{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);font-size:11px;font-weight:600;cursor:pointer;color:var(--mid)}
+.size-pill.active{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
+
+/* CHECKBOX LIST */
+.check-list{display:flex;flex-direction:column;gap:7px}
+.check-item{display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer}
+.check-box{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border);flex-shrink:0}
+.check-box.checked{background:var(--teal);border-color:var(--teal)}
+
+/* APPLY FILTER BTN */
+.apply-btn{width:100%;background:var(--teal);color:white;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px}
+
+/* RESULTS AREA */
+.results-area{flex:1;padding:20px 24px;background:var(--gray)}
+.results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.results-count{font-size:13px;font-weight:700}
+.results-count span{color:var(--teal)}
+.sort-select{background:white;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--mid);cursor:pointer}
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.filter-tag{display:flex;align-items:center;gap:5px;background:var(--teal-light);color:var(--teal);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600}
+.filter-tag-x{cursor:pointer;font-size:12px;opacity:0.6}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pet-card{background:white;border-radius:14px;overflow:hidden;border:1px solid var(--border);transition:all 0.2s}
+.pet-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+.pet-img.dog{background:linear-gradient(135deg,#E8F4F8,#C5E4EF)}
+.pet-img.cat{background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.pet-img.dog2{background:linear-gradient(135deg,#EAF3DE,#C0DD97)}
+.pet-img.cat2{background:linear-gradient(135deg,#FAEEDA,#FAC775)}
+.pet-img.dog3{background:linear-gradient(135deg,#E6F1FB,#B5D4F4)}
+.pet-img.cat3{background:linear-gradient(135deg,#EEEDFE,#CECBF6)}
+.pet-badge{position:absolute;top:10px;left:10px;background:var(--teal);color:white;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px}
+.pet-badge.new{background:#28CA41}
+.pet-heart{position:absolute;top:10px;right:10px;width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.1);cursor:pointer}
+.pet-info{padding:14px}
+.pet-name{font-size:14px;font-weight:800;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.pet-id{font-size:9px;color:var(--mid);font-weight:500}
+.pet-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.tag{background:var(--gray);border-radius:6px;padding:2px 7px;font-size:10px;font-weight:600;color:var(--mid)}
+.tag.teal{background:var(--teal-light);color:var(--teal)}
+.tag.pink{background:var(--pink-light);color:#993356}
+.pet-desc{font-size:11px;color:var(--mid);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pet-loc{font-size:11px;color:var(--mid);margin-bottom:10px}
+.pet-btn{width:100%;background:var(--teal-light);color:var(--teal);border:none;border-radius:8px;padding:8px;font-size:12px;font-weight:700;cursor:pointer}
+.pet-btn:hover{background:var(--teal);color:white}
+
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:24px;padding-bottom:8px}
+.page-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:white;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--mid)}
+.page-btn.active{background:var(--teal);color:white;border-color:var(--teal)}
+
+/* MOBILE */
+.mobile-frame{width:375px;margin:0 auto;background:white;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.15)}
+.mobile-nav{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.mobile-logo{font-size:15px;font-weight:800;color:var(--teal)}
+.mobile-logo span{color:var(--pink)}
+.mobile-search{padding:12px 18px;border-bottom:1px solid var(--border)}
+.mobile-search-bar{background:var(--gray);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid)}
+.mobile-type-row{display:flex;gap:8px;padding:12px 18px;overflow-x:auto;border-bottom:1px solid var(--border)}
+.mobile-type-chip{display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);font-size:11px;font-weight:600;white-space:nowrap;cursor:pointer;color:var(--mid)}
+.mobile-type-chip.active{border-color:var(--teal);color:var(--teal);background:var(--teal-light)}
+.mobile-filter-bar{display:flex;gap:8px;padding:10px 18px;overflow-x:auto;border-bottom:1px solid var(--border)}
+.mobile-filter-chip{padding:5px 12px;border-radius:16px;border:1px solid var(--border);font-size:11px;font-weight:600;color:var(--mid);white-space:nowrap;cursor:pointer;background:white}
+.mobile-filter-chip.active{background:var(--teal-light);color:var(--teal);border-color:var(--teal)}
+.mobile-cards{padding:14px 18px;display:flex;flex-direction:column;gap:12px}
+.mobile-pet-card{display:flex;gap:12px;background:white;border:1px solid var(--border);border-radius:14px;padding:12px;align-items:flex-start}
+.mobile-pet-img{width:80px;height:80px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0}
+.mobile-pet-img.dog{background:linear-gradient(135deg,#E8F4F8,#C5E4EF)}
+.mobile-pet-img.cat{background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.mobile-pet-img.dog2{background:linear-gradient(135deg,#EAF3DE,#C0DD97)}
+.mobile-pet-info{flex:1}
+.mobile-pet-name{font-size:14px;font-weight:800;margin-bottom:3px}
+.mobile-pet-meta{display:flex;gap:4px;margin-bottom:5px;flex-wrap:wrap}
+.mobile-pet-loc{font-size:10px;color:var(--mid);margin-bottom:6px}
+.mobile-pet-btn{background:var(--teal-light);color:var(--teal);border:none;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer}
+.mobile-load-more{margin:0 18px 18px;background:var(--teal);color:white;border:none;border-radius:10px;padding:13px;font-size:13px;font-weight:700;width:calc(100% - 36px);cursor:pointer}
+.mobile-bottom-nav{display:flex;border-top:1px solid var(--border);background:white}
+.bnav-item{flex:1;padding:10px 0;text-align:center;font-size:9px;color:var(--mid);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bnav-item.active{color:var(--teal)}
+.bnav-icon{font-size:17px}
+.mobile-fab{position:relative;display:flex;justify-content:flex-end;padding:0 18px 12px}
+.mobile-fab-btn{background:var(--teal);color:white;border:none;border-radius:20px;padding:10px 18px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- DESKTOP -->
+<div class="label">Desktop Wireframe — Adopt Listing Page</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/adopt — Adopt Listing (Desktop)</span>
+  </div>
+
+  <!-- NAV -->
+  <div class="page-section-label">① Navigation</div>
+  <div class="nav">
+    <div class="nav-logo">
+      <div class="logo-mark">🐾</div>
+      <div class="logo-text">Paw<span>dopt</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#" class="active">Adopt</a>
+      <a href="#">Rehome</a>
+      <a href="#">Care Guide</a>
+      <a href="#">About Us</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-toggle">EN / FR</div>
+      <div class="nav-toggle">🌙</div>
+      <div class="nav-bell">🔔</div>
+      <button class="nav-btn">Login / Register</button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">Home › <span>Adopt a pet</span></div>
+
+  <!-- SEARCH BAR -->
+  <div class="page-section-label">② Search bar</div>
+  <div class="search-bar">
+    <div class="search-input">🔍 &nbsp; Search by breed, name, or keyword...</div>
+    <button class="search-btn">Search</button>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="page-section-label">③ Filters sidebar + ④ Pet listing grid</div>
+  <div class="adopt-layout">
+
+    <!-- FILTER SIDEBAR -->
+    <div class="filter-sidebar">
+      <div class="filter-title">Filters <span class="filter-reset">Reset all</span></div>
+
+      <!-- TYPE -->
+      <div class="filter-group">
+        <div class="filter-group-title">Pet type</div>
+        <div class="type-toggle">
+          <div class="type-btn active"><div class="type-icon">🐕</div><div>Dogs</div></div>
+          <div class="type-btn"><div class="type-icon">🐈</div><div>Cats</div></div>
+          <div class="type-btn"><div class="type-icon">🐇</div><div>Other</div></div>
+        </div>
+      </div>
+
+      <!-- LOCATION -->
+      <div class="filter-group">
+        <div class="filter-group-title">Location</div>
+        <div class="loc-input">📍 Montreal, QC</div>
+        <div class="loc-btn">📡 Use current location</div>
+      </div>
+
+      <!-- DISTANCE -->
+      <div class="filter-group">
+        <div class="filter-group-title">Distance</div>
+        <div class="range-bar"><div class="range-fill"></div><div class="range-handle"></div></div>
+        <div class="range-label"><span>0 km</span><span>50 km</span></div>
+      </div>
+
+      <!-- SIZE -->
+      <div class="filter-group">
+        <div class="filter-group-title">Size</div>
+        <div class="size-pills">
+          <div class="size-pill active">Small</div>
+          <div class="size-pill">Medium</div>
+          <div class="size-pill">Large</div>
+        </div>
+      </div>
+
+      <!-- BREED -->
+      <div class="filter-group">
+        <div class="filter-group-title">Breed</div>
+        <div class="loc-input" style="font-size:12px">Any breed...</div>
+      </div>
+
+      <!-- GENDER -->
+      <div class="filter-group">
+        <div class="filter-group-title">Gender</div>
+        <div class="check-list">
+          <div class="check-item"><div class="check-box checked"></div>Male</div>
+          <div class="check-item"><div class="check-box checked"></div>Female</div>
+        </div>
+      </div>
+
+      <!-- AGE -->
+      <div class="filter-group">
+        <div class="filter-group-title">Age</div>
+        <div class="size-pills">
+          <div class="size-pill active">Puppy</div>
+          <div class="size-pill">Adult</div>
+          <div class="size-pill">Senior</div>
+        </div>
+      </div>
+
+      <!-- COLOR -->
+      <div class="filter-group">
+        <div class="filter-group-title">Color</div>
+        <div class="loc-input" style="font-size:12px">Any color...</div>
+      </div>
+
+      <!-- HEALTH -->
+      <div class="filter-group">
+        <div class="filter-group-title">Health status</div>
+        <div class="check-list">
+          <div class="check-item"><div class="check-box checked"></div>Vaccinated</div>
+          <div class="check-item"><div class="check-box"></div>Neutered/Spayed</div>
+          <div class="check-item"><div class="check-box"></div>Microchipped</div>
+        </div>
+      </div>
+
+      <button class="apply-btn">Apply filters</button>
+    </div>
+
+    <!-- RESULTS AREA -->
+    <div class="results-area">
+      <div class="results-header">
+        <div class="results-count"><span>248</span> pets found near Montreal</div>
+        <select class="sort-select">
+          <option>Sort by: Nearest first</option>
+          <option>Sort by: Newest</option>
+          <option>Sort by: Name A–Z</option>
+        </select>
+      </div>
+
+      <!-- ACTIVE FILTERS -->
+      <div class="active-filters">
+        <div class="filter-tag">🐕 Dogs <span class="filter-tag-x">✕</span></div>
+        <div class="filter-tag">Small <span class="filter-tag-x">✕</span></div>
+        <div class="filter-tag">Vaccinated <span class="filter-tag-x">✕</span></div>
+        <div class="filter-tag">Puppy <span class="filter-tag-x">✕</span></div>
+      </div>
+
+      <!-- CARDS GRID -->
+      <div class="cards-grid">
+        <div class="pet-card">
+          <div class="pet-img dog">🐕<div class="pet-badge new">New</div><div class="pet-heart">🤍</div></div>
+          <div class="pet-info">
+            <div class="pet-name">Pitter <span class="pet-id">#80638810</span></div>
+            <div class="pet-meta"><span class="tag teal">Male</span><span class="tag">Pit Bull</span><span class="tag">3 yrs</span><span class="tag">Large</span></div>
+            <div class="pet-desc">A friendly, playful, smart male dog. Only adopted to a house with a yard.</div>
+            <div class="pet-loc">📍 Quebec, Canada · 12 km away</div>
+            <button class="pet-btn">More Info</button>
+          </div>
+        </div>
+        <div class="pet-card">
+          <div class="pet-img cat">🐈<div class="pet-heart">🤍</div></div>
+          <div class="pet-info">
+            <div class="pet-name">Hero <span class="pet-id">#80638811</span></div>
+            <div class="pet-meta"><span class="tag teal">Male</span><span class="tag">DLH</span><span class="tag">2 yrs</span><span class="tag">Small</span></div>
+            <div class="pet-desc">A playful, smart male cat. Can keep him in an apartment setting.</div>
+            <div class="pet-loc">📍 Alberta, Canada · 24 km away</div>
+            <button class="pet-btn">More Info</button>
+          </div>
+        </div>
+        <div class="pet-card">
+          <div class="pet-img dog2">🐕‍🦺<div class="pet-heart">🤍</div></div>
+          <div class="pet-info">
+            <div class="pet-name">Magie <span class="pet-id">#80638812</span></div>
+            <div class="pet-meta"><span class="tag pink">Female</span><span class="tag">Shiba Inu</span><span class="tag">14 mo</span><span class="tag">Med</span></div>
+            <div class="pet-desc">Currently lives with 2 children age 7 and 13 and has many positive traits.</div>
+            <div class="pet-loc">📍 Ontario, Canada · 35 km away</div>
+            <button class="pet-btn">More Info</button>
+          </div>
+        </div>
+        <div class="pet-card">
+          <div class="pet-img cat2">🐱<div class="pet-heart">🤍</div></div>
+          <div class="pet-info">
+            <div class="pet-name">Felix <span class="pet-id">#80638813</span></div>
+            <div class="pet-meta"><span class="tag pink">Female</span><span class="tag">Domestic</span><span class="tag">5 yrs</span><span class="tag">Small</span></div>
+            <div class="pet-desc">A cute and playful female cat. She loves walking, running and is very social.</div>
+            <div class="pet-loc">📍 BC, Canada · 41 km away</div>
+            <button class="pet-btn">More Info</button>
+          </div>
+        </div>
+        <div class="pet-card">
+          <div class="pet-img dog3">🦮<div class="pet-badge">Urgent</div><div class="pet-heart">🤍</div></div>
+          <div class="pet-info">
+            <div class="pet-name">Bruno <span class="pet-id">#80638814</span></div>
+            <div class="pet-meta"><span class="tag teal">Male</span><span class="tag">Labrador</span><span class="tag">4 yrs</span><span class="tag">Large</span></div>
+            <div class="pet-desc">Gentle and loyal golden lab. Great with children and other dogs.</div>
+            <div class="pet-loc">📍 Montreal, Canada · 8 km away</div>
+            <button class="pet-btn">More Info</button>
+          </div>
+        </div>
+        <div class="pet-card">
+          <div class="pet-img cat3">🐈‍⬛<div class="pet-heart">🤍</div></div>
+          <div class="pet-info">
+            <div class="pet-name">Luna <span class="pet-id">#80638815</span></div>
+            <div class="pet-meta"><span class="tag pink">Female</span><span class="tag">Siamese</span><span class="tag">1 yr</span><span class="tag">Small</span></div>
+            <div class="pet-desc">Elegant and curious Siamese mix, very affectionate and litter-trained.</div>
+            <div class="pet-loc">📍 Laval, Canada · 18 km away</div>
+            <button class="pet-btn">More Info</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination">
+        <div class="page-btn">‹</div>
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+        <div class="page-btn">3</div>
+        <div class="page-btn">...</div>
+        <div class="page-btn">42</div>
+        <div class="page-btn">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT BOT NOTE -->
+  <div style="text-align:center;padding:10px;font-size:10px;color:var(--mid);border-top:1px solid var(--border)">💬 Chat support bot · fixed bottom-right · appears on all pages</div>
+</div>
+
+<!-- MOBILE -->
+<div class="label">Mobile Wireframe — Adopt Listing Page (375px)</div>
+<div class="screen">
+  <div class="screen-title">
+    <div class="dot" style="background:#FF5F57"></div>
+    <div class="dot" style="background:#FFBD2E"></div>
+    <div class="dot" style="background:#28CA41"></div>
+    <span style="margin-left:8px">pawdopt.com/adopt — Mobile (375px)</span>
+  </div>
+  <div style="padding:24px;background:var(--gray);display:flex;justify-content:center">
+    <div class="mobile-frame">
+      <!-- Nav -->
+      <div class="mobile-nav">
+        <div class="mobile-logo">Paw<span>dopt</span></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="font-size:13px;background:var(--gray);padding:3px 8px;border-radius:10px;font-weight:600">EN</div>
+          <div style="font-size:15px">🌙</div>
+          <div style="font-size:20px;color:var(--mid)">☰</div>
+        </div>
+      </div>
+      <!-- Search -->
+      <div class="mobile-search">
+        <div class="mobile-search-bar">🔍 &nbsp; Search by breed, name...</div>
+      </div>
+      <!-- Type pills -->
+      <div class="mobile-type-row">
+        <div class="mobile-type-chip active">🐕 Dogs</div>
+        <div class="mobile-type-chip">🐈 Cats</div>
+        <div class="mobile-type-chip">🐇 Other</div>
+      </div>
+      <!-- Filter chips -->
+      <div class="mobile-filter-bar">
+        <div class="mobile-filter-chip active">⚙ Filters</div>
+        <div class="mobile-filter-chip active">Small</div>
+        <div class="mobile-filter-chip">Gender</div>
+        <div class="mobile-filter-chip">Age</div>
+        <div class="mobile-filter-chip">Distance</div>
+        <div class="mobile-filter-chip">Breed</div>
+      </div>
+      <!-- Results count -->
+      <div style="padding:10px 18px 4px;font-size:12px;font-weight:700;color:var(--dark)"><span style="color:var(--teal)">248</span> pets near Montreal</div>
+      <!-- Cards -->
+      <div class="mobile-cards">
+        <div class="mobile-pet-card">
+          <div class="mobile-pet-img dog">🐕</div>
+          <div class="mobile-pet-info">
+            <div class="mobile-pet-name">Pitter</div>
+            <div class="mobile-pet-meta"><span class="tag teal">Male</span><span class="tag">Pit Bull</span><span class="tag">Large</span></div>
+            <div class="mobile-pet-loc">📍 Quebec · 12 km · 3 yrs</div>
+            <button class="mobile-pet-btn">More Info</button>
+          </div>
+          <div style="font-size:18px;cursor:pointer">🤍</div>
+        </div>
+        <div class="mobile-pet-card">
+          <div class="mobile-pet-img cat">🐈</div>
+          <div class="mobile-pet-info">
+            <div class="mobile-pet-name">Hero</div>
+            <div class="mobile-pet-meta"><span class="tag teal">Male</span><span class="tag">DLH</span><span class="tag">Small</span></div>
+            <div class="mobile-pet-loc">📍 Alberta · 24 km · 2 yrs</div>
+            <button class="mobile-pet-btn">More Info</button>
+          </div>
+          <div style="font-size:18px;cursor:pointer">🤍</div>
+        </div>
+        <div class="mobile-pet-card">
+          <div class="mobile-pet-img dog2">🐕‍🦺</div>
+          <div class="mobile-pet-info">
+            <div class="mobile-pet-name">Magie</div>
+            <div class="mobile-pet-meta"><span class="tag pink">Female</span><span class="tag">Shiba</span><span class="tag">Med</span></div>
+            <div class="mobile-pet-loc">📍 Ontario · 35 km · 14 mo</div>
+            <button class="mobile-pet-btn">More Info</button>
+          </div>
+          <div style="font-size:18px;cursor:pointer">🤍</div>
+        </div>
+        <div class="mobile-pet-card">
+          <div class="mobile-pet-img" style="background:linear-gradient(135deg,#E6F1FB,#B5D4F4)">🦮</div>
+          <div class="mobile-pet-info">
+            <div class="mobile-pet-name">Bruno</div>
+            <div class="mobile-pet-meta"><span class="tag teal">Male</span><span class="tag">Labrador</span><span class="tag">Large</span></div>
+            <div class="mobile-pet-loc">📍 Montreal · 8 km · 4 yrs</div>
+            <button class="mobile-pet-btn">More Info</button>
+          </div>
+          <div style="font-size:18px;cursor:pointer">🤍</div>
+        </div>
+      </div>
+      <button class="mobile-load-more">Load more pets →</button>
+      <!-- Bottom Nav -->
+      <div class="mobile-bottom-nav">
+        <div class="bnav-item"><div class="bnav-icon">🏠</div><div>Home</div></div>
+        <div class="bnav-item active"><div class="bnav-icon">🐾</div><div>Adopt</div></div>
+        <div class="bnav-item"><div class="bnav-icon">🏡</div><div>Rehome</div></div>
+        <div class="bnav-item"><div class="bnav-icon">📖</div><div>Guides</div></div>
+        <div class="bnav-item"><div class="bnav-icon">👤</div><div>Profile</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

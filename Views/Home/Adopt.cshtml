@@ -2,198 +2,226 @@
     ViewData["Title"] = "Adopt a Pet";
 }
 
-<!-- ── Adopt Hero ─────────────────────────────────────── -->
-<section class="adopt-hero-section">
-    <div class="container">
-        <div class="adopt-hero-content text-center">
-            <div class="hero-badge" style="margin: 0 auto 1.5rem;">
-                <span class="hero-badge-icon">🐾</span>
-                <span data-i18n="adopt-hero-badge">Browse &amp; Adopt</span>
-            </div>
-            <h1 class="adopt-hero-title" data-i18n="adopt-hero-title">Find your forever companion</h1>
-            <p class="adopt-hero-subtitle" data-i18n="adopt-hero-subtitle">
-                Hundreds of loving pets are waiting for a home across Canada
-            </p>
+<!-- ── Breadcrumb ──────────────────────────────────────── -->
+<div class="adopt-breadcrumb-bar">
+    <div class="adopt-pg-container">
+        <a asp-controller="Home" asp-action="Index" class="bc-link">Home</a>
+        <span class="bc-sep">›</span>
+        <span class="bc-current">Adopt a pet</span>
+    </div>
+</div>
 
-            <!-- Search bar -->
-            <div class="adopt-search-wrap">
-                <svg class="adopt-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<!-- ── Search bar ─────────────────────────────────────── -->
+<div class="adopt-search-section">
+    <div class="adopt-pg-container">
+        <div class="adopt-top-search-wrap">
+            <div class="adopt-top-search-inner">
+                <svg class="adopt-top-search-icon" width="18" height="18" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input type="text" class="adopt-search-input" id="searchInput"
-                       placeholder="Search by name or breed…" data-i18n-placeholder="adopt-search-placeholder" />
-                <button class="adopt-search-btn" id="searchBtn" data-i18n="adopt-search-btn">Search</button>
+                <input type="text" class="adopt-top-search-input" id="searchInput"
+                       placeholder="Search by breed, name, or keyword…"
+                       data-i18n-placeholder="adopt-search-placeholder" />
             </div>
+            <button class="adopt-top-search-btn" id="searchBtn" data-i18n="adopt-search-btn">Search</button>
+        </div>
+    </div>
+</div>
 
-            <!-- Quick stats -->
-            <div class="adopt-hero-stats">
-                <div class="adopt-stat">
-                    <span class="adopt-stat-num" id="statAvailable">12</span>
-                    <span class="adopt-stat-lbl" data-i18n="adopt-stat-available">Available pets</span>
+<!-- ── Main layout ────────────────────────────────────── -->
+<div class="adopt-main-section">
+    <div class="adopt-pg-container">
+        <div class="adopt-split-layout">
+
+            <!-- ── Filter sidebar ─────────────────────────── -->
+            <aside class="adopt-sidebar-panel" id="adoptSidebar">
+
+                <div class="sidebar-header-row">
+                    <span class="sidebar-title">Filters</span>
+                    <button class="sidebar-reset-btn" id="resetFiltersBtn">Reset all</button>
                 </div>
-                <span class="adopt-stat-sep">·</span>
-                <div class="adopt-stat">
-                    <span class="adopt-stat-num">7</span>
-                    <span class="adopt-stat-lbl" data-i18n="adopt-stat-dogs">Dogs</span>
+
+                <!-- Pet type -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">Pet type</div>
+                    <div class="sb-type-toggle">
+                        <button class="sb-type-btn active" data-species="all">
+                            <span class="sb-type-icon">🐾</span><span>All</span>
+                        </button>
+                        <button class="sb-type-btn" data-species="dog">
+                            <span class="sb-type-icon">🐕</span><span>Dogs</span>
+                        </button>
+                        <button class="sb-type-btn" data-species="cat">
+                            <span class="sb-type-icon">🐈</span><span>Cats</span>
+                        </button>
+                    </div>
                 </div>
-                <span class="adopt-stat-sep">·</span>
-                <div class="adopt-stat">
-                    <span class="adopt-stat-num">5</span>
-                    <span class="adopt-stat-lbl" data-i18n="adopt-stat-cats">Cats</span>
+
+                <!-- Location -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">Location</div>
+                    <div class="sb-loc-display">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        Montreal, QC
+                    </div>
+                    <button class="sb-loc-link">📡 Use current location</button>
                 </div>
-                <span class="adopt-stat-sep">·</span>
-                <div class="adopt-stat">
-                    <span class="adopt-stat-num">2,400+</span>
-                    <span class="adopt-stat-lbl" data-i18n="adopt-stat-adopted">Successful adoptions</span>
+
+                <!-- Distance -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">
+                        Distance &nbsp;<span class="distance-val" id="distanceVal">25 km</span>
+                    </div>
+                    <input type="range" class="distance-slider" id="distanceSlider"
+                           min="0" max="100" value="25" aria-label="Distance in kilometres" />
+                    <div class="range-labels"><span>0 km</span><span>100 km</span></div>
                 </div>
+
+                <!-- Size -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">Size</div>
+                    <div class="sb-pills">
+                        <button class="sb-pill" data-filter="size" data-val="">Any</button>
+                        <button class="sb-pill" data-filter="size" data-val="small">Small</button>
+                        <button class="sb-pill" data-filter="size" data-val="medium">Medium</button>
+                        <button class="sb-pill" data-filter="size" data-val="large">Large</button>
+                    </div>
+                </div>
+
+                <!-- Breed -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">Breed</div>
+                    <input type="text" class="sb-text-input" id="breedInput" placeholder="Any breed…" />
+                </div>
+
+                <!-- Gender -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">Gender</div>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="checkMale"> Male
+                    </label>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="checkFemale"> Female
+                    </label>
+                </div>
+
+                <!-- Age -->
+                <div class="sidebar-filter-group">
+                    <div class="sfg-title">Age</div>
+                    <div class="sb-pills">
+                        <button class="sb-pill" data-filter="age" data-val="">Any</button>
+                        <button class="sb-pill" data-filter="age" data-val="young">Young</button>
+                        <button class="sb-pill" data-filter="age" data-val="adult">Adult</button>
+                        <button class="sb-pill" data-filter="age" data-val="senior">Senior</button>
+                    </div>
+                </div>
+
+                <!-- Health status -->
+                <div class="sidebar-filter-group sidebar-filter-group--last">
+                    <div class="sfg-title">Health status</div>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="checkVaccinated"> Vaccinated
+                    </label>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="checkNeutered"> Neutered / Spayed
+                    </label>
+                    <label class="sb-check-label">
+                        <input type="checkbox" class="sb-check" id="checkMicrochipped"> Microchipped
+                    </label>
+                </div>
+
+                <button class="sidebar-apply-btn" id="applyFiltersBtn">Apply filters</button>
+
+            </aside>
+
+            <!-- ── Results column ──────────────────────────── -->
+            <div class="adopt-results-col">
+
+                <!-- Results header -->
+                <div class="results-header">
+                    <span class="results-count" aria-live="polite">
+                        <strong id="resultsCountNum">12</strong>
+                        <span> pets found</span>
+                    </span>
+                    <div class="results-sort-wrap">
+                        <label class="sort-label" for="sortSelect" data-i18n="adopt-sort-label">Sort by:</label>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="newest">Newest first</option>
+                            <option value="az">Name A–Z</option>
+                            <option value="za">Name Z–A</option>
+                            <option value="age-asc">Youngest first</option>
+                            <option value="age-desc">Oldest first</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Active filter chips -->
+                <div class="active-filters-row" id="activeFiltersRow" style="display:none" aria-live="polite">
+                    <div class="active-filters-chips" id="activeFiltersChips"></div>
+                </div>
+
+                <!-- Pet grid -->
+                <div class="adopt-pet-grid" id="petsGrid" role="list" aria-label="Available pets"></div>
+
+                <!-- Empty state -->
+                <div class="adopt-empty-state" id="emptyState" style="display:none" role="status">
+                    <div class="empty-paw">🐾</div>
+                    <h3 class="empty-title" data-i18n="adopt-empty-title">No pets match your filters</h3>
+                    <p class="empty-desc" data-i18n="adopt-empty-desc">Try adjusting or clearing your filters to see more results.</p>
+                    <button class="btn btn-pawdopt-cta" id="emptyStateClearBtn">Clear All Filters</button>
+                </div>
+
+                <!-- Pagination -->
+                <div class="adopt-pagination" id="adoptPagination" aria-label="Results pagination"></div>
+
             </div>
         </div>
     </div>
-</section>
-
-<!-- ── Sticky Filter Bar ──────────────────────────────── -->
-<section class="adopt-filter-section" id="adoptFilterBar">
-    <div class="container">
-        <div class="adopt-filter-bar">
-
-            <!-- Species tabs -->
-            <div class="species-tabs" role="tablist" aria-label="Filter by species">
-                <button class="species-tab active" data-species="all" role="tab" aria-selected="true" data-i18n="adopt-tab-all">All Pets</button>
-                <button class="species-tab" data-species="dog" role="tab" aria-selected="false">
-                    🐕 <span data-i18n="adopt-tab-dogs">Dogs</span>
-                </button>
-                <button class="species-tab" data-species="cat" role="tab" aria-selected="false">
-                    🐈 <span data-i18n="adopt-tab-cats">Cats</span>
-                </button>
-            </div>
-
-            <div class="filter-bar-divider" aria-hidden="true"></div>
-
-            <!-- Filter dropdowns -->
-            <div class="filter-selects">
-                <select class="filter-select" id="filterSize" aria-label="Filter by size">
-                    <option value="" data-i18n="adopt-filter-size">Size</option>
-                    <option value="small" data-i18n="adopt-filter-size-small">Small</option>
-                    <option value="medium" data-i18n="adopt-filter-size-medium">Medium</option>
-                    <option value="large" data-i18n="adopt-filter-size-large">Large</option>
-                </select>
-
-                <select class="filter-select" id="filterAge" aria-label="Filter by age">
-                    <option value="" data-i18n="adopt-filter-age">Age</option>
-                    <option value="young" data-i18n="adopt-filter-age-young">Young (&lt; 1 yr)</option>
-                    <option value="adult" data-i18n="adopt-filter-age-adult">Adult (1–5 yr)</option>
-                    <option value="senior" data-i18n="adopt-filter-age-senior">Senior (5+ yr)</option>
-                </select>
-
-                <select class="filter-select" id="filterGender" aria-label="Filter by gender">
-                    <option value="" data-i18n="adopt-filter-gender">Gender</option>
-                    <option value="male" data-i18n="adopt-filter-gender-male">Male</option>
-                    <option value="female" data-i18n="adopt-filter-gender-female">Female</option>
-                </select>
-
-                <select class="filter-select" id="filterProvince" aria-label="Filter by province">
-                    <option value="" data-i18n="adopt-filter-province">Province</option>
-                    <option value="QC">Quebec (QC)</option>
-                    <option value="ON">Ontario (ON)</option>
-                    <option value="BC">British Columbia (BC)</option>
-                    <option value="AB">Alberta (AB)</option>
-                    <option value="MB">Manitoba (MB)</option>
-                    <option value="SK">Saskatchewan (SK)</option>
-                    <option value="NS">Nova Scotia (NS)</option>
-                    <option value="NB">New Brunswick (NB)</option>
-                </select>
-
-                <button class="filter-clear-btn" id="clearAllFiltersBtn" data-i18n="adopt-clear-all">Clear All</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── Results ────────────────────────────────────────── -->
-<section class="adopt-results-section">
-    <div class="container">
-
-        <!-- Active filter chips -->
-        <div class="active-filters-row" id="activeFiltersRow" style="display:none" aria-live="polite">
-            <div class="active-filters-chips" id="activeFiltersChips"></div>
-        </div>
-
-        <!-- Results header -->
-        <div class="results-header">
-            <span class="results-count" id="resultsCount" aria-live="polite">
-                <span data-i18n="adopt-results-showing">Showing</span>
-                <strong id="resultsCountNum">12</strong>
-                <span data-i18n="adopt-results-pets">pets</span>
-            </span>
-            <div class="results-sort-wrap">
-                <label class="sort-label" for="sortSelect" data-i18n="adopt-sort-label">Sort by:</label>
-                <select class="sort-select" id="sortSelect">
-                    <option value="newest" data-i18n="adopt-sort-newest">Newest</option>
-                    <option value="az" data-i18n="adopt-sort-az">Name A–Z</option>
-                    <option value="za" data-i18n="adopt-sort-za">Name Z–A</option>
-                    <option value="age-asc" data-i18n="adopt-sort-age-asc">Youngest first</option>
-                    <option value="age-desc" data-i18n="adopt-sort-age-desc">Oldest first</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Pet grid (populated by JS) -->
-        <div class="pets-grid" id="petsGrid" role="list" aria-label="Available pets"></div>
-
-        <!-- Empty state -->
-        <div class="adopt-empty-state" id="emptyState" style="display:none" role="status">
-            <div class="empty-paw">🐾</div>
-            <h3 class="empty-title" data-i18n="adopt-empty-title">No pets match your filters</h3>
-            <p class="empty-desc" data-i18n="adopt-empty-desc">Try adjusting or clearing your filters to see more results.</p>
-            <button class="btn btn-pawdopt-cta" id="emptyStateClearBtn" data-i18n="adopt-empty-btn">Clear All Filters</button>
-        </div>
-
-        <!-- Load more -->
-        <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-            <button class="btn btn-load-more" id="loadMoreBtn" data-i18n="adopt-load-more">Load more pets →</button>
-        </div>
-
-    </div>
-</section>
+</div>
 
 @section Scripts {
 <script>
 (function () {
+
     // ── Pet data ──────────────────────────────────────────
     var PETS = [
-        { id:1,  name:'Pitter', species:'dog', breed:'Pit Bull',          size:'large',  ageNum:3,  ageUnit:'yr', gender:'male',   province:'QC', city:'Montreal',    emoji:'🐕',     badge:'new',    colors:'linear-gradient(135deg,#fde8d8 0%,#e8d5f0 100%)' },
-        { id:2,  name:'Hero',   species:'cat', breed:'DLH',               size:'small',  ageNum:2,  ageUnit:'yr', gender:'male',   province:'AB', city:'Calgary',     emoji:'🐈',     badge:'',       colors:'linear-gradient(135deg,#d8eef5 0%,#e8f0e8 100%)' },
-        { id:3,  name:'Magie',  species:'dog', breed:'Shiba Inu',         size:'medium', ageNum:14, ageUnit:'mo', gender:'female', province:'ON', city:'Toronto',     emoji:'🐕‍🦺', badge:'',       colors:'linear-gradient(135deg,#d8e8f5 0%,#ddf0e8 100%)' },
-        { id:4,  name:'Felix',  species:'cat', breed:'Domestic SH',       size:'small',  ageNum:5,  ageUnit:'yr', gender:'female', province:'BC', city:'Vancouver',   emoji:'🐱',     badge:'',       colors:'linear-gradient(135deg,#fff0d8 0%,#f5e8f0 100%)' },
-        { id:5,  name:'Buddy',  species:'dog', breed:'Golden Retriever',  size:'large',  ageNum:4,  ageUnit:'yr', gender:'male',   province:'QC', city:'Quebec City', emoji:'🐶',     badge:'',       colors:'linear-gradient(135deg,#fdf8d8 0%,#f8ead8 100%)' },
-        { id:6,  name:'Luna',   species:'cat', breed:'Maine Coon',        size:'medium', ageNum:1,  ageUnit:'yr', gender:'female', province:'QC', city:'Laval',       emoji:'🐈‍⬛', badge:'new',    colors:'linear-gradient(135deg,#ead8f8 0%,#d8e8f8 100%)' },
-        { id:7,  name:'Rex',    species:'dog', breed:'German Shepherd',   size:'large',  ageNum:7,  ageUnit:'yr', gender:'male',   province:'ON', city:'Ottawa',      emoji:'🦮',     badge:'urgent', colors:'linear-gradient(135deg,#e0ecd5 0%,#f0e8d5 100%)' },
-        { id:8,  name:'Mochi',  species:'dog', breed:'Pomeranian',        size:'small',  ageNum:8,  ageUnit:'mo', gender:'female', province:'BC', city:'Victoria',    emoji:'🐕',     badge:'new',    colors:'linear-gradient(135deg,#fce8f0 0%,#f8e8fc 100%)' },
-        { id:9,  name:'Shadow', species:'cat', breed:'Russian Blue',      size:'small',  ageNum:3,  ageUnit:'yr', gender:'male',   province:'AB', city:'Edmonton',    emoji:'🐈',     badge:'',       colors:'linear-gradient(135deg,#d8e4fc 0%,#d8f0f4 100%)' },
-        { id:10, name:'Bella',  species:'dog', breed:'Labrador',          size:'large',  ageNum:2,  ageUnit:'yr', gender:'female', province:'QC', city:'Sherbrooke',  emoji:'🐶',     badge:'new',    colors:'linear-gradient(135deg,#eaf8d8 0%,#d8f0f8 100%)' },
-        { id:11, name:'Oliver', species:'cat', breed:'British Shorthair', size:'medium', ageNum:6,  ageUnit:'yr', gender:'male',   province:'MB', city:'Winnipeg',    emoji:'🐱',     badge:'urgent', colors:'linear-gradient(135deg,#e8dde8 0%,#dde8e0 100%)' },
-        { id:12, name:'Nala',   species:'dog', breed:'Husky',             size:'large',  ageNum:3,  ageUnit:'yr', gender:'female', province:'SK', city:'Saskatoon',   emoji:'🐕',     badge:'new',    colors:'linear-gradient(135deg,#d8e8fc 0%,#fce8d8 100%)' }
+        { id:1,  name:'Pitter', species:'dog', breed:'Pit Bull',          size:'large',  ageNum:3,  ageUnit:'yr', gender:'male',   province:'QC', city:'Montreal',    emoji:'🐕',     badge:'new',    vaccinated:true,  neutered:true,  microchipped:false, colors:'linear-gradient(135deg,#fde8d8 0%,#e8d5f0 100%)', desc:'Friendly and playful. Great for a home with a yard. Excellent with older children.' },
+        { id:2,  name:'Hero',   species:'cat', breed:'DLH',               size:'small',  ageNum:2,  ageUnit:'yr', gender:'male',   province:'AB', city:'Calgary',     emoji:'🐈',     badge:'',       vaccinated:true,  neutered:false, microchipped:true,  colors:'linear-gradient(135deg,#d8eef5 0%,#e8f0e8 100%)', desc:'Quiet and curious indoor cat. Perfect for apartment living. Very low maintenance.' },
+        { id:3,  name:'Magie',  species:'dog', breed:'Shiba Inu',         size:'medium', ageNum:14, ageUnit:'mo', gender:'female', province:'ON', city:'Toronto',     emoji:'🐕‍🦺', badge:'',       vaccinated:true,  neutered:true,  microchipped:true,  colors:'linear-gradient(135deg,#d8e8f5 0%,#ddf0e8 100%)', desc:'Lives with 2 children and gets along beautifully. Social and energetic pup.' },
+        { id:4,  name:'Felix',  species:'cat', breed:'Domestic SH',       size:'small',  ageNum:5,  ageUnit:'yr', gender:'female', province:'BC', city:'Vancouver',   emoji:'🐱',     badge:'',       vaccinated:false, neutered:true,  microchipped:false, colors:'linear-gradient(135deg,#fff0d8 0%,#f5e8f0 100%)', desc:'Loves to cuddle and follow you around. Very social and affectionate cat.' },
+        { id:5,  name:'Buddy',  species:'dog', breed:'Golden Retriever',  size:'large',  ageNum:4,  ageUnit:'yr', gender:'male',   province:'QC', city:'Quebec City', emoji:'🐶',     badge:'',       vaccinated:true,  neutered:true,  microchipped:true,  colors:'linear-gradient(135deg,#fdf8d8 0%,#f8ead8 100%)', desc:'Gentle giant who loves fetch and long walks. Great with families and other dogs.' },
+        { id:6,  name:'Luna',   species:'cat', breed:'Maine Coon',        size:'medium', ageNum:1,  ageUnit:'yr', gender:'female', province:'QC', city:'Laval',       emoji:'🐈‍⬛', badge:'new',    vaccinated:true,  neutered:false, microchipped:false, colors:'linear-gradient(135deg,#ead8f8 0%,#d8e8f8 100%)', desc:'Elegant and quiet. Loves high places and cozy naps. Fully litter-trained.' },
+        { id:7,  name:'Rex',    species:'dog', breed:'German Shepherd',   size:'large',  ageNum:7,  ageUnit:'yr', gender:'male',   province:'ON', city:'Ottawa',      emoji:'🦮',     badge:'urgent', vaccinated:true,  neutered:true,  microchipped:true,  colors:'linear-gradient(135deg,#e0ecd5 0%,#f0e8d5 100%)', desc:'Loyal and protective senior dog. Needs experienced owner. Currently in foster care.' },
+        { id:8,  name:'Mochi',  species:'dog', breed:'Pomeranian',        size:'small',  ageNum:8,  ageUnit:'mo', gender:'female', province:'BC', city:'Victoria',    emoji:'🐕',     badge:'new',    vaccinated:true,  neutered:false, microchipped:false, colors:'linear-gradient(135deg,#fce8f0 0%,#f8e8fc 100%)', desc:'Tiny ball of fluff and energy! Loves cuddles and squeaky toys. Very playful.' },
+        { id:9,  name:'Shadow', species:'cat', breed:'Russian Blue',      size:'small',  ageNum:3,  ageUnit:'yr', gender:'male',   province:'AB', city:'Edmonton',    emoji:'🐈',     badge:'',       vaccinated:true,  neutered:true,  microchipped:true,  colors:'linear-gradient(135deg,#d8e4fc 0%,#d8f0f4 100%)', desc:'Calm and independent. Adjusts well to new environments. Good with other cats.' },
+        { id:10, name:'Bella',  species:'dog', breed:'Labrador',          size:'large',  ageNum:2,  ageUnit:'yr', gender:'female', province:'QC', city:'Sherbrooke',  emoji:'🐶',     badge:'new',    vaccinated:true,  neutered:true,  microchipped:true,  colors:'linear-gradient(135deg,#eaf8d8 0%,#d8f0f8 100%)', desc:'Cheerful lab mix who loves swimming and playing ball. Great family dog.' },
+        { id:11, name:'Oliver', species:'cat', breed:'British Shorthair', size:'medium', ageNum:6,  ageUnit:'yr', gender:'male',   province:'MB', city:'Winnipeg',    emoji:'🐱',     badge:'urgent', vaccinated:false, neutered:true,  microchipped:false, colors:'linear-gradient(135deg,#e8dde8 0%,#dde8e0 100%)', desc:'Mellow senior cat looking for a quiet home. Loves lap time and window watching.' },
+        { id:12, name:'Nala',   species:'dog', breed:'Husky',             size:'large',  ageNum:3,  ageUnit:'yr', gender:'female', province:'SK', city:'Saskatoon',   emoji:'🐕',     badge:'new',    vaccinated:true,  neutered:false, microchipped:true,  colors:'linear-gradient(135deg,#d8e8fc 0%,#fce8d8 100%)', desc:'Stunning Husky with bright blue eyes. Needs an active family and lots of exercise.' }
     ];
 
-    var PAGE_SIZE = 8;
+    var PAGE_SIZE = 6;
 
     var state = {
-        search:   '',
-        species:  'all',
-        size:     '',
-        age:      '',
-        gender:   '',
-        province: '',
-        sort:     'newest',
-        page:     1,
-        favorites: new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'))
+        search:      '',
+        breed:       '',
+        species:     'all',
+        size:        '',
+        age:         '',
+        genderM:     false,
+        genderF:     false,
+        vaccinated:  false,
+        neutered:    false,
+        microchipped:false,
+        sort:        'newest',
+        page:        1,
+        favorites:   new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'))
     };
 
     // ── Helpers ───────────────────────────────────────────
-    function ageYears(p) {
-        return p.ageUnit === 'mo' ? p.ageNum / 12 : p.ageNum;
-    }
+    function ageYears(p) { return p.ageUnit === 'mo' ? p.ageNum / 12 : p.ageNum; }
 
     function ageCategory(p) {
         var y = ageYears(p);
@@ -202,7 +230,7 @@
         return 'senior';
     }
 
-    function capFirst(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+    function capFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
 
     // ── Filter & sort ─────────────────────────────────────
     function filterPets() {
@@ -212,27 +240,32 @@
                 var q = state.search.toLowerCase();
                 if (!p.name.toLowerCase().includes(q) && !p.breed.toLowerCase().includes(q)) return false;
             }
-            if (state.size     && p.size     !== state.size)          return false;
-            if (state.age      && ageCategory(p) !== state.age)       return false;
-            if (state.gender   && p.gender   !== state.gender)        return false;
-            if (state.province && p.province !== state.province)      return false;
+            if (state.breed) {
+                if (!p.breed.toLowerCase().includes(state.breed.toLowerCase())) return false;
+            }
+            if (state.size && p.size !== state.size) return false;
+            if (state.age  && ageCategory(p) !== state.age)  return false;
+            if (state.genderM && !state.genderF && p.gender !== 'male')   return false;
+            if (!state.genderM && state.genderF && p.gender !== 'female') return false;
+            if (state.vaccinated   && !p.vaccinated)   return false;
+            if (state.neutered     && !p.neutered)     return false;
+            if (state.microchipped && !p.microchipped) return false;
             return true;
         });
     }
 
     function sortPets(list) {
-        var sorted = list.slice();
+        var s = list.slice();
         switch (state.sort) {
-            case 'az':       return sorted.sort(function(a,b){ return a.name.localeCompare(b.name); });
-            case 'za':       return sorted.sort(function(a,b){ return b.name.localeCompare(a.name); });
-            case 'age-asc':  return sorted.sort(function(a,b){ return ageYears(a) - ageYears(b); });
-            case 'age-desc': return sorted.sort(function(a,b){ return ageYears(b) - ageYears(a); });
-            default:
-                return sorted.sort(function(a,b){
-                    var urgentA = a.badge === 'urgent' ? 2 : a.badge === 'new' ? 1 : 0;
-                    var urgentB = b.badge === 'urgent' ? 2 : b.badge === 'new' ? 1 : 0;
-                    return urgentB - urgentA || b.id - a.id;
-                });
+            case 'az':       return s.sort(function(a,b){ return a.name.localeCompare(b.name); });
+            case 'za':       return s.sort(function(a,b){ return b.name.localeCompare(a.name); });
+            case 'age-asc':  return s.sort(function(a,b){ return ageYears(a) - ageYears(b); });
+            case 'age-desc': return s.sort(function(a,b){ return ageYears(b) - ageYears(a); });
+            default: return s.sort(function(a,b){
+                var ua = a.badge==='urgent'?2:a.badge==='new'?1:0;
+                var ub = b.badge==='urgent'?2:b.badge==='new'?1:0;
+                return ub - ua || b.id - a.id;
+            });
         }
     }
 
@@ -240,8 +273,8 @@
     function renderCard(p) {
         var isFav = state.favorites.has(p.id);
         var favSvg = isFav
-            ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
-            : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+            ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+            : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
 
         var badgeHtml = '';
         if (p.badge === 'new')    badgeHtml = '<span class="pet-badge-new">New</span>';
@@ -251,104 +284,136 @@
             ? '<span class="pet-tag pet-tag-male">Male</span>'
             : '<span class="pet-tag pet-tag-female">Female</span>';
 
-        var ageLabel = p.ageNum + ' ' + p.ageUnit;
+        var healthHtml = '';
+        if (p.vaccinated)   healthHtml += '<span class="health-badge" title="Vaccinated">💉 Vaccinated</span>';
+        if (p.neutered)     healthHtml += '<span class="health-badge" title="Neutered / Spayed">✂️ Neutered</span>';
+        if (p.microchipped) healthHtml += '<span class="health-badge" title="Microchipped">📡 Chipped</span>';
 
         return '<div class="pet-card adopt-pet-card" role="listitem" data-pet-id="' + p.id + '">' +
             '<div class="pet-card-img" style="background:' + p.colors + ';">' +
                 badgeHtml +
-                '<button class="pet-fav-btn' + (isFav ? ' is-fav' : '') + '" data-fav-id="' + p.id + '" aria-label="' + (isFav ? 'Remove from favourites' : 'Save to favourites') + '" title="' + (isFav ? 'Saved' : 'Save') + '">' +
+                '<button class="pet-fav-btn' + (isFav ? ' is-fav' : '') + '" data-fav-id="' + p.id + '" aria-label="' + (isFav ? 'Remove from favourites' : 'Save to favourites') + '">' +
                     favSvg +
                 '</button>' +
                 '<span class="pet-emoji">' + p.emoji + '</span>' +
             '</div>' +
             '<div class="pet-card-body">' +
                 '<h5 class="pet-name">' + p.name + '</h5>' +
-                '<p class="pet-breed-age">' + p.breed + ' &middot; ' + ageLabel + '</p>' +
-                '<div class="pet-tags">' +
+                '<div class="pet-tags" style="margin-bottom:0.45rem">' +
                     genderTag +
+                    '<span class="pet-tag">' + p.breed + '</span>' +
+                    '<span class="pet-tag">' + p.ageNum + ' ' + p.ageUnit + '</span>' +
                     '<span class="pet-tag">' + capFirst(p.size) + '</span>' +
                 '</div>' +
+                '<p class="pet-card-desc">' + p.desc + '</p>' +
                 '<p class="pet-location">' +
-                    '<svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>' +
+                    '<svg width="11" height="11" viewBox="0 0 24 24" fill="#ef4444"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>' +
                     p.city + ', ' + p.province +
                 '</p>' +
-                '<a href="#" class="btn btn-more-info adopt-more-info-btn">More Info</a>' +
+                (healthHtml ? '<div class="health-badges">' + healthHtml + '</div>' : '') +
+                '<a href="#" class="btn btn-more-info" style="margin-top:0.75rem">More Info</a>' +
             '</div>' +
         '</div>';
+    }
+
+    // ── Pagination ────────────────────────────────────────
+    function renderPagination(total, current) {
+        var pg = document.getElementById('adoptPagination');
+        if (!pg) return;
+        var totalPages = Math.ceil(total / PAGE_SIZE);
+        if (totalPages <= 1) { pg.innerHTML = ''; return; }
+
+        var html = '<button class="pg-btn pg-arrow" id="pgPrev"' + (current === 1 ? ' disabled' : '') + '>&#8249;</button>';
+        for (var i = 1; i <= totalPages; i++) {
+            html += '<button class="pg-btn' + (i === current ? ' active' : '') + '" data-pg="' + i + '">' + i + '</button>';
+        }
+        html += '<button class="pg-btn pg-arrow" id="pgNext"' + (current === totalPages ? ' disabled' : '') + '>&#8250;</button>';
+        pg.innerHTML = html;
+
+        pg.querySelectorAll('[data-pg]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                state.page = parseInt(this.dataset.pg, 10);
+                render();
+                document.getElementById('petsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+        var prev = document.getElementById('pgPrev');
+        if (prev && !prev.disabled) prev.addEventListener('click', function () { state.page--; render(); });
+        var next = document.getElementById('pgNext');
+        if (next && !next.disabled) next.addEventListener('click', function () { state.page++; render(); });
     }
 
     // ── Main render ───────────────────────────────────────
     function render() {
         var filtered = filterPets();
         var sorted   = sortPets(filtered);
-        var visible  = sorted.slice(0, state.page * PAGE_SIZE);
+        var start    = (state.page - 1) * PAGE_SIZE;
+        var visible  = sorted.slice(start, start + PAGE_SIZE);
 
-        var grid       = document.getElementById('petsGrid');
-        var empty      = document.getElementById('emptyState');
-        var loadWrap   = document.getElementById('loadMoreWrap');
-        var countEl    = document.getElementById('resultsCountNum');
-        var statAvail  = document.getElementById('statAvailable');
-
-        if (statAvail) statAvail.textContent = PETS.length;
+        var grid     = document.getElementById('petsGrid');
+        var empty    = document.getElementById('emptyState');
+        var countEl  = document.getElementById('resultsCountNum');
 
         if (filtered.length === 0) {
-            grid.innerHTML     = '';
-            empty.style.display    = '';
-            loadWrap.style.display = 'none';
+            grid.innerHTML = '';
+            empty.style.display = '';
         } else {
             empty.style.display = 'none';
             grid.innerHTML = visible.map(renderCard).join('');
             countEl.textContent = filtered.length;
-            loadWrap.style.display = visible.length < sorted.length ? '' : 'none';
 
-            // Fav button listeners
             grid.querySelectorAll('.pet-fav-btn').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
                     e.preventDefault();
                     var id = parseInt(this.dataset.favId, 10);
-                    if (state.favorites.has(id)) { state.favorites.delete(id); }
-                    else { state.favorites.add(id); }
+                    if (state.favorites.has(id)) state.favorites.delete(id);
+                    else state.favorites.add(id);
                     localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(state.favorites)));
                     render();
                 });
             });
         }
 
+        renderPagination(filtered.length, state.page);
         updateChips();
     }
 
-    // ── Active filter chips ───────────────────────────────
+    // ── Active chips ──────────────────────────────────────
     function updateChips() {
         var row   = document.getElementById('activeFiltersRow');
         var chips = document.getElementById('activeFiltersChips');
         var active = [];
 
-        if (state.search)   active.push({ key:'search',   label:'"' + state.search + '"' });
-        if (state.size)     active.push({ key:'size',     label:capFirst(state.size) });
-        if (state.age) {
-            var ageLabels = { young:'Young', adult:'Adult', senior:'Senior' };
-            active.push({ key:'age', label:ageLabels[state.age] });
-        }
-        if (state.gender)   active.push({ key:'gender',   label:capFirst(state.gender) });
-        if (state.province) active.push({ key:'province', label:state.province });
+        if (state.search)      active.push({ key:'search',      label:'"' + state.search + '"' });
+        if (state.breed)       active.push({ key:'breed',       label:capFirst(state.breed) + ' (breed)' });
+        if (state.size)        active.push({ key:'size',        label:capFirst(state.size) });
+        if (state.age)         active.push({ key:'age',         label:capFirst(state.age) });
+        if (state.genderM && !state.genderF) active.push({ key:'genderM', label:'Male' });
+        if (!state.genderM && state.genderF) active.push({ key:'genderF', label:'Female' });
+        if (state.vaccinated)  active.push({ key:'vaccinated',  label:'Vaccinated' });
+        if (state.neutered)    active.push({ key:'neutered',    label:'Neutered' });
+        if (state.microchipped)active.push({ key:'microchipped',label:'Microchipped' });
 
         if (active.length) {
             row.style.display = '';
             chips.innerHTML = active.map(function (f) {
-                return '<button class="filter-chip" data-chip-key="' + f.key + '" aria-label="Remove ' + f.label + ' filter">' +
-                    '<span>' + f.label + '</span>' +
-                    '<span class="chip-remove" aria-hidden="true">&times;</span>' +
+                return '<button class="filter-chip" data-chip-key="' + f.key + '">' +
+                    '<span>' + f.label + '</span><span class="chip-remove" aria-hidden="true">&times;</span>' +
                 '</button>';
             }).join('');
-
             chips.querySelectorAll('.filter-chip').forEach(function (chip) {
                 chip.addEventListener('click', function () {
-                    var key = this.dataset.chipKey;
-                    if (key === 'search') { state.search = ''; var si = document.getElementById('searchInput'); if(si) si.value = ''; }
-                    else { state[key] = ''; }
-                    state.page = 1;
-                    syncUI();
-                    render();
+                    var k = this.dataset.chipKey;
+                    if (k === 'search')       { state.search = '';       var si = document.getElementById('searchInput'); if(si) si.value=''; }
+                    else if (k === 'breed')   { state.breed = '';        var bi = document.getElementById('breedInput');  if(bi) bi.value=''; }
+                    else if (k === 'size')    { state.size = '';  syncSbPills('size'); }
+                    else if (k === 'age')     { state.age = '';   syncSbPills('age'); }
+                    else if (k === 'genderM') { state.genderM = false; document.getElementById('checkMale').checked   = false; }
+                    else if (k === 'genderF') { state.genderF = false; document.getElementById('checkFemale').checked = false; }
+                    else if (k === 'vaccinated')  { state.vaccinated   = false; document.getElementById('checkVaccinated').checked   = false; }
+                    else if (k === 'neutered')    { state.neutered     = false; document.getElementById('checkNeutered').checked     = false; }
+                    else if (k === 'microchipped'){ state.microchipped = false; document.getElementById('checkMicrochipped').checked = false; }
+                    state.page = 1; render();
                 });
             });
         } else {
@@ -356,103 +421,111 @@
         }
     }
 
-    // ── Sync UI controls to state ─────────────────────────
-    function syncUI() {
-        document.getElementById('filterSize').value     = state.size;
-        document.getElementById('filterAge').value      = state.age;
-        document.getElementById('filterGender').value   = state.gender;
-        document.getElementById('filterProvince').value = state.province;
-        document.querySelectorAll('.species-tab').forEach(function (tab) {
-            var active = tab.dataset.species === state.species;
-            tab.classList.toggle('active', active);
-            tab.setAttribute('aria-selected', active);
+    // ── Sync helpers ──────────────────────────────────────
+    function syncSbPills(filter) {
+        document.querySelectorAll('.sb-pill[data-filter="' + filter + '"]').forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.val === state[filter]);
+        });
+    }
+
+    function syncSpeciesBtns() {
+        document.querySelectorAll('.sb-type-btn').forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.species === state.species);
         });
     }
 
     function clearAll() {
-        state.search = ''; state.species = 'all'; state.size = ''; state.age = '';
-        state.gender = ''; state.province = ''; state.page = 1;
-        var si = document.getElementById('searchInput');
-        if (si) si.value = '';
-        syncUI();
+        state.search = ''; state.breed = ''; state.species = 'all';
+        state.size = ''; state.age = ''; state.genderM = false; state.genderF = false;
+        state.vaccinated = false; state.neutered = false; state.microchipped = false;
+        state.page = 1;
+        var si = document.getElementById('searchInput'); if(si) si.value = '';
+        var bi = document.getElementById('breedInput');  if(bi) bi.value = '';
+        document.getElementById('checkMale').checked        = false;
+        document.getElementById('checkFemale').checked      = false;
+        document.getElementById('checkVaccinated').checked  = false;
+        document.getElementById('checkNeutered').checked    = false;
+        document.getElementById('checkMicrochipped').checked= false;
+        syncSpeciesBtns();
+        syncSbPills('size');
+        syncSbPills('age');
         render();
     }
 
     // ── Event wiring ──────────────────────────────────────
-    document.querySelectorAll('.species-tab').forEach(function (tab) {
-        tab.addEventListener('click', function () {
+
+    // Species type buttons
+    document.querySelectorAll('.sb-type-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
             state.species = this.dataset.species;
             state.page = 1;
-            syncUI();
+            syncSpeciesBtns();
             render();
         });
     });
 
-    [['filterSize','size'],['filterAge','age'],['filterGender','gender'],['filterProvince','province']].forEach(function(pair) {
-        var el = document.getElementById(pair[0]);
-        if (el) el.addEventListener('change', function () {
-            state[pair[1]] = this.value;
+    // Size + Age pills
+    document.querySelectorAll('.sb-pill[data-filter]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var filter = this.dataset.filter;
+            var val    = this.dataset.val;
+            state[filter] = val;
             state.page = 1;
+            syncSbPills(filter);
             render();
         });
     });
 
-    var sortEl = document.getElementById('sortSelect');
-    if (sortEl) sortEl.addEventListener('change', function () {
-        state.sort = this.value; render();
+    // Gender checkboxes
+    document.getElementById('checkMale').addEventListener('change', function ()   { state.genderM = this.checked; state.page=1; render(); });
+    document.getElementById('checkFemale').addEventListener('change', function () { state.genderF = this.checked; state.page=1; render(); });
+
+    // Health checkboxes
+    document.getElementById('checkVaccinated').addEventListener('change',   function () { state.vaccinated   = this.checked; state.page=1; render(); });
+    document.getElementById('checkNeutered').addEventListener('change',     function () { state.neutered     = this.checked; state.page=1; render(); });
+    document.getElementById('checkMicrochipped').addEventListener('change', function () { state.microchipped = this.checked; state.page=1; render(); });
+
+    // Breed input (debounced)
+    var breedTimer;
+    document.getElementById('breedInput').addEventListener('input', function () {
+        clearTimeout(breedTimer);
+        var val = this.value;
+        breedTimer = setTimeout(function () { state.breed = val.trim(); state.page=1; render(); }, 280);
     });
 
-    var clearBtn = document.getElementById('clearAllFiltersBtn');
-    if (clearBtn) clearBtn.addEventListener('click', clearAll);
-
-    var emptyClearBtn = document.getElementById('emptyStateClearBtn');
-    if (emptyClearBtn) emptyClearBtn.addEventListener('click', clearAll);
-
-    var loadMoreBtn = document.getElementById('loadMoreBtn');
-    if (loadMoreBtn) loadMoreBtn.addEventListener('click', function () {
-        state.page++; render();
-        // Smooth scroll to newly revealed cards
-        setTimeout(function() {
-            var cards = document.querySelectorAll('#petsGrid .adopt-pet-card');
-            var first = cards[(state.page - 1) * PAGE_SIZE];
-            if (first) first.scrollIntoView({ behavior:'smooth', block:'start' });
-        }, 50);
+    // Distance slider (visual only)
+    document.getElementById('distanceSlider').addEventListener('input', function () {
+        document.getElementById('distanceVal').textContent = this.value + ' km';
     });
 
+    // Sort
+    document.getElementById('sortSelect').addEventListener('change', function () { state.sort = this.value; render(); });
+
+    // Search input + button
+    var searchTimer;
     var searchInput = document.getElementById('searchInput');
-    var searchBtn   = document.getElementById('searchBtn');
-    if (searchInput) {
-        var searchTimer;
-        searchInput.addEventListener('input', function () {
-            clearTimeout(searchTimer);
-            var val = this.value;
-            searchTimer = setTimeout(function () {
-                state.search = val.trim();
-                state.page = 1;
-                render();
-            }, 280);
-        });
-        searchInput.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                clearTimeout(searchTimer);
-                state.search = this.value.trim();
-                state.page = 1;
-                render();
-            }
-        });
-    }
-    if (searchBtn) {
-        searchBtn.addEventListener('click', function () {
-            if (searchInput) {
-                state.search = searchInput.value.trim();
-                state.page = 1;
-                render();
-            }
-        });
-    }
+    searchInput.addEventListener('input', function () {
+        clearTimeout(searchTimer);
+        var val = this.value;
+        searchTimer = setTimeout(function () { state.search = val.trim(); state.page=1; render(); }, 280);
+    });
+    searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { clearTimeout(searchTimer); state.search = this.value.trim(); state.page=1; render(); }
+    });
+    document.getElementById('searchBtn').addEventListener('click', function () {
+        clearTimeout(searchTimer); state.search = searchInput.value.trim(); state.page=1; render();
+    });
 
-    // ── Bootstrap ─────────────────────────────────────────
+    // Apply + Reset buttons
+    document.getElementById('applyFiltersBtn').addEventListener('click', function () { state.page=1; render(); });
+    document.getElementById('resetFiltersBtn').addEventListener('click', clearAll);
+    document.getElementById('emptyStateClearBtn').addEventListener('click', clearAll);
+
+    // Initial render
+    syncSbPills('size');
+    syncSbPills('age');
     render();
+
 })();
 </script>
 }
