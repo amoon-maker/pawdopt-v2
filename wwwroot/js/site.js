@@ -69,6 +69,44 @@ const i18n = {
         'footer-copyright': '© 2026 Pawdopt. All rights reserved.',
         'terms-title': 'Terms & Conditions',
         'terms-close': 'I understand',
+        // Adopt page
+        'adopt-hero-badge':         'Browse & Adopt',
+        'adopt-hero-title':         'Find your forever companion',
+        'adopt-hero-subtitle':      'Hundreds of loving pets are waiting for a home across Canada',
+        'adopt-search-placeholder': 'Search by name or breed…',
+        'adopt-search-btn':         'Search',
+        'adopt-stat-available':     'Available pets',
+        'adopt-stat-dogs':          'Dogs',
+        'adopt-stat-cats':          'Cats',
+        'adopt-stat-adopted':       'Successful adoptions',
+        'adopt-tab-all':            'All Pets',
+        'adopt-tab-dogs':           'Dogs',
+        'adopt-tab-cats':           'Cats',
+        'adopt-filter-size':        'Size',
+        'adopt-filter-size-small':  'Small',
+        'adopt-filter-size-medium': 'Medium',
+        'adopt-filter-size-large':  'Large',
+        'adopt-filter-age':         'Age',
+        'adopt-filter-age-young':   'Young (< 1 yr)',
+        'adopt-filter-age-adult':   'Adult (1–5 yr)',
+        'adopt-filter-age-senior':  'Senior (5+ yr)',
+        'adopt-filter-gender':      'Gender',
+        'adopt-filter-gender-male': 'Male',
+        'adopt-filter-gender-female':'Female',
+        'adopt-filter-province':    'Province',
+        'adopt-clear-all':          'Clear All',
+        'adopt-results-showing':    'Showing',
+        'adopt-results-pets':       'pets',
+        'adopt-sort-label':         'Sort by:',
+        'adopt-sort-newest':        'Newest',
+        'adopt-sort-az':            'Name A–Z',
+        'adopt-sort-za':            'Name Z–A',
+        'adopt-sort-age-asc':       'Youngest first',
+        'adopt-sort-age-desc':      'Oldest first',
+        'adopt-empty-title':        'No pets match your filters',
+        'adopt-empty-desc':         'Try adjusting or clearing your filters to see more results.',
+        'adopt-empty-btn':          'Clear All Filters',
+        'adopt-load-more':          'Load more pets →',
     },
     fr: {
         'nav-home': 'Accueil',
@@ -133,6 +171,44 @@ const i18n = {
         'footer-copyright': '© 2026 Pawdopt. Tous droits réservés.',
         'terms-title': 'Termes et Conditions',
         'terms-close': 'Je comprends',
+        // Adopt page (FR)
+        'adopt-hero-badge':         'Parcourir et adopter',
+        'adopt-hero-title':         'Trouvez votre compagnon pour la vie',
+        'adopt-hero-subtitle':      'Des centaines d'animaux affectueux attendent une famille au Canada',
+        'adopt-search-placeholder': 'Rechercher par nom ou race…',
+        'adopt-search-btn':         'Rechercher',
+        'adopt-stat-available':     'Animaux disponibles',
+        'adopt-stat-dogs':          'Chiens',
+        'adopt-stat-cats':          'Chats',
+        'adopt-stat-adopted':       'Adoptions réussies',
+        'adopt-tab-all':            'Tous',
+        'adopt-tab-dogs':           'Chiens',
+        'adopt-tab-cats':           'Chats',
+        'adopt-filter-size':        'Taille',
+        'adopt-filter-size-small':  'Petit',
+        'adopt-filter-size-medium': 'Moyen',
+        'adopt-filter-size-large':  'Grand',
+        'adopt-filter-age':         'Âge',
+        'adopt-filter-age-young':   'Jeune (< 1 an)',
+        'adopt-filter-age-adult':   'Adulte (1–5 ans)',
+        'adopt-filter-age-senior':  'Sénior (5+ ans)',
+        'adopt-filter-gender':      'Genre',
+        'adopt-filter-gender-male': 'Mâle',
+        'adopt-filter-gender-female':'Femelle',
+        'adopt-filter-province':    'Province',
+        'adopt-clear-all':          'Effacer tout',
+        'adopt-results-showing':    'Affichage de',
+        'adopt-results-pets':       'animaux',
+        'adopt-sort-label':         'Trier par :',
+        'adopt-sort-newest':        'Plus récent',
+        'adopt-sort-az':            'Nom A–Z',
+        'adopt-sort-za':            'Nom Z–A',
+        'adopt-sort-age-asc':       'Plus jeune d'abord',
+        'adopt-sort-age-desc':      'Plus âgé d'abord',
+        'adopt-empty-title':        'Aucun animal ne correspond',
+        'adopt-empty-desc':         'Essayez de modifier ou d'effacer vos filtres pour voir plus de résultats.',
+        'adopt-empty-btn':          'Effacer tous les filtres',
+        'adopt-load-more':          'Voir plus d'animaux →',
     }
 };
 
@@ -145,7 +221,11 @@ function applyLang(lang) {
         const key = el.getAttribute('data-i18n-html');
         if (i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
     });
-    document.querySelectorAll('#termsModal [data-lang]').forEach(function (el) {
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (i18n[lang][key] !== undefined) el.placeholder = i18n[lang][key];
+    });
+    document.querySelectorAll('[data-lang]').forEach(function (el) {
         el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
     });
     document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';

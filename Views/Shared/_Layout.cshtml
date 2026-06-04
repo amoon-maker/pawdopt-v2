@@ -25,10 +25,12 @@
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav mx-auto gap-1">
                         <li class="nav-item">
-                            <a class="nav-link pawdopt-nav-link active" asp-area="" asp-controller="Home" asp-action="Index" data-i18n="nav-home">Home</a>
+                            <a class="nav-link pawdopt-nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                               asp-area="" asp-controller="Home" asp-action="Index" data-i18n="nav-home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pawdopt-nav-link" href="#" data-i18n="nav-adopt">Adopt</a>
+                            <a class="nav-link pawdopt-nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Adopt" ? "active" : "")"
+                               asp-area="" asp-controller="Home" asp-action="Adopt" data-i18n="nav-adopt">Adopt</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link pawdopt-nav-link" href="#" data-i18n="nav-rehome">Rehome</a>
@@ -65,6 +67,146 @@
     <main role="main">
         @RenderBody()
     </main>
+
+    <!-- Global Footer -->
+    <footer class="pawdopt-footer">
+        <div class="container">
+            <div class="footer-top row g-4">
+                <div class="col-12 col-md-4">
+                    <div class="footer-brand">
+                        <span style="font-size:1.4rem">🐾</span>
+                        <span class="footer-brand-text">Pawdopt</span>
+                    </div>
+                    <p class="footer-tagline" data-i18n="footer-tagline">Quebec's trusted pet adoption and rehoming platform.</p>
+                </div>
+                <div class="col-6 col-md-2">
+                    <h6 class="footer-heading" data-i18n="footer-explore">Explore</h6>
+                    <ul class="footer-links">
+                        <li><a asp-controller="Home" asp-action="Adopt" data-i18n="nav-adopt">Adopt</a></li>
+                        <li><a href="#" data-i18n="nav-rehome">Rehome</a></li>
+                        <li><a href="#" data-i18n="nav-care">Care Guide</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2">
+                    <h6 class="footer-heading" data-i18n="footer-company">Company</h6>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="nav-about">About Us</a></li>
+                        <li><a href="#" data-i18n="footer-contact">Contact</a></li>
+                        <li><a href="#" data-i18n="footer-privacy">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n="footer-copyright">&copy; 2026 Pawdopt. All rights reserved.</span>
+                <button class="footer-terms-btn" data-bs-toggle="modal" data-bs-target="#termsModal" data-i18n="footer-terms">Terms &amp; Conditions</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terms & Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content terms-modal-content">
+                <div class="modal-header terms-modal-header">
+                    <h5 class="modal-title" id="termsModalLabel" data-i18n="terms-title">Terms &amp; Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body terms-modal-body">
+                    <div data-lang="en">
+                        <p class="terms-updated">Last updated: June 2026</p>
+                        <h6>1. Acceptance of Terms</h6>
+                        <p>By using Pawdopt, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use the platform.</p>
+                        <h6>2. Purpose of the Platform</h6>
+                        <p>Pawdopt is an online platform that connects individuals looking to adopt pets with those who need to rehome their animals. Pawdopt does not own, shelter, or take custody of any animals listed on the platform.</p>
+                        <h6>3. User Eligibility</h6>
+                        <p>You must be at least 18 years of age and a resident of Canada to use Pawdopt. By creating an account, you confirm that the information you provide is accurate and truthful.</p>
+                        <h6>4. Adopter Responsibilities</h6>
+                        <ul>
+                            <li>Provide truthful information about your living situation, experience with animals, and ability to care for a pet.</li>
+                            <li>Treat animals with respect and care at all times.</li>
+                            <li>Comply with all applicable provincial and federal animal welfare laws.</li>
+                            <li>Not acquire animals for resale, commercial breeding, or any commercial purpose.</li>
+                        </ul>
+                        <h6>5. Rehomer Responsibilities</h6>
+                        <ul>
+                            <li>Only list animals that are legally in your possession.</li>
+                            <li>Provide accurate information about the animal's health, history, and temperament.</li>
+                            <li>Ensure animals are vaccinated and, where applicable, spayed/neutered prior to rehoming.</li>
+                            <li>Disclose any known behavioral issues, including aggression, in full.</li>
+                        </ul>
+                        <h6>6. Prohibited Conduct</h6>
+                        <ul>
+                            <li>Misrepresenting yourself or the animal being listed</li>
+                            <li>Using the platform for commercial breeding or pet sales</li>
+                            <li>Abandoning, neglecting, or harming any animal obtained through Pawdopt</li>
+                            <li>Any fraudulent activity of any kind</li>
+                        </ul>
+                        <h6>7. Consequences of Violations</h6>
+                        <p>Violation of these terms may result in:</p>
+                        <ul>
+                            <li>Immediate suspension or permanent removal of your account</li>
+                            <li>Reporting to relevant animal welfare authorities (SPCA, MAPAQ)</li>
+                            <li>Legal action under Quebec and Canadian law where applicable</li>
+                        </ul>
+                        <h6>8. Limitation of Liability</h6>
+                        <p>Pawdopt acts as an intermediary only. We are not responsible for the conduct of users or the welfare of animals after a rehoming is completed. All arrangements are made directly between adopters and rehomers.</p>
+                        <h6>9. Privacy</h6>
+                        <p>Your personal information is handled in accordance with our Privacy Policy and applicable Quebec privacy legislation (Law 25 / Bill 64).</p>
+                        <h6>10. Governing Law</h6>
+                        <p>These terms are governed by the laws of the Province of Quebec and applicable federal Canadian law. Any disputes shall be resolved in the courts of Quebec.</p>
+                        <p class="terms-contact">Questions? Contact us at <a href="mailto:support@pawdopt.ca">support@pawdopt.ca</a></p>
+                    </div>
+                    <div data-lang="fr" style="display:none">
+                        <p class="terms-updated">Dernière mise à jour : juin 2026</p>
+                        <h6>1. Acceptation des conditions</h6>
+                        <p>En utilisant Pawdopt, vous acceptez d'être lié par ces Termes et Conditions. Si vous n'êtes pas d'accord, veuillez ne pas utiliser la plateforme.</p>
+                        <h6>2. Objectif de la plateforme</h6>
+                        <p>Pawdopt est une plateforme en ligne qui met en relation des personnes souhaitant adopter un animal avec celles qui doivent confier le leur. Pawdopt n'est pas propriétaire, hébergeur ou gardien des animaux listés sur la plateforme.</p>
+                        <h6>3. Conditions d'utilisation</h6>
+                        <p>Vous devez avoir au moins 18 ans et résider au Canada pour utiliser Pawdopt. En créant un compte, vous confirmez que les informations fournies sont exactes et véridiques.</p>
+                        <h6>4. Responsabilités des adoptants</h6>
+                        <ul>
+                            <li>Fournir des informations véridiques sur votre situation de vie, votre expérience avec les animaux et votre capacité à en prendre soin.</li>
+                            <li>Traiter les animaux avec respect et bienveillance en tout temps.</li>
+                            <li>Respecter toutes les lois provinciales et fédérales applicables en matière de bien-être animal.</li>
+                            <li>Ne pas acquérir des animaux pour la revente, l'élevage commercial ou tout autre but commercial.</li>
+                        </ul>
+                        <h6>5. Responsabilités des cédants</h6>
+                        <ul>
+                            <li>Ne lister que des animaux dont vous êtes légalement propriétaire.</li>
+                            <li>Fournir des informations exactes sur la santé, l'historique et le tempérament de l'animal.</li>
+                            <li>S'assurer que les animaux sont vaccinés et, le cas échéant, stérilisés avant le réhébergement.</li>
+                            <li>Divulguer tout problème de comportement connu, y compris l'agressivité, de manière complète.</li>
+                        </ul>
+                        <h6>6. Conduite interdite</h6>
+                        <ul>
+                            <li>Se représenter faussement ou fournir de fausses informations sur l'animal</li>
+                            <li>Utiliser la plateforme pour l'élevage commercial ou la vente d'animaux</li>
+                            <li>Abandonner, négliger ou maltraiter tout animal obtenu via Pawdopt</li>
+                            <li>Toute activité frauduleuse</li>
+                        </ul>
+                        <h6>7. Conséquences des violations</h6>
+                        <p>Le non-respect de ces conditions peut entraîner :</p>
+                        <ul>
+                            <li>La suspension immédiate ou la suppression permanente de votre compte</li>
+                            <li>Un signalement aux autorités compétentes en matière de bien-être animal (SPCA, MAPAQ)</li>
+                            <li>Des poursuites judiciaires conformément aux lois du Québec et du Canada</li>
+                        </ul>
+                        <h6>8. Limitation de responsabilité</h6>
+                        <p>Pawdopt agit uniquement comme intermédiaire. Nous ne sommes pas responsables du comportement des utilisateurs ni du bien-être des animaux après qu'un réhébergement est conclu. Tous les arrangements sont conclus directement entre adoptants et cédants.</p>
+                        <h6>9. Confidentialité</h6>
+                        <p>Vos informations personnelles sont traitées conformément à notre Politique de confidentialité et à la législation québécoise applicable (Loi 25 / Projet de loi 64).</p>
+                        <h6>10. Loi applicable</h6>
+                        <p>Ces conditions sont régies par les lois de la Province de Québec et par le droit fédéral canadien applicable. Tout litige sera résolu devant les tribunaux du Québec.</p>
+                        <p class="terms-contact">Des questions ? Contactez-nous à <a href="mailto:support@pawdopt.ca">support@pawdopt.ca</a></p>
+                    </div>
+                </div>
+                <div class="modal-footer terms-modal-footer">
+                    <button type="button" class="btn btn-pawdopt-cta" data-bs-dismiss="modal" data-i18n="terms-close">I understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
