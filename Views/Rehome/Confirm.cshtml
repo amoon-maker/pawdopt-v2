@@ -1,0 +1,174 @@
+@{
+    ViewData["Title"] = "Confirm & Publish";
+}
+
+<div class="rehome-page">
+    <div class="rehome-container">
+
+        <!-- Breadcrumb -->
+        <nav class="rehome-breadcrumb" aria-label="breadcrumb">
+            <a href="/" data-i18n="nav-home">Home</a>
+            <span class="bc-sep">›</span>
+            <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
+            <span class="bc-sep">›</span>
+            <span class="bc-current" data-i18n="rehome-step8">Confirm</span>
+        </nav>
+
+        <!-- Step progress -->
+        <div class="rehome-stepper" role="list">
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step2">Images</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step3">Character</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step5">Location</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step6">Story</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label" data-i18n="rehome-step7">Documents</span>
+            </div>
+            <div class="step-item active" role="listitem">
+                <div class="step-circle">8</div>
+                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+            </div>
+        </div>
+
+        <!-- Form card -->
+        <div class="rehome-card">
+            <div class="rehome-card-header">
+                <h1 class="rehome-card-title" data-i18n="rehome-confirm-title">Review &amp; publish</h1>
+                <p class="rehome-card-subtitle">
+                    <span class="step-pill" data-i18n="rehome-confirm-step-pill">Step 8 of 8</span>
+                    <span data-i18n="rehome-confirm-step-desc">Check everything looks good before your listing goes live.</span>
+                </p>
+            </div>
+
+            <form method="post" action="/Rehome/Publish">
+                <div class="rehome-confirm-body">
+
+                    <!-- Summary sections -->
+                    <div class="confirm-section">
+                        <div class="confirm-section-header">
+                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-info">Pet info</span>
+                            <a href="/Rehome/List" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                        </div>
+                        <div class="confirm-section-body" id="summary-info">—</div>
+                    </div>
+
+                    <div class="confirm-section">
+                        <div class="confirm-section-header">
+                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-photos">Photos</span>
+                            <a href="/Rehome/Images" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                        </div>
+                        <div class="confirm-section-body" id="summary-photos">—</div>
+                    </div>
+
+                    <div class="confirm-section">
+                        <div class="confirm-section-header">
+                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-character">Character</span>
+                            <a href="/Rehome/Character" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                        </div>
+                        <div class="confirm-section-body" id="summary-character">—</div>
+                    </div>
+
+                    <div class="confirm-section">
+                        <div class="confirm-section-header">
+                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-keyfacts">Key facts</span>
+                            <a href="/Rehome/KeyFacts" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                        </div>
+                        <div class="confirm-section-body" id="summary-keyfacts">—</div>
+                    </div>
+
+                    <div class="confirm-section">
+                        <div class="confirm-section-header">
+                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-location">Location</span>
+                            <a href="/Rehome/Location" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                        </div>
+                        <div class="confirm-section-body" id="summary-location">—</div>
+                    </div>
+
+                    <div class="confirm-section">
+                        <div class="confirm-section-header">
+                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-story">Story</span>
+                            <a href="/Rehome/Story" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                        </div>
+                        <div class="confirm-section-body" id="summary-story">—</div>
+                    </div>
+
+                    <div class="rehome-divider"></div>
+
+                    <!-- Agreement checkboxes -->
+                    <div class="confirm-agree-block">
+                        <label class="confirm-agree-item">
+                            <input type="checkbox" name="agreeOwner" id="agreeOwner" required />
+                            <span data-i18n="rehome-confirm-agree">I confirm that all information provided is accurate and that I am the owner of this pet or have the authority to rehome them.</span>
+                        </label>
+                        <label class="confirm-agree-item">
+                            <input type="checkbox" name="agreeTerms" id="agreeTerms" required />
+                            <span data-i18n="rehome-confirm-terms">I agree to the Pawdopt Terms &amp; Conditions and Privacy Policy.</span>
+                        </label>
+                    </div>
+
+                    <div class="rehome-nav-btns">
+                        <a href="/Rehome/Documents" class="rehome-btn-back">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                            <span data-i18n="rehome-btn-back">Back</span>
+                        </a>
+                        <div style="text-align:right">
+                            <button type="submit" class="rehome-btn-publish" id="publishBtn" disabled>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span data-i18n="rehome-confirm-publish">Publish listing →</span>
+                            </button>
+                            <p class="confirm-publish-note" data-i18n="rehome-confirm-note">Your listing will be reviewed and published within a few minutes.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    const agreeOwner = document.getElementById('agreeOwner');
+    const agreeTerms = document.getElementById('agreeTerms');
+    const publishBtn = document.getElementById('publishBtn');
+
+    function updateBtn() {
+        publishBtn.disabled = !(agreeOwner.checked && agreeTerms.checked);
+    }
+    agreeOwner.addEventListener('change', updateBtn);
+    agreeTerms.addEventListener('change', updateBtn);
+
+    // Fill summary placeholders with stored session data if available
+    // For now show a friendly placeholder per section
+    const lang = localStorage.getItem('pawdopt-lang') || 'en';
+    const placeholder = lang === 'fr'
+        ? 'Complété à l\'étape précédente'
+        : 'Completed in a previous step';
+    document.querySelectorAll('.confirm-section-body').forEach(el => {
+        el.textContent = placeholder;
+    });
+})();
+</script>
+}

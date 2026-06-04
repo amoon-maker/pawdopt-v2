@@ -1,0 +1,137 @@
+@{
+    ViewData["Title"] = "Pet Story";
+}
+
+<div class="rehome-page">
+    <div class="rehome-container">
+
+        <!-- Breadcrumb -->
+        <nav class="rehome-breadcrumb" aria-label="breadcrumb">
+            <a href="/" data-i18n="nav-home">Home</a>
+            <span class="bc-sep">›</span>
+            <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
+            <span class="bc-sep">›</span>
+            <span class="bc-current" data-i18n="rehome-step6">Story</span>
+        </nav>
+
+        <!-- Step progress -->
+        <div class="rehome-stepper" role="list">
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step2">Images</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step3">Character</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step5">Location</span>
+            </div>
+            <div class="step-item active" role="listitem">
+                <div class="step-circle">6</div>
+                <span class="step-label" data-i18n="rehome-step6">Story</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">7</div>
+                <span class="step-label" data-i18n="rehome-step7">Documents</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">8</div>
+                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+            </div>
+        </div>
+
+        <!-- Form card -->
+        <div class="rehome-card">
+            <div class="rehome-card-header">
+                <h1 class="rehome-card-title" data-i18n="rehome-story-title">Tell your pet's story</h1>
+                <p class="rehome-card-subtitle">
+                    <span class="step-pill" data-i18n="rehome-story-step-pill">Step 6 of 8</span>
+                    <span data-i18n="rehome-story-step-desc">A personal story helps adopters connect and builds trust.</span>
+                </p>
+            </div>
+
+            <form method="post" action="/Rehome/SaveStep6">
+                <div class="rehome-story-body">
+
+                    <label class="rehome-label" data-i18n="rehome-story-label">Your pet's story</label>
+                    <textarea class="story-textarea" name="story" id="storyTextarea"
+                        data-i18n-placeholder="rehome-story-placeholder"
+                        placeholder="Tell us about your pet's personality, favourite things, daily routine, and why you're looking for a new home for them..."></textarea>
+
+                    <div class="story-footer">
+                        <span class="story-char-count">
+                            <span class="count-num" id="charCount">0</span>
+                            &nbsp;<span data-i18n="rehome-story-chars">characters</span>
+                        </span>
+                        <span class="story-min-hint" id="minHint" data-i18n="rehome-story-min">Minimum 80 characters</span>
+                    </div>
+
+                    <!-- Writing prompts -->
+                    <div class="story-prompts">
+                        <p class="story-prompts-title" data-i18n="rehome-story-prompts-title">Need inspiration?</p>
+                        <ul class="story-prompts-list">
+                            <li data-i18n="rehome-story-prompt1">What does a typical day look like for your pet?</li>
+                            <li data-i18n="rehome-story-prompt2">What are their favourite toys, games, or activities?</li>
+                            <li data-i18n="rehome-story-prompt3">How do they behave around strangers or new environments?</li>
+                            <li data-i18n="rehome-story-prompt4">What do you love most about them?</li>
+                        </ul>
+                    </div>
+
+                    <div class="rehome-divider"></div>
+
+                    <div class="rehome-nav-btns">
+                        <a href="/Rehome/Location" class="rehome-btn-back">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                            <span data-i18n="rehome-btn-back">Back</span>
+                        </a>
+                        <button type="submit" class="rehome-btn-continue" id="continueBtn">
+                            <span data-i18n="rehome-btn-continue">Save &amp; Continue →</span>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    const textarea = document.getElementById('storyTextarea');
+    const countEl  = document.getElementById('charCount');
+    const hintEl   = document.getElementById('minHint');
+    const MIN      = 80;
+
+    function update() {
+        const len = textarea.value.length;
+        countEl.textContent = len;
+        hintEl.classList.toggle('met', len >= MIN);
+    }
+
+    textarea.addEventListener('input', update);
+    update();
+})();
+</script>
+}

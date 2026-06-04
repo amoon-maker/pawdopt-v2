@@ -1,0 +1,176 @@
+@{
+    ViewData["Title"] = "Pet Location";
+}
+
+<div class="rehome-page">
+    <div class="rehome-container">
+
+        <!-- Breadcrumb -->
+        <nav class="rehome-breadcrumb" aria-label="breadcrumb">
+            <a href="/" data-i18n="nav-home">Home</a>
+            <span class="bc-sep">›</span>
+            <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
+            <span class="bc-sep">›</span>
+            <span class="bc-current" data-i18n="rehome-step5">Location</span>
+        </nav>
+
+        <!-- Step progress -->
+        <div class="rehome-stepper" role="list">
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step2">Images</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step3">Character</span>
+            </div>
+            <div class="step-item completed" role="listitem">
+                <div class="step-circle">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
+            </div>
+            <div class="step-item active" role="listitem">
+                <div class="step-circle">5</div>
+                <span class="step-label" data-i18n="rehome-step5">Location</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">6</div>
+                <span class="step-label" data-i18n="rehome-step6">Story</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">7</div>
+                <span class="step-label" data-i18n="rehome-step7">Documents</span>
+            </div>
+            <div class="step-item" role="listitem">
+                <div class="step-circle">8</div>
+                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+            </div>
+        </div>
+
+        <!-- Form card -->
+        <div class="rehome-card">
+            <div class="rehome-card-header">
+                <h1 class="rehome-card-title" data-i18n="rehome-loc-title">Where is your pet located?</h1>
+                <p class="rehome-card-subtitle">
+                    <span class="step-pill" data-i18n="rehome-loc-step-pill">Step 5 of 8</span>
+                    <span data-i18n="rehome-loc-step-desc">Adopters will use this to find pets near them.</span>
+                </p>
+            </div>
+
+            <form method="post" action="/Rehome/SaveStep5">
+                <div class="rehome-kf-body">
+
+                    <!-- City + Province + Postal -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-5">
+                            <label class="rehome-label" data-i18n="rehome-loc-label-city">City / Town</label>
+                            <input type="text" class="rehome-input" name="city"
+                                data-i18n-placeholder="rehome-loc-city-placeholder"
+                                placeholder="Montréal" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="rehome-label" data-i18n="rehome-loc-label-province">Province</label>
+                            <select class="rehome-select" name="province">
+                                <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
+                                <option value="QC">Québec</option>
+                                <option value="ON">Ontario</option>
+                                <option value="BC">British Columbia</option>
+                                <option value="AB">Alberta</option>
+                                <option value="MB">Manitoba</option>
+                                <option value="SK">Saskatchewan</option>
+                                <option value="NS">Nova Scotia</option>
+                                <option value="NB">New Brunswick</option>
+                                <option value="NL">Newfoundland</option>
+                                <option value="PE">PEI</option>
+                                <option value="NT">Northwest Territories</option>
+                                <option value="YT">Yukon</option>
+                                <option value="NU">Nunavut</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="rehome-label" data-i18n="rehome-loc-label-postal">Postal Code</label>
+                            <input type="text" class="rehome-input" name="postalCode"
+                                data-i18n-placeholder="rehome-loc-postal-placeholder"
+                                placeholder="H1A 0A1" maxlength="7" />
+                        </div>
+                    </div>
+
+                    <!-- Pickup arrangements -->
+                    <div class="kf-section">
+                        <label class="rehome-label" data-i18n="rehome-loc-label-pickup">Pickup arrangements</label>
+                        <div class="option-chips" data-group="pickup">
+                            <button type="button" class="option-chip" data-value="home">
+                                <span class="chip-dot"></span>
+                                <span data-i18n="rehome-loc-pickup-home">Home pickup</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="neutral">
+                                <span class="chip-dot"></span>
+                                <span data-i18n="rehome-loc-pickup-neutral">Neutral location</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="adopter">
+                                <span class="chip-dot"></span>
+                                <span data-i18n="rehome-loc-pickup-adopter">Adopter's place</span>
+                            </button>
+                        </div>
+                        <input type="hidden" name="pickupType" id="pickupType" />
+                    </div>
+
+                    <!-- Pickup notes -->
+                    <div class="mb-3">
+                        <textarea class="rehome-textarea" name="pickupNotes"
+                            data-i18n-placeholder="rehome-loc-pickup-placeholder"
+                            placeholder="e.g. Can meet at a neutral location, home pickup available on weekends..."></textarea>
+                    </div>
+
+                    <!-- Privacy note -->
+                    <div class="loc-privacy-note">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span data-i18n="rehome-loc-privacy-note">Only your city and province are shown publicly. Your exact address is never shared.</span>
+                    </div>
+
+                    <div class="rehome-divider"></div>
+
+                    <div class="rehome-nav-btns">
+                        <a href="/Rehome/KeyFacts" class="rehome-btn-back">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                            <span data-i18n="rehome-btn-back">Back</span>
+                        </a>
+                        <button type="submit" class="rehome-btn-continue">
+                            <span data-i18n="rehome-btn-continue">Save &amp; Continue →</span>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    document.querySelectorAll('.option-chips').forEach(function (group) {
+        const hiddenInput = document.getElementById('pickupType');
+        group.querySelectorAll('.option-chip').forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                group.querySelectorAll('.option-chip').forEach(c => c.classList.remove('selected'));
+                chip.classList.add('selected');
+                if (hiddenInput) hiddenInput.value = chip.getAttribute('data-value');
+            });
+        });
+    });
+})();
+</script>
+}
