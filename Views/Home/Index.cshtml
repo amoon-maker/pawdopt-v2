@@ -24,7 +24,7 @@
                 </p>
                 <div class="hero-actions">
                     <a href="#" class="btn btn-hero-primary"><span>🐾</span> <span data-i18n="hero-btn-adopt">Adopt Now</span></a>
-                    <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary"><span>🏠</span> <span data-i18n="hero-btn-rehome">Rehome a Pet</span></a>
+                    <a href="#" class="btn btn-hero-secondary"><span>🏠</span> <span data-i18n="hero-btn-rehome">Rehome a Pet</span></a>
                 </div>
             </div>
 
@@ -184,7 +184,7 @@
         </div>
 
         <div class="text-center mt-5">
-            <a href="#" class="btn btn-see-all" data-i18n="featured-see-all">See all pets &rarr;</a>
+            <a asp-controller="Home" asp-action="Adopt" class="btn btn-see-all" data-i18n="featured-see-all">See all pets &rarr;</a>
         </div>
     </div>
 </section>
@@ -391,7 +391,7 @@
                 <h6 class="footer-heading" data-i18n="footer-explore">Explore</h6>
                 <ul class="footer-links">
                     <li><a href="#" data-i18n="nav-adopt">Adopt</a></li>
-                    <li><a asp-controller="Rehome" asp-action="List" data-i18n="nav-rehome">Rehome</a></li>
+                    <li><a href="#" data-i18n="nav-rehome">Rehome</a></li>
                     <li><a href="#" data-i18n="nav-care">Care Guide</a></li>
                 </ul>
             </div>
