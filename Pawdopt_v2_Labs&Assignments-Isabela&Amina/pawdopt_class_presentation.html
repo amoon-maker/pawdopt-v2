@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--teal:#1A6B8A;--teal-light:#D5EEF5;--pink:#993356;--pink-light:#FBEAF0;--green:#3B6D11;--green-light:#EAF3DE}
+body{font-family:'Segoe UI',sans-serif;color:var(--color-text-primary);padding:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.slide{display:none;padding:28px 32px;min-height:420px;flex-direction:column;justify-content:flex-start}
+.slide.active{display:flex}
+.slide-num{font-size:11px;color:var(--color-text-secondary);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+h1{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+h2{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:14px}
+.sub{font-size:14px;color:var(--color-text-secondary);margin-bottom:24px;line-height:1.5}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin:2px}
+.tag.teal{background:var(--teal-light);color:var(--teal)}
+.tag.pink{background:var(--pink-light);color:var(--pink)}
+.tag.green{background:var(--green-light);color:var(--green)}
+.tag.gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px}
+.card-title{font-size:13px;font-weight:500;margin-bottom:6px;color:var(--color-text-primary)}
+.card-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.accent-bar{width:3px;border-radius:2px;flex-shrink:0}
+.row-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.row-item:last-child{border-bottom:none}
+.row-label{font-size:12px;font-weight:500;min-width:90px;color:var(--color-text-primary)}
+.row-val{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.step{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-radius:10px;border:0.5px solid var(--color-border-tertiary)}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.step-text{font-size:13px;color:var(--color-text-primary)}
+.step-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.nav-btns{display:flex;gap:8px}
+button{border:0.5px solid var(--color-border-secondary);background:transparent;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer;color:var(--color-text-primary)}
+button:hover{background:var(--color-background-secondary)}
+button:disabled{opacity:0.3;cursor:default}
+.dots{display:flex;gap:6px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--color-border-secondary);transition:background 0.2s}
+.dot.active{background:var(--teal)}
+.big-stat{font-size:32px;font-weight:500;color:var(--teal);margin-bottom:4px}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:12px 0}
+.badge-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+.cover-hero{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;gap:8px}
+.cover-logo{font-size:36px;font-weight:500;color:var(--teal);margin-bottom:4px}
+.cover-logo span{color:var(--pink)}
+.cover-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:400px}
+.week-row{display:flex;gap:0;overflow:hidden;border-radius:10px;border:0.5px solid var(--color-border-tertiary)}
+.week-cell{flex:1;padding:10px 8px;text-align:center;border-right:0.5px solid var(--color-border-tertiary)}
+.week-cell:last-child{border-right:none}
+.week-cell.done{background:var(--teal-light)}
+.week-cell.now{background:var(--teal)}
+.week-cell .wlabel{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.week-cell.now .wlabel{color:rgba(255,255,255,0.7)}
+.week-cell .wtitle{font-size:11px;font-weight:500}
+.week-cell.now .wtitle{color:white}
+.week-cell.done .wlabel{color:var(--teal)}
+.week-cell.done .wtitle{color:var(--teal)}
+.week-cell .wlabel,.week-cell .wtitle{color:var(--color-text-secondary)}
+.us-row{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.us-row:last-child{border-bottom:none}
+.us-id{font-size:11px;font-weight:500;min-width:42px;margin-top:1px}
+.us-text{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.us-text strong{color:var(--color-text-primary);font-weight:500}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Pawdopt v2 class presentation — project progress overview covering weeks 1 through 3</h2>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide active" id="s1">
+  <div class="slide-num">01 / 08</div>
+  <div class="cover-hero">
+    <div class="cover-logo">Paw<span>dopt</span> v2</div>
+    <div class="cover-sub">Pet adoption and rehoming management system</div>
+    <div class="pill-row" style="justify-content:center;margin-top:4px">
+      <span class="tag teal">C# ASP.NET Core</span>
+      <span class="tag teal">SQL Server</span>
+      <span class="tag gray">GitHub</span>
+      <span class="tag gray">Mac + Windows</span>
+    </div>
+    <div class="divider" style="width:100%;margin:16px 0 8px"></div>
+    <div style="font-size:13px;color:var(--color-text-secondary)">Amina Ayad Al Halabieh &nbsp;·&nbsp; Isabela Sierra</div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px">System Development 420-940-VA &nbsp;·&nbsp; Summer 2026</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: THE PROBLEM + CLIENT -->
+<div class="slide" id="s2">
+  <div class="slide-num">02 / 08</div>
+  <h2>The problem we are solving</h2>
+  <div class="sub">Pet adoption in Quebec is fragmented, unverified, and unsafe</div>
+  <div class="grid grid-2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-title">The gap in the market</div>
+      <div class="card-body">No centralized platform in Quebec for pet adoption and rehoming. Adopters rely on Facebook posts, outdated shelter websites, and unstructured emails. Scams and unverified listings are common.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Our target client</div>
+      <div class="card-body">Animal shelters — organizations like SPCA Montreal — that need a modern digital platform to list verified animals, screen adopters, and manage the full rehoming workflow.</div>
+    </div>
+  </div>
+  <div class="card" style="background:var(--teal-light);border-color:var(--teal)">
+    <div class="card-title" style="color:var(--teal)">What Pawdopt v2 delivers to the shelter client</div>
+    <div class="card-body" style="color:var(--teal)">A branded web platform where every listing is document-verified before going live, adopters go through a structured application wizard, and all requests are tracked in one dashboard — replacing fragmented email and social media workflows entirely.</div>
+  </div>
+</div>
+
+<!-- SLIDE 3: WHAT WE ARE BUILDING -->
+<div class="slide" id="s3">
+  <div class="slide-num">03 / 08</div>
+  <h2>What we are building</h2>
+  <div class="sub">Four access levels — one unified platform</div>
+  <div class="grid grid-2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="badge-row"><span class="tag gray">Guest</span></div>
+      <div class="card-body">Browse pet listings and care guides freely — no account needed. Registration only required to take action.</div>
+    </div>
+    <div class="card">
+      <div class="badge-row"><span class="tag teal">Adopter</span></div>
+      <div class="card-body">Register, apply through a 5-step wizard, track applications, save favourites, and message rehomers.</div>
+    </div>
+    <div class="card">
+      <div class="badge-row"><span class="tag pink">Rehomer</span></div>
+      <div class="card-body">List pets through an 8-step wizard with mandatory vaccination document upload. Review and accept applicants.</div>
+    </div>
+    <div class="card">
+      <div class="badge-row"><span class="tag green">Admin</span></div>
+      <div class="card-body">Review uploaded documents, approve or reject listings before they go live, manage all users and analytics.</div>
+    </div>
+  </div>
+  <div class="pill-row">
+    <span class="tag teal">C# ASP.NET Core MVC</span>
+    <span class="tag teal">SQL Server</span>
+    <span class="tag gray">Entity Framework Core</span>
+    <span class="tag gray">GitHub (shared repo)</span>
+    <span class="tag gray">EN/FR toggle</span>
+    <span class="tag gray">Dark / light mode</span>
+  </div>
+</div>
+
+<!-- SLIDE 4: WEEK BY WEEK PROGRESS -->
+<div class="slide" id="s4">
+  <div class="slide-num">04 / 08</div>
+  <h2>Where we are right now</h2>
+  <div class="sub">3 weeks of analysis and planning completed — coding sprint starts now</div>
+  <div class="week-row" style="margin-bottom:18px">
+    <div class="week-cell done">
+      <div class="wlabel">Week 1</div>
+      <div class="wtitle">Project setup</div>
+    </div>
+    <div class="week-cell done">
+      <div class="wlabel">Week 2</div>
+      <div class="wtitle">Requirements</div>
+    </div>
+    <div class="week-cell now">
+      <div class="wlabel">Week 3 — now</div>
+      <div class="wtitle">User stories + coding</div>
+    </div>
+    <div class="week-cell">
+      <div class="wlabel">Week 4</div>
+      <div class="wtitle">Build sprint</div>
+    </div>
+    <div class="week-cell">
+      <div class="wlabel">Week 5</div>
+      <div class="wtitle">Deliverable I</div>
+    </div>
+  </div>
+  <div class="grid grid-2">
+    <div>
+      <div class="card-title" style="margin-bottom:8px">Completed so far</div>
+      <div class="row-item"><div class="accent-bar" style="background:var(--teal);height:40px"></div><div><div class="row-label">Assignment 1</div><div class="row-val">Project concept, Agile SDLC plan, sitemap, wireframes (desktop + mobile)</div></div></div>
+      <div class="row-item"><div class="accent-bar" style="background:var(--teal);height:40px"></div><div><div class="row-label">Assignment 2</div><div class="row-val">Full requirements (11 FR, 8 NFR), stakeholders, scope, social responsibility, client framing</div></div></div>
+      <div class="row-item"><div class="accent-bar" style="background:var(--teal);height:32px"></div><div><div class="row-label">Assignment 3</div><div class="row-val">8 user stories with acceptance criteria, iteration plan, SDLC phases, task breakdown</div></div></div>
+    </div>
+    <div>
+      <div class="card-title" style="margin-bottom:8px">Also done</div>
+      <div class="row-item"><div class="accent-bar" style="background:var(--pink);height:32px"></div><div><div class="row-label">GitHub repo</div><div class="row-val">ASP.NET Core project running on both Mac and Windows</div></div></div>
+      <div class="row-item"><div class="accent-bar" style="background:var(--pink);height:32px"></div><div><div class="row-label">Wireframes</div><div class="row-val">High-fidelity desktop + mobile for all key pages</div></div></div>
+      <div class="row-item"><div class="accent-bar" style="background:var(--pink);height:32px"></div><div><div class="row-label">Sitemap</div><div class="row-val">Full 6-column sitemap covering all pages and access levels</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: USER STORIES -->
+<div class="slide" id="s5">
+  <div class="slide-num">05 / 08</div>
+  <h2>Our 8 user stories for Deliverable I</h2>
+  <div class="sub">Covering both the Adopt side (Amina) and Rehome side (Isabela)</div>
+  <div>
+    <div class="us-row"><div class="us-id"><span class="tag gray">US-1</span></div><div class="us-text"><strong>Guest</strong> — browse pet listings without an account</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag gray">US-2</span></div><div class="us-text"><strong>New user</strong> — register with role selection (Adopter or Rehomer)</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag gray">US-3</span></div><div class="us-text"><strong>New user</strong> — verify email with 6-digit code before accessing the platform</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag teal">US-4</span></div><div class="us-text"><strong>Registered user</strong> — log in and be redirected to the correct role dashboard</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag teal">US-5</span></div><div class="us-text"><strong>Logged-in user</strong> — role-based dashboard separation (Adopter / Rehomer / Admin)</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag teal">US-6</span></div><div class="us-text"><strong>Adopter</strong> — filter pets by type, breed, age, size, and location</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag teal">US-7</span></div><div class="us-text"><strong>Adopter</strong> — view full pet detail page with story, health badges, and Apply button</div></div>
+    <div class="us-row"><div class="us-id"><span class="tag pink">US-8</span></div><div class="us-text"><strong>Rehomer</strong> — complete rehome wizard steps 1–3 with progress saved between steps</div></div>
+    <div class="us-row" style="border-bottom:none"><div class="us-id"><span class="tag pink">US-9</span></div><div class="us-text"><strong>Rehomer</strong> — upload vaccination document before listing is submitted for admin review</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 6: AGILE ITERATIONS -->
+<div class="slide" id="s6">
+  <div class="slide-num">06 / 08</div>
+  <h2>Our Agile iteration plan</h2>
+  <div class="sub">Three deliverables — each one builds on the last</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="step" style="border-left:3px solid var(--teal)">
+      <div class="step-num" style="background:var(--teal-light);color:var(--teal)">D1</div>
+      <div><div class="step-text">Week 5 — Foundation</div><div class="step-sub">Guest browsing · Authentication · Role dashboards · Pet listing · Rehome wizard steps 1–3 with document upload · All connected to SQL Server</div></div>
+      <span class="tag teal" style="margin-left:auto;flex-shrink:0">6%</span>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">D2</div>
+      <div><div class="step-text">Week 7 — Core features</div><div class="step-sub">Adoption wizard · Full rehome wizard · User dashboards · CRUD operations · Messaging · Advanced filtering</div></div>
+      <span class="tag gray" style="margin-left:auto;flex-shrink:0">9%</span>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">D3</div>
+      <div><div class="step-text">Week 11 — Complete system</div><div class="step-sub">Admin panel · Chat bot · Care guides · Password reset · Full UI polish + animations · Final pitch to shelter client</div></div>
+      <span class="tag gray" style="margin-left:auto;flex-shrink:0">9%</span>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">Each iteration produces something testable. Feedback from each presentation shapes what gets built next. This is Agile — not building everything at once, but delivering real working software in short cycles.</div>
+</div>
+
+<!-- SLIDE 7: TEAM SPLIT -->
+<div class="slide" id="s7">
+  <div class="slide-num">07 / 08</div>
+  <h2>How we work as a team</h2>
+  <div class="sub">Parallel development across two systems — one shared codebase</div>
+  <div class="grid grid-2" style="margin-bottom:16px">
+    <div class="card" style="border-left:3px solid var(--teal);border-radius:0 12px 12px 0">
+      <div class="badge-row"><span class="badge" style="background:var(--teal-light);color:var(--teal)">Amina — Mac</span></div>
+      <div class="card-body" style="margin-bottom:8px">Leads the Adopt side</div>
+      <div class="pill-row">
+        <span class="tag teal">Pet listing page</span>
+        <span class="tag teal">Pet detail page</span>
+        <span class="tag teal">Adoption wizard</span>
+        <span class="tag teal">Adopter dashboard</span>
+        <span class="tag teal">Guest browsing</span>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--pink);border-radius:0 12px 12px 0">
+      <div class="badge-row"><span class="badge" style="background:var(--pink-light);color:var(--pink)">Isabela — Windows</span></div>
+      <div class="card-body" style="margin-bottom:8px">Leads the Rehome side</div>
+      <div class="pill-row">
+        <span class="tag pink">Rehome landing</span>
+        <span class="tag pink">Rehome wizard</span>
+        <span class="tag pink">Document upload</span>
+        <span class="tag pink">Rehomer dashboard</span>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="background:var(--green-light);border-color:var(--green)">
+    <div class="card-title" style="color:var(--green)">Shared by both</div>
+    <div class="card-body" style="color:var(--green)">Authentication system · Landing page · SQL Server schema · Admin panel · Peer review of user stories · GitHub pull request workflow — one schema change = one PR review before merging</div>
+  </div>
+</div>
+
+<!-- SLIDE 8: WHAT'S NEXT -->
+<div class="slide" id="s8">
+  <div class="slide-num">08 / 08</div>
+  <h2>What comes next</h2>
+  <div class="sub">From documentation to a working system — Deliverable I in Week 5</div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+    <div class="step"><div class="step-num" style="background:var(--teal-light);color:var(--teal);font-size:10px">NOW</div><div><div class="step-text">Verify SQL Server Docker connection on Mac + Windows</div><div class="step-sub">The one infrastructure risk we want eliminated before the coding sprint begins</div></div></div>
+    <div class="step"><div class="step-num" style="background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:10px">WK4</div><div><div class="step-text">Build authentication, pet listing, and rehome wizard in parallel</div><div class="step-sub">Amina builds the Adopt side, Isabela builds the Rehome side — same schema, same repo</div></div></div>
+    <div class="step"><div class="step-num" style="background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:10px">WK5</div><div><div class="step-text">Test all 9 user stories, prepare Deliverable I report and presentation</div><div class="step-sub">Frame the demo as a pitch to a shelter client — not just a student project</div></div></div>
+  </div>
+  <div class="card" style="background:var(--teal-light);border-color:var(--teal);text-align:center">
+    <div class="big-stat">Week 5</div>
+    <div class="card-body" style="color:var(--teal)">Deliverable I — a working prototype where a guest browses real pets, a user registers with a role, verifies their email, logs in, and lands on the correct dashboard — all from a real SQL Server database</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="dots" id="dots"></div>
+  <div class="nav-btns">
+    <button id="prev" onclick="go(-1)" disabled>← Prev</button>
+    <button id="next" onclick="go(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+const total = 8;
+let cur = 1;
+const dotsEl = document.getElementById('dots');
+for(let i=1;i<=total;i++){
+  const d = document.createElement('div');
+  d.className='dot'+(i===1?' active':'');
+  d.id='d'+i;
+  d.onclick=()=>goTo(i);
+  d.style.cursor='pointer';
+  dotsEl.appendChild(d);
+}
+function goTo(n){
+  document.getElementById('s'+cur).classList.remove('active');
+  document.getElementById('d'+cur).classList.remove('active');
+  cur=n;
+  document.getElementById('s'+cur).classList.add('active');
+  document.getElementById('d'+cur).classList.add('active');
+  document.getElementById('prev').disabled=cur===1;
+  document.getElementById('next').disabled=cur===total;
+}
+function go(dir){goTo(cur+dir);}
+</script>
+</body>
+</html>
