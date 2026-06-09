@@ -1,0 +1,697 @@
+@{
+    ViewData["Title"] = "Care Guide";
+}
+
+<!-- ── Breadcrumb ──────────────────────────────────────── -->
+<div class="adopt-breadcrumb-bar">
+    <div class="adopt-pg-container">
+        <a asp-controller="Home" asp-action="Index" class="bc-link" data-i18n="nav-home">Home</a>
+        <span class="bc-sep">›</span>
+        <span class="bc-current" data-i18n="cg-breadcrumb">Care Guide</span>
+    </div>
+</div>
+
+<!-- ── Hero ───────────────────────────────────────────── -->
+<section class="cg-hero">
+    <div class="container cg-hero-inner">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="cg-hero-eyebrow" data-i18n="cg-eyebrow">LEARN &amp; PREPARE</span>
+                <h1 class="cg-hero-title" data-i18n="cg-page-title">Pet Care Guides</h1>
+                <p class="cg-hero-subtitle" data-i18n="cg-subtitle">Everything you need to know to give your pet a happy, healthy life in Quebec.</p>
+            </div>
+            <div class="col-lg-4 d-none d-lg-flex justify-content-end">
+                <div class="cg-hero-emojis">🐕&nbsp;&nbsp;🐈&nbsp;&nbsp;🐰</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Tab navigation ─────────────────────────────────── -->
+<div class="cg-tabs-wrap">
+    <div class="container">
+        <div class="cg-tabs" role="tablist">
+            <button class="cg-tab-btn active" data-tab="dogs" role="tab" aria-selected="true" data-i18n="cg-tab-dogs">🐕 Dogs</button>
+            <button class="cg-tab-btn" data-tab="cats" role="tab" aria-selected="false" data-i18n="cg-tab-cats">🐈 Cats</button>
+            <button class="cg-tab-btn" data-tab="small" role="tab" aria-selected="false" data-i18n="cg-tab-small">🐰 Small Pets</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Content panels ─────────────────────────────────── -->
+<div class="cg-content">
+    <div class="container">
+
+        <!-- ══════════ DOGS PANEL ══════════ -->
+        <div class="cg-panel active" id="panel-dogs" role="tabpanel">
+
+            <!-- Intro card -->
+            <div class="cg-intro-card">
+                <span class="cg-intro-emoji">🐕</span>
+                <div>
+                    <h2 class="cg-intro-title" data-i18n="cg-dog-intro-title">Caring for your dog</h2>
+                    <p class="cg-intro-desc" data-i18n="cg-dog-intro-desc">Dogs are loyal, social animals that thrive on routine, love, and consistent care. Whether you're a first-time owner or welcoming a new companion, these guides cover everything from daily feeding to long-term health.</p>
+                </div>
+            </div>
+
+            <div class="cg-main-grid">
+
+                <!-- Accordion topics -->
+                <div class="cg-accordion">
+
+                    <!-- Nutrition -->
+                    <div class="cg-acc-item open">
+                        <button class="cg-acc-btn" aria-expanded="true">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap blue">🥩</span>
+                                <span class="cg-acc-title" data-i18n="cg-dog-nutrition-title">Nutrition &amp; Feeding</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Feed adult dogs <strong>2 times per day</strong> and puppies <strong>3–4 times</strong>. Portion size depends on body weight and activity level — follow the guidelines on your chosen food.</p>
+                                <p><strong>What to look for in a quality food:</strong> meat listed as the first ingredient, no artificial colours or preservatives, AAFCO-certified for your dog's life stage.</p>
+                                <ul>
+                                    <li><strong>Never feed:</strong> grapes, raisins, chocolate, onions, garlic, macadamia nuts, xylitol (found in sugar-free products)</li>
+                                    <li>Always keep a fresh bowl of clean water available</li>
+                                    <li>Treats should make up no more than 10% of daily calories</li>
+                                    <li>Transition to new food gradually over 7–10 days to avoid digestive upset</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Nourrissez les chiens adultes <strong>2 fois par jour</strong> et les chiots <strong>3 à 4 fois</strong>. La portion dépend du poids et du niveau d'activité — suivez les recommandations sur l'emballage.</p>
+                                <p><strong>Ce qu'il faut chercher dans une bonne nourriture :</strong> la viande doit être le premier ingrédient, sans colorants ni conservateurs artificiels, certifiée AAFCO pour le stade de vie de votre chien.</p>
+                                <ul>
+                                    <li><strong>Ne jamais donner :</strong> raisins, chocolat, oignons, ail, noix de macadamia, xylitol (présent dans les produits sans sucre)</li>
+                                    <li>Toujours garder un bol d'eau fraîche à disposition</li>
+                                    <li>Les gâteries ne doivent pas dépasser 10 % des calories quotidiennes</li>
+                                    <li>Changez d'alimentation progressivement sur 7 à 10 jours pour éviter les troubles digestifs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap green">🏃</span>
+                                <span class="cg-acc-title" data-i18n="cg-dog-exercise-title">Exercise &amp; Play</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Exercise needs vary greatly by breed, age, and health. As a general guide:</p>
+                                <ul>
+                                    <li><strong>Small breeds</strong> (Chihuahua, Poodle): 20–30 min daily</li>
+                                    <li><strong>Medium breeds</strong> (Beagle, Shiba Inu): 45–60 min daily</li>
+                                    <li><strong>Large/active breeds</strong> (Husky, Lab, Border Collie): 60–90 min + mental stimulation</li>
+                                </ul>
+                                <p>Mental exercise is just as important as physical. Try puzzle feeders, nose-work games, and training sessions to keep your dog's mind sharp. A bored dog is often a destructive dog.</p>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Les besoins en exercice varient beaucoup selon la race, l'âge et la santé. En règle générale :</p>
+                                <ul>
+                                    <li><strong>Petites races</strong> (Chihuahua, Caniche) : 20 à 30 min par jour</li>
+                                    <li><strong>Races moyennes</strong> (Beagle, Shiba Inu) : 45 à 60 min par jour</li>
+                                    <li><strong>Grandes races / actives</strong> (Husky, Labrador, Border Collie) : 60 à 90 min + stimulation mentale</li>
+                                </ul>
+                                <p>La stimulation mentale est aussi importante que l'exercice physique. Essayez les jouets-puzzles, les jeux de pistage et les séances d'entraînement pour garder votre chien alerte. Un chien qui s'ennuie est souvent un chien destructeur.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap orange">🎓</span>
+                                <span class="cg-acc-title" data-i18n="cg-dog-training-title">Training Basics</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Start training from <strong>day one</strong> — dogs learn best with consistency and positive reinforcement. Punishments and dominance-based methods are outdated and can damage the bond with your pet.</p>
+                                <p><strong>5 essential commands to teach first:</strong></p>
+                                <ul>
+                                    <li><strong>Sit</strong> — foundation for all other commands</li>
+                                    <li><strong>Stay</strong> — builds impulse control</li>
+                                    <li><strong>Come</strong> — the most important safety command</li>
+                                    <li><strong>Leave it</strong> — prevents dangerous scavenging</li>
+                                    <li><strong>Down</strong> — calming position for excitable dogs</li>
+                                </ul>
+                                <p>Short sessions of 5–10 minutes, 2–3 times a day, are more effective than one long session. Enroll in a group class within the first month — it also socializes your dog.</p>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Commencez l'entraînement <strong>dès le premier jour</strong> — les chiens apprennent mieux avec la constance et le renforcement positif. Les punitions sont dépassées et peuvent nuire au lien avec votre animal.</p>
+                                <p><strong>5 commandes essentielles à enseigner en premier :</strong></p>
+                                <ul>
+                                    <li><strong>Assis</strong> — base de toutes les autres commandes</li>
+                                    <li><strong>Reste</strong> — développe le contrôle des impulsions</li>
+                                    <li><strong>Viens</strong> — la commande de sécurité la plus importante</li>
+                                    <li><strong>Laisse</strong> — prévient les comportements dangereux</li>
+                                    <li><strong>Couché</strong> — position apaisante pour les chiens excitables</li>
+                                </ul>
+                                <p>Des séances courtes de 5 à 10 minutes, 2 à 3 fois par jour, sont plus efficaces qu'une longue session. Inscrivez-vous à un cours collectif dans le premier mois — cela socialise aussi votre chien.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap purple">💉</span>
+                                <span class="cg-acc-title" data-i18n="cg-dog-health-title">Health &amp; Vet Care</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Schedule a wellness visit with a vet <strong>within 72 hours</strong> of adoption. Bring any records the previous owner provided.</p>
+                                <ul>
+                                    <li><strong>Core vaccines:</strong> Rabies (legally required in Quebec) + DHPP (Distemper, Hepatitis, Parvovirus, Parainfluenza)</li>
+                                    <li><strong>Annual boosters</strong> + full physical exam</li>
+                                    <li><strong>Monthly prevention:</strong> flea/tick treatment and heartworm medication (spring to fall in Quebec)</li>
+                                    <li><strong>Spay/neuter</strong> at 6–12 months unless your breeder or vet advises otherwise</li>
+                                    <li>Watch for: sudden lethargy, loss of appetite, vomiting, diarrhea, coughing — these all warrant a vet visit</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Planifiez une visite chez le vétérinaire <strong>dans les 72 heures</strong> suivant l'adoption. Apportez tous les documents fournis par le propriétaire précédent.</p>
+                                <ul>
+                                    <li><strong>Vaccins essentiels :</strong> Rage (obligatoire au Québec) + DHPP (Maladie de Carré, Hépatite, Parvovirose, Parainfluenza)</li>
+                                    <li><strong>Rappels annuels</strong> + examen physique complet</li>
+                                    <li><strong>Prévention mensuelle :</strong> traitement antipuces/tiques et médicament contre la dirofilariose (printemps à automne au Québec)</li>
+                                    <li><strong>Stérilisation</strong> à 6–12 mois, sauf avis contraire de l'éleveur ou du vétérinaire</li>
+                                    <li>Surveillez : léthargie soudaine, perte d'appétit, vomissements, diarrhée, toux — tous justifient une visite chez le vétérinaire</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grooming -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap pink">✂️</span>
+                                <span class="cg-acc-title" data-i18n="cg-dog-grooming-title">Grooming</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <ul>
+                                    <li><strong>Short coats</strong> (Lab, Beagle): brush once a week</li>
+                                    <li><strong>Double or long coats</strong> (Husky, Golden, Poodle mix): brush 3–4× per week; professional grooming every 6–10 weeks</li>
+                                    <li><strong>Nails:</strong> trim every 3–4 weeks — overgrown nails cause joint pain</li>
+                                    <li><strong>Ears:</strong> check monthly; wipe with a vet-recommended solution. Never insert anything into the ear canal</li>
+                                    <li><strong>Teeth:</strong> brush 2–3× per week with dog-safe toothpaste. Dental disease is the #1 health issue in dogs over 3 years old</li>
+                                    <li><strong>Baths:</strong> every 4–6 weeks, or when visibly dirty. Over-bathing strips natural oils</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <ul>
+                                    <li><strong>Poils courts</strong> (Labrador, Beagle) : brossage une fois par semaine</li>
+                                    <li><strong>Poils longs ou double manteau</strong> (Husky, Golden, mélange Caniche) : brossage 3 à 4 fois par semaine ; toilettage professionnel toutes les 6 à 10 semaines</li>
+                                    <li><strong>Griffes :</strong> couper toutes les 3 à 4 semaines — des griffes trop longues causent des douleurs articulaires</li>
+                                    <li><strong>Oreilles :</strong> vérifier chaque mois ; nettoyer avec une solution recommandée par le vétérinaire. Ne jamais insérer quoi que ce soit dans le conduit auditif</li>
+                                    <li><strong>Dents :</strong> brosser 2 à 3 fois par semaine avec un dentifrice pour chiens. Les maladies dentaires sont le premier problème de santé chez les chiens de plus de 3 ans</li>
+                                    <li><strong>Bains :</strong> toutes les 4 à 6 semaines, ou quand visiblement sale. Trop de bains enlève les huiles naturelles</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /accordion -->
+
+                <!-- Sidebar -->
+                <aside class="cg-sidebar">
+
+                    <!-- Checklist -->
+                    <div class="cg-checklist-card">
+                        <div class="cg-checklist-title">
+                            ✅ <span data-i18n="cg-checklist-title">First week checklist</span>
+                        </div>
+                        <div data-lang="en">
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Vet wellness visit booked within 72 hours</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>ID tag made + microchip registered</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Safe, dog-proofed area established</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Quality food, bowls, collar &amp; leash ready</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Crate or bed in a quiet corner</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Basic commands practice started</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Local vet, dog parks &amp; training class identified</div>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Rendez-vous vétérinaire pris dans les 72 heures</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Médaille d'identité + puce enregistrée</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Zone sécurisée établie</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Nourriture, bols, collier et laisse prêts</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Caisse ou panier dans un coin calme</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Pratique des commandes de base commencée</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Vétérinaire, parcs et cours identifiés</div>
+                        </div>
+                    </div>
+
+                    <!-- Pro tip -->
+                    <div class="cg-tip-card">
+                        <div class="cg-tip-label">💡 <span data-i18n="cg-pro-tip">Pro Tip</span></div>
+                        <div data-lang="en">
+                            <p class="cg-tip-text">The first 3 days, 3 weeks, and 3 months are key adjustment milestones for a newly adopted dog. Expect anxiety and testing behaviour at first — patience and routine are your best tools.</p>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <p class="cg-tip-text">Les 3 premiers jours, 3 premières semaines et 3 premiers mois sont des étapes clés pour un chien nouvellement adopté. Attendez-vous à de l'anxiété au début — la patience et la routine sont vos meilleurs outils.</p>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div><!-- /cg-main-grid -->
+        </div><!-- /panel-dogs -->
+
+
+        <!-- ══════════ CATS PANEL ══════════ -->
+        <div class="cg-panel" id="panel-cats" role="tabpanel">
+
+            <!-- Intro card -->
+            <div class="cg-intro-card">
+                <span class="cg-intro-emoji">🐈</span>
+                <div>
+                    <h2 class="cg-intro-title" data-i18n="cg-cat-intro-title">Caring for your cat</h2>
+                    <p class="cg-intro-desc" data-i18n="cg-cat-intro-desc">Cats are independent yet deeply affectionate animals that need a safe, enriched environment to flourish. Learn how to meet their physical and emotional needs from day one.</p>
+                </div>
+            </div>
+
+            <div class="cg-main-grid">
+
+                <div class="cg-accordion">
+
+                    <!-- Nutrition -->
+                    <div class="cg-acc-item open">
+                        <button class="cg-acc-btn" aria-expanded="true">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap blue">🐟</span>
+                                <span class="cg-acc-title" data-i18n="cg-cat-nutrition-title">Nutrition &amp; Diet</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Cats are <strong>obligate carnivores</strong> — they require animal protein to survive. A mix of wet and dry food is ideal for hydration and dental health.</p>
+                                <ul>
+                                    <li>Feed adults <strong>2× daily</strong>; kittens 3–4× daily</li>
+                                    <li>Wet food reduces urinary tract issues and supports hydration</li>
+                                    <li>Look for food with real meat as the first ingredient, no grain fillers as the primary source</li>
+                                    <li><strong>Never feed:</strong> onions, garlic, grapes, raisins, alcohol, caffeine, raw fish (long-term), dairy in large quantities, dog food</li>
+                                    <li>A water fountain encourages drinking — cats instinctively prefer moving water</li>
+                                    <li>Puzzle feeders slow eating and provide mental stimulation</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Les chats sont des <strong>carnivores obligatoires</strong> — ils ont besoin de protéines animales pour survivre. Un mélange de nourriture humide et sèche est idéal pour l'hydratation et la santé dentaire.</p>
+                                <ul>
+                                    <li>Nourrissez les adultes <strong>2 fois par jour</strong> ; les chatons 3 à 4 fois</li>
+                                    <li>La nourriture humide réduit les problèmes urinaires et favorise l'hydratation</li>
+                                    <li>Choisissez une nourriture avec de la vraie viande comme premier ingrédient</li>
+                                    <li><strong>Ne jamais donner :</strong> oignons, ail, raisins, alcool, caféine, poisson cru à long terme, produits laitiers en grande quantité, nourriture pour chiens</li>
+                                    <li>Une fontaine à eau encourage à boire — les chats préfèrent instinctivement l'eau en mouvement</li>
+                                    <li>Les jouets-puzzles ralentissent la prise alimentaire et stimulent mentalement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Litter -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap green">🪣</span>
+                                <span class="cg-acc-title" data-i18n="cg-cat-litter-title">Litter Box &amp; Hygiene</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Follow the <strong>N+1 rule</strong>: one litter box per cat, plus one extra. For a single cat, that means two boxes.</p>
+                                <ul>
+                                    <li>Scoop <strong>once or twice daily</strong> — cats refuse to use a dirty box and may find other spots</li>
+                                    <li>Full litter change + box wash every 1–2 weeks</li>
+                                    <li>Place boxes in quiet, accessible locations — never next to food or water</li>
+                                    <li>Most cats prefer <strong>unscented clumping litter</strong>, 3–4 cm deep</li>
+                                    <li>Covered boxes are fine but check your cat's preference — some feel trapped</li>
+                                    <li>Sudden change in litter habits can signal a urinary or health issue — see a vet</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Suivez la <strong>règle N+1</strong> : une litière par chat, plus une supplémentaire. Pour un seul chat, cela signifie deux litières.</p>
+                                <ul>
+                                    <li>Ramassez <strong>une à deux fois par jour</strong> — les chats refusent d'utiliser une litière sale</li>
+                                    <li>Changement complet + nettoyage du bac toutes les 1 à 2 semaines</li>
+                                    <li>Placez les litières dans des endroits calmes et accessibles — jamais à côté de la nourriture</li>
+                                    <li>La plupart des chats préfèrent une <strong>litière agglomérante sans parfum</strong>, 3 à 4 cm de profondeur</li>
+                                    <li>Les bacs couverts sont acceptables mais vérifiez la préférence de votre chat — certains se sentent piégés</li>
+                                    <li>Un changement soudain dans les habitudes de litière peut signaler un problème de santé — consultez un vétérinaire</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enrichment -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap orange">🎾</span>
+                                <span class="cg-acc-title" data-i18n="cg-cat-enrichment-title">Enrichment &amp; Play</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <p>Indoor cats especially need structured enrichment to prevent boredom and stress-related behaviour.</p>
+                                <ul>
+                                    <li><strong>Vertical space:</strong> cat trees, wall shelves, and window perches give cats territory and observation points</li>
+                                    <li><strong>Daily interactive play:</strong> 2 sessions of 10–15 min with a wand toy mimics hunting and burns energy</li>
+                                    <li>Rotate toys to keep them novel — cats lose interest in predictable stimuli</li>
+                                    <li>Bird feeders mounted outside a window provide hours of passive entertainment</li>
+                                    <li>Scratching posts (vertical and horizontal) in multiple rooms protect your furniture and satisfy a natural need</li>
+                                    <li>Catnip, silvervine, or valerian toys can provide occasional excitement — not all cats respond to catnip</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <p>Les chats d'intérieur ont particulièrement besoin d'enrichissement structuré pour prévenir l'ennui et les comportements liés au stress.</p>
+                                <ul>
+                                    <li><strong>Espace vertical :</strong> arbres à chat, étagères murales et perchoirs de fenêtre donnent au chat un territoire et des points d'observation</li>
+                                    <li><strong>Jeu interactif quotidien :</strong> 2 séances de 10 à 15 min avec un jouet à baguette imite la chasse et dépense l'énergie</li>
+                                    <li>Faites tourner les jouets pour maintenir la nouveauté — les chats perdent intérêt pour les stimuli prévisibles</li>
+                                    <li>Un mangeoire à oiseaux installée devant une fenêtre offre des heures de divertissement passif</li>
+                                    <li>Des griffoirs (verticaux et horizontaux) dans plusieurs pièces protègent vos meubles et satisfont un besoin naturel</li>
+                                    <li>L'herbe à chat, la vigne argentée ou la valériane peuvent offrir une excitation occasionnelle — tous les chats ne réagissent pas à l'herbe à chat</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Health -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap purple">💉</span>
+                                <span class="cg-acc-title" data-i18n="cg-cat-health-title">Health &amp; Vaccines</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <ul>
+                                    <li><strong>Core vaccines:</strong> FVRCP (Feline Viral Rhinotracheitis, Calicivirus, Panleukopenia) + Rabies</li>
+                                    <li>Indoor cats: annual wellness exam. Outdoor/indoor-outdoor: biannual checkup</li>
+                                    <li>Flea and tick prevention recommended even for indoor cats (they can enter on clothing)</li>
+                                    <li><strong>Spay/neuter:</strong> 5–6 months; reduces cancer risk and unwanted behaviour</li>
+                                    <li>Dental disease affects 70% of cats over age 3 — ask your vet about preventive options</li>
+                                    <li>Watch for: hiding, weight loss, changes in urination, vomiting more than once a week — these all warrant a checkup</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <ul>
+                                    <li><strong>Vaccins essentiels :</strong> FVRCP (Rhinotrachéite virale féline, Calicivirus, Panleucopénie) + Rage</li>
+                                    <li>Chats d'intérieur : examen annuel. Chats d'extérieur : contrôle biannuel</li>
+                                    <li>La prévention des puces et tiques est recommandée même pour les chats d'intérieur</li>
+                                    <li><strong>Stérilisation :</strong> 5 à 6 mois ; réduit le risque de cancer et les comportements indésirables</li>
+                                    <li>Les maladies dentaires touchent 70 % des chats de plus de 3 ans — parlez à votre vétérinaire des options préventives</li>
+                                    <li>Surveillez : se cacher, perte de poids, changements dans les habitudes urinaires, vomissements plus d'une fois par semaine</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grooming -->
+                    <div class="cg-acc-item">
+                        <button class="cg-acc-btn" aria-expanded="false">
+                            <div class="cg-acc-left">
+                                <span class="cg-acc-icon-wrap pink">✂️</span>
+                                <span class="cg-acc-title" data-i18n="cg-cat-grooming-title">Grooming</span>
+                            </div>
+                            <span class="cg-acc-chevron">▾</span>
+                        </button>
+                        <div class="cg-acc-body">
+                            <div data-lang="en">
+                                <ul>
+                                    <li><strong>Short-haired cats:</strong> brush once a week to reduce shedding and hairballs</li>
+                                    <li><strong>Long-haired cats</strong> (Persian, Maine Coon): daily brushing to prevent painful mats</li>
+                                    <li>Cats are generally self-cleaning — bathe only when necessary (e.g., after a sticky accident)</li>
+                                    <li><strong>Nails:</strong> trim every 2–3 weeks. Provide a scratching post and most cats maintain manageable nail length naturally</li>
+                                    <li>Wipe the outer ear gently if you see buildup; never probe inside the ear canal</li>
+                                    <li><strong>Dental care:</strong> dental treats, water additives, or 2× weekly brushing. Start when they're kittens for best compliance</li>
+                                </ul>
+                            </div>
+                            <div data-lang="fr" style="display:none">
+                                <ul>
+                                    <li><strong>Chats à poils courts :</strong> brossage une fois par semaine pour réduire les pertes de poils et les boules de poils</li>
+                                    <li><strong>Chats à poils longs</strong> (Persan, Maine Coon) : brossage quotidien pour éviter les nœuds douloureux</li>
+                                    <li>Les chats se nettoient généralement eux-mêmes — bain seulement si nécessaire</li>
+                                    <li><strong>Griffes :</strong> couper toutes les 2 à 3 semaines. Avec un griffoir, la plupart des chats maintiennent des griffes gérables naturellement</li>
+                                    <li>Essuyez doucement l'oreille externe si vous voyez des dépôts ; ne jamais sonder dans le conduit auditif</li>
+                                    <li><strong>Soins dentaires :</strong> gâteries dentaires, additifs pour l'eau, ou brossage 2 fois par semaine. Commencez quand ils sont chatons pour une meilleure coopération</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /accordion -->
+
+                <aside class="cg-sidebar">
+
+                    <div class="cg-checklist-card">
+                        <div class="cg-checklist-title">
+                            ✅ <span data-i18n="cg-checklist-title">First week checklist</span>
+                        </div>
+                        <div data-lang="en">
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Vet visit within 72 hours of arrival</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Litter box set up in a quiet spot</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Safe room for decompression (3–3–3 rule)</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>High-quality food + water fountain</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Scratching post placed prominently</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Wand toy for daily play sessions</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Microchip registered + ID collar</div>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Visite vétérinaire dans les 72 heures</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Litière installée dans un endroit calme</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Pièce sécurisée pour la décompression</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Nourriture de qualité + fontaine à eau</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Griffoir placé bien en vue</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Jouet à baguette pour les séances de jeu</div>
+                            <div class="cg-checklist-item"><span class="cg-check-circle"></span>Puce enregistrée + collier d'identification</div>
+                        </div>
+                    </div>
+
+                    <div class="cg-tip-card">
+                        <div class="cg-tip-label">💡 <span data-i18n="cg-pro-tip">Pro Tip</span></div>
+                        <div data-lang="en">
+                            <p class="cg-tip-text">When introducing a cat to a new home, confine them to one room for 2–3 days. Let them come out on their own terms. Forcing exploration causes lasting anxiety.</p>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <p class="cg-tip-text">Quand vous introduisez un chat dans un nouveau foyer, confinezle dans une pièce pendant 2 à 3 jours. Laissez-le explorer à son propre rythme. Forcer l'exploration cause une anxiété durable.</p>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div><!-- /cg-main-grid -->
+        </div><!-- /panel-cats -->
+
+
+        <!-- ══════════ SMALL PETS PANEL ══════════ -->
+        <div class="cg-panel" id="panel-small" role="tabpanel">
+
+            <!-- Intro card -->
+            <div class="cg-intro-card">
+                <span class="cg-intro-emoji">🐰</span>
+                <div>
+                    <h2 class="cg-intro-title" data-i18n="cg-small-intro-title">Small pets &amp; pocket animals</h2>
+                    <p class="cg-intro-desc" data-i18n="cg-small-intro-desc">Small animals have big personalities and specific care needs. Whether you've adopted a rabbit, hamster, or bird, these guides help you create the ideal environment for them to thrive.</p>
+                </div>
+            </div>
+
+            <div class="cg-small-grid">
+
+                <!-- Rabbits -->
+                <div class="cg-small-card">
+                    <div class="cg-small-card-header" style="background: linear-gradient(135deg,#fde8d8,#f5e0f7);">
+                        <span class="cg-small-card-emoji">🐰</span>
+                        <h3 class="cg-small-card-title" data-i18n="cg-small-rabbit-title">Rabbits</h3>
+                    </div>
+                    <div class="cg-small-card-body">
+                        <div data-lang="en">
+                            <ul>
+                                <li><strong>Housing:</strong> minimum 4× body length enclosure + daily free-roam exercise time. Avoid wire-bottom cages — they damage paws</li>
+                                <li><strong>Diet:</strong> 80% Timothy hay (unlimited), 15% fresh leafy greens (kale, parsley, romaine), 5% pellets. No sugary fruits or iceberg lettuce</li>
+                                <li><strong>Social needs:</strong> rabbits are highly social — consider adopting in bonded pairs. They need at least 3 hours of free time daily</li>
+                                <li><strong>Lifespan:</strong> 8–12 years — a long-term commitment</li>
+                                <li><strong>Vet:</strong> find an exotic animal vet; standard dog/cat vets may lack rabbit expertise</li>
+                                <li><strong>Spay/neuter:</strong> strongly recommended — reduces cancer risk and territorial aggression</li>
+                            </ul>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <ul>
+                                <li><strong>Logement :</strong> enclos d'au moins 4 fois la longueur du corps + temps de jeu libre quotidien. Évitez les cages à fond grillagé — elles blessent les pattes</li>
+                                <li><strong>Alimentation :</strong> 80% de foin Timothy (illimité), 15% de légumes verts frais (chou frisé, persil, romaine), 5% de granulés. Pas de fruits sucrés ni de laitue iceberg</li>
+                                <li><strong>Besoins sociaux :</strong> les lapins sont très sociaux — envisagez d'adopter une paire liée. Ils ont besoin d'au moins 3 heures de liberté quotidienne</li>
+                                <li><strong>Durée de vie :</strong> 8 à 12 ans — un engagement à long terme</li>
+                                <li><strong>Vétérinaire :</strong> trouvez un vétérinaire spécialisé en animaux exotiques</li>
+                                <li><strong>Stérilisation :</strong> fortement recommandée — réduit le risque de cancer et l'agressivité territoriale</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hamsters & Guinea Pigs -->
+                <div class="cg-small-card">
+                    <div class="cg-small-card-header" style="background: linear-gradient(135deg,#d4f7e0,#d8eef5);">
+                        <span class="cg-small-card-emoji">🐹</span>
+                        <h3 class="cg-small-card-title" data-i18n="cg-small-hamster-title">Hamsters &amp; Guinea Pigs</h3>
+                    </div>
+                    <div class="cg-small-card-body">
+                        <div data-lang="en">
+                            <p><strong>Hamsters</strong></p>
+                            <ul>
+                                <li>Minimum cage: 775 sq in (40-gallon tank or equivalent)</li>
+                                <li>Nocturnal — handle in the evening, not during daytime sleep</li>
+                                <li>Diet: seed mix + fresh vegetables + occasional lean protein. Avoid citrus, onion, garlic</li>
+                                <li>Solitary — Syrian hamsters must live alone; dwarf hamsters may cohabit if introduced young</li>
+                            </ul>
+                            <p><strong>Guinea Pigs</strong></p>
+                            <ul>
+                                <li>Minimum cage: 7.5 sq ft per pair (bigger is always better)</li>
+                                <li>Cannot synthesize Vitamin C — must supplement daily via fresh peppers, parsley, or Vitamin C drops</li>
+                                <li>Diet: unlimited grass hay + fresh veggies + limited pellets</li>
+                                <li>Highly social — must have at least one companion; a lonely guinea pig can develop depression</li>
+                            </ul>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <p><strong>Hamsters</strong></p>
+                            <ul>
+                                <li>Cage minimum : 5 000 cm² (réservoir de 40 gallons ou équivalent)</li>
+                                <li>Nocturnes — manipulez le soir, pas pendant le sommeil diurne</li>
+                                <li>Alimentation : mélange de graines + légumes frais + protéines légères occasionnelles. Évitez agrumes, oignon, ail</li>
+                                <li>Solitaires — les hamsters syriens doivent vivre seuls ; les hamsters nains peuvent cohabiter s'ils sont introduits jeunes</li>
+                            </ul>
+                            <p><strong>Cochons d'Inde</strong></p>
+                            <ul>
+                                <li>Cage minimum : 0,7 m² par paire (plus grand est toujours mieux)</li>
+                                <li>Ne peuvent pas synthétiser la Vitamine C — supplémenter quotidiennement avec des poivrons, du persil ou des gouttes de Vitamine C</li>
+                                <li>Alimentation : foin de graminées illimité + légumes frais + peu de granulés</li>
+                                <li>Très sociaux — doivent avoir au moins un compagnon ; un cochon d'Inde seul peut développer une dépression</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Birds -->
+                <div class="cg-small-card">
+                    <div class="cg-small-card-header" style="background: linear-gradient(135deg,#fff0d8,#e8f0ff);">
+                        <span class="cg-small-card-emoji">🦜</span>
+                        <h3 class="cg-small-card-title" data-i18n="cg-small-bird-title">Birds</h3>
+                    </div>
+                    <div class="cg-small-card-body">
+                        <div data-lang="en">
+                            <ul>
+                                <li><strong>Cage size:</strong> as large as possible — minimum 18"×18"×24" for a budgie. Birds must be able to fully extend their wings. Bar spacing matters: too wide and they escape or get stuck</li>
+                                <li><strong>Diet:</strong> species-appropriate pellet diet (60–70%) + fresh fruits and vegetables daily. Avoid avocado, caffeine, chocolate, onion, salty foods — these can be fatal</li>
+                                <li><strong>Social time:</strong> parakeets and cockatiels need 2–4 hours out-of-cage time daily and regular human interaction. Isolated birds develop feather-plucking and anxiety</li>
+                                <li><strong>Sleep:</strong> cover cage at night for 10–12 hours of uninterrupted sleep — essential for immune function</li>
+                                <li><strong>Air quality:</strong> birds have extremely sensitive respiratory systems. Never use non-stick cookware (Teflon fumes are lethal), scented candles, or aerosol sprays near them</li>
+                                <li><strong>Vet:</strong> find an avian vet before you need one — regular birds can't be seen by all clinics</li>
+                            </ul>
+                        </div>
+                        <div data-lang="fr" style="display:none">
+                            <ul>
+                                <li><strong>Taille de la cage :</strong> aussi grande que possible — minimum 46×46×61 cm pour une perruche. L'oiseau doit pouvoir étendre ses ailes complètement</li>
+                                <li><strong>Alimentation :</strong> granulés adaptés à l'espèce (60 à 70%) + fruits et légumes frais quotidiennement. Évitez avocat, caféine, chocolat, oignon, aliments salés — ces aliments peuvent être fatals</li>
+                                <li><strong>Temps social :</strong> les perruches et calopsittes ont besoin de 2 à 4 heures hors de la cage quotidiennement et d'une interaction humaine régulière. Les oiseaux isolés développent l'arrachage de plumes et l'anxiété</li>
+                                <li><strong>Sommeil :</strong> couvrez la cage la nuit pour 10 à 12 heures de sommeil ininterrompu — essentiel pour le système immunitaire</li>
+                                <li><strong>Qualité de l'air :</strong> les oiseaux ont des systèmes respiratoires extrêmement sensibles. N'utilisez jamais de poêles antiadhésives (les vapeurs de Téflon sont létales), bougies parfumées ou aérosols à proximité</li>
+                                <li><strong>Vétérinaire :</strong> trouvez un vétérinaire aviaire avant d'en avoir besoin — les cliniques ordinaires ne voient pas toutes les espèces d'oiseaux</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /cg-small-grid -->
+
+            <!-- Small pets tip -->
+            <div class="cg-tip-card" style="max-width:680px;margin:0 auto;">
+                <div class="cg-tip-label">💡 <span data-i18n="cg-pro-tip">Pro Tip</span></div>
+                <div data-lang="en">
+                    <p class="cg-tip-text">Small animals are often considered "low maintenance" — they're not. They require daily care, species-appropriate environments, and specialist vets. Research thoroughly before adopting to ensure a great match.</p>
+                </div>
+                <div data-lang="fr" style="display:none">
+                    <p class="cg-tip-text">Les petits animaux sont souvent considérés comme "peu exigeants" — ce n'est pas le cas. Ils nécessitent des soins quotidiens, des environnements adaptés à leur espèce et des vétérinaires spécialisés. Faites des recherches approfondies avant d'adopter.</p>
+                </div>
+            </div>
+
+        </div><!-- /panel-small -->
+
+    </div><!-- /container -->
+</div><!-- /cg-content -->
+
+<!-- ── CTA banner ──────────────────────────────────────── -->
+<section class="cg-cta">
+    <div class="container">
+        <h2 class="cg-cta-title" data-i18n="cg-cta-title">Ready to find your companion?</h2>
+        <p class="cg-cta-desc" data-i18n="cg-cta-desc">Browse our available pets and start your adoption journey today.</p>
+        <a asp-controller="Home" asp-action="Adopt" class="cg-cta-btn" data-i18n="cg-cta-btn">Browse all pets →</a>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+(function () {
+
+    // ── Tab switching ─────────────────────────────────────
+    var tabBtns  = document.querySelectorAll('.cg-tab-btn');
+    var panels   = document.querySelectorAll('.cg-panel');
+
+    tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var tab = this.dataset.tab;
+
+            tabBtns.forEach(function (b) {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            panels.forEach(function (p) { p.classList.remove('active'); });
+
+            this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+            var panel = document.getElementById('panel-' + tab);
+            if (panel) panel.classList.add('active');
+        });
+    });
+
+    // ── Accordion ─────────────────────────────────────────
+    document.querySelectorAll('.cg-acc-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var item     = this.closest('.cg-acc-item');
+            var isOpen   = item.classList.contains('open');
+            var panel    = item.closest('.cg-panel');
+
+            // Close siblings in the same panel
+            panel.querySelectorAll('.cg-acc-item.open').forEach(function (other) {
+                other.classList.remove('open');
+                other.querySelector('.cg-acc-btn').setAttribute('aria-expanded', 'false');
+            });
+
+            if (!isOpen) {
+                item.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+})();
+</script>
+}
