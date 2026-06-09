@@ -5,9 +5,9 @@
 <!-- ── Breadcrumb ──────────────────────────────────────── -->
 <div class="adopt-breadcrumb-bar">
     <div class="adopt-pg-container">
-        <a asp-controller="Home" asp-action="Index" class="bc-link">Home</a>
+        <a asp-controller="Home" asp-action="Index" class="bc-link" data-i18n="nav-home">Home</a>
         <span class="bc-sep">›</span>
-        <span class="bc-current">Adopt a pet</span>
+        <span class="bc-current" data-i18n="adopt-breadcrumb">Adopt a pet</span>
     </div>
 </div>
 
@@ -38,42 +38,42 @@
             <aside class="adopt-sidebar-panel" id="adoptSidebar">
 
                 <div class="sidebar-header-row">
-                    <span class="sidebar-title">Filters</span>
-                    <button class="sidebar-reset-btn" id="resetFiltersBtn">Reset all</button>
+                    <span class="sidebar-title" data-i18n="adopt-filters-title">Filters</span>
+                    <button class="sidebar-reset-btn" id="resetFiltersBtn" data-i18n="adopt-reset-all">Reset all</button>
                 </div>
 
                 <!-- Pet type -->
                 <div class="sidebar-filter-group">
-                    <div class="sfg-title">Pet type</div>
+                    <div class="sfg-title" data-i18n="adopt-filter-pet-type">Pet type</div>
                     <div class="sb-type-toggle">
                         <button class="sb-type-btn active" data-species="all">
-                            <span class="sb-type-icon">🐾</span><span>All</span>
+                            <span class="sb-type-icon">🐾</span><span data-i18n="adopt-type-all">All</span>
                         </button>
                         <button class="sb-type-btn" data-species="dog">
-                            <span class="sb-type-icon">🐕</span><span>Dogs</span>
+                            <span class="sb-type-icon">🐕</span><span data-i18n="adopt-type-dogs">Dogs</span>
                         </button>
                         <button class="sb-type-btn" data-species="cat">
-                            <span class="sb-type-icon">🐈</span><span>Cats</span>
+                            <span class="sb-type-icon">🐈</span><span data-i18n="adopt-type-cats">Cats</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Location -->
                 <div class="sidebar-filter-group">
-                    <div class="sfg-title">Location</div>
+                    <div class="sfg-title" data-i18n="adopt-filter-location">Location</div>
                     <div class="sb-loc-display">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="#ef4444">
                             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                         </svg>
                         Montreal, QC
                     </div>
-                    <button class="sb-loc-link">📡 Use current location</button>
+                    <button class="sb-loc-link" data-i18n="adopt-use-location">📡 Use current location</button>
                 </div>
 
                 <!-- Distance -->
                 <div class="sidebar-filter-group">
                     <div class="sfg-title">
-                        Distance &nbsp;<span class="distance-val" id="distanceVal">25 km</span>
+                        <span data-i18n="adopt-filter-distance">Distance</span> &nbsp;<span class="distance-val" id="distanceVal">25 km</span>
                     </div>
                     <input type="range" class="distance-slider" id="distanceSlider"
                            min="0" max="100" value="25" aria-label="Distance in kilometres" />
@@ -82,58 +82,58 @@
 
                 <!-- Size -->
                 <div class="sidebar-filter-group">
-                    <div class="sfg-title">Size</div>
+                    <div class="sfg-title" data-i18n="adopt-filter-size">Size</div>
                     <div class="sb-pills">
-                        <button class="sb-pill" data-filter="size" data-val="">Any</button>
-                        <button class="sb-pill" data-filter="size" data-val="small">Small</button>
-                        <button class="sb-pill" data-filter="size" data-val="medium">Medium</button>
-                        <button class="sb-pill" data-filter="size" data-val="large">Large</button>
+                        <button class="sb-pill" data-filter="size" data-val="" data-i18n="adopt-size-any">Any</button>
+                        <button class="sb-pill" data-filter="size" data-val="small" data-i18n="tag-small">Small</button>
+                        <button class="sb-pill" data-filter="size" data-val="medium" data-i18n="tag-medium">Medium</button>
+                        <button class="sb-pill" data-filter="size" data-val="large" data-i18n="tag-large">Large</button>
                     </div>
                 </div>
 
                 <!-- Breed -->
                 <div class="sidebar-filter-group">
-                    <div class="sfg-title">Breed</div>
-                    <input type="text" class="sb-text-input" id="breedInput" placeholder="Any breed…" />
+                    <div class="sfg-title" data-i18n="adopt-filter-breed">Breed</div>
+                    <input type="text" class="sb-text-input" id="breedInput" placeholder="Any breed…" data-i18n-placeholder="adopt-breed-placeholder" />
                 </div>
 
                 <!-- Gender -->
                 <div class="sidebar-filter-group">
-                    <div class="sfg-title">Gender</div>
+                    <div class="sfg-title" data-i18n="adopt-filter-gender">Gender</div>
                     <label class="sb-check-label">
-                        <input type="checkbox" class="sb-check" id="checkMale"> Male
+                        <input type="checkbox" class="sb-check" id="checkMale"> <span data-i18n="tag-male">Male</span>
                     </label>
                     <label class="sb-check-label">
-                        <input type="checkbox" class="sb-check" id="checkFemale"> Female
+                        <input type="checkbox" class="sb-check" id="checkFemale"> <span data-i18n="tag-female">Female</span>
                     </label>
                 </div>
 
                 <!-- Age -->
                 <div class="sidebar-filter-group">
-                    <div class="sfg-title">Age</div>
+                    <div class="sfg-title" data-i18n="adopt-filter-age">Age</div>
                     <div class="sb-pills">
-                        <button class="sb-pill" data-filter="age" data-val="">Any</button>
-                        <button class="sb-pill" data-filter="age" data-val="young">Young</button>
-                        <button class="sb-pill" data-filter="age" data-val="adult">Adult</button>
-                        <button class="sb-pill" data-filter="age" data-val="senior">Senior</button>
+                        <button class="sb-pill" data-filter="age" data-val="" data-i18n="adopt-age-any">Any</button>
+                        <button class="sb-pill" data-filter="age" data-val="young" data-i18n="adopt-age-young">Young</button>
+                        <button class="sb-pill" data-filter="age" data-val="adult" data-i18n="adopt-age-adult">Adult</button>
+                        <button class="sb-pill" data-filter="age" data-val="senior" data-i18n="adopt-age-senior">Senior</button>
                     </div>
                 </div>
 
                 <!-- Health status -->
                 <div class="sidebar-filter-group sidebar-filter-group--last">
-                    <div class="sfg-title">Health status</div>
+                    <div class="sfg-title" data-i18n="adopt-filter-health">Health status</div>
                     <label class="sb-check-label">
-                        <input type="checkbox" class="sb-check" id="checkVaccinated"> Vaccinated
+                        <input type="checkbox" class="sb-check" id="checkVaccinated"> <span data-i18n="adopt-health-vaccinated">Vaccinated</span>
                     </label>
                     <label class="sb-check-label">
-                        <input type="checkbox" class="sb-check" id="checkNeutered"> Neutered / Spayed
+                        <input type="checkbox" class="sb-check" id="checkNeutered"> <span data-i18n="adopt-health-neutered">Neutered / Spayed</span>
                     </label>
                     <label class="sb-check-label">
-                        <input type="checkbox" class="sb-check" id="checkMicrochipped"> Microchipped
+                        <input type="checkbox" class="sb-check" id="checkMicrochipped"> <span data-i18n="adopt-health-microchipped">Microchipped</span>
                     </label>
                 </div>
 
-                <button class="sidebar-apply-btn" id="applyFiltersBtn">Apply filters</button>
+                <button class="sidebar-apply-btn" id="applyFiltersBtn" data-i18n="adopt-apply-filters">Apply filters</button>
 
             </aside>
 
@@ -144,16 +144,16 @@
                 <div class="results-header">
                     <span class="results-count" aria-live="polite">
                         <strong id="resultsCountNum">12</strong>
-                        <span> pets found</span>
+                        <span data-i18n="adopt-pets-found"> pets found</span>
                     </span>
                     <div class="results-sort-wrap">
                         <label class="sort-label" for="sortSelect" data-i18n="adopt-sort-label">Sort by:</label>
                         <select class="sort-select" id="sortSelect">
-                            <option value="newest">Newest first</option>
-                            <option value="az">Name A–Z</option>
-                            <option value="za">Name Z–A</option>
-                            <option value="age-asc">Youngest first</option>
-                            <option value="age-desc">Oldest first</option>
+                            <option value="newest" data-i18n="adopt-sort-newest">Newest first</option>
+                            <option value="az" data-i18n="adopt-sort-az">Name A–Z</option>
+                            <option value="za" data-i18n="adopt-sort-za">Name Z–A</option>
+                            <option value="age-asc" data-i18n="adopt-sort-youngest">Youngest first</option>
+                            <option value="age-desc" data-i18n="adopt-sort-oldest">Oldest first</option>
                         </select>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                     <div class="empty-paw">🐾</div>
                     <h3 class="empty-title" data-i18n="adopt-empty-title">No pets match your filters</h3>
                     <p class="empty-desc" data-i18n="adopt-empty-desc">Try adjusting or clearing your filters to see more results.</p>
-                    <button class="btn btn-pawdopt-cta" id="emptyStateClearBtn">Clear All Filters</button>
+                    <button class="btn btn-pawdopt-cta" id="emptyStateClearBtn" data-i18n="adopt-empty-clear">Clear All Filters</button>
                 </div>
 
                 <!-- Pagination -->
@@ -185,6 +185,13 @@
 @section Scripts {
 <script>
 (function () {
+
+    // ── i18n helper ───────────────────────────────────────
+    function t(key) {
+        var lang = localStorage.getItem('pawdopt-lang') || 'en';
+        var dict = window.pawdoptI18n;
+        return (dict && dict[lang] && dict[lang][key] !== undefined) ? dict[lang][key] : key;
+    }
 
     // ── Pet data (shared via pawdopt-data.js) ─────────────
     var PETS = window.PAWDOPT_PETS || [];
@@ -264,22 +271,22 @@
             : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
 
         var badgeHtml = '';
-        if (p.badge === 'new')    badgeHtml = '<span class="pet-badge-new">New</span>';
-        if (p.badge === 'urgent') badgeHtml = '<span class="pet-badge-urgent">Urgent</span>';
+        if (p.badge === 'new')    badgeHtml = '<span class="pet-badge-new">' + t('pet-badge-new') + '</span>';
+        if (p.badge === 'urgent') badgeHtml = '<span class="pet-badge-urgent">' + t('pet-badge-urgent') + '</span>';
 
         var genderTag = p.gender === 'male'
-            ? '<span class="pet-tag pet-tag-male">Male</span>'
-            : '<span class="pet-tag pet-tag-female">Female</span>';
+            ? '<span class="pet-tag pet-tag-male">' + t('tag-male') + '</span>'
+            : '<span class="pet-tag pet-tag-female">' + t('tag-female') + '</span>';
 
         var healthHtml = '';
-        if (p.vaccinated)   healthHtml += '<span class="health-badge" title="Vaccinated">💉 Vaccinated</span>';
-        if (p.neutered)     healthHtml += '<span class="health-badge" title="Neutered / Spayed">✂️ Neutered</span>';
-        if (p.microchipped) healthHtml += '<span class="health-badge" title="Microchipped">📡 Chipped</span>';
+        if (p.vaccinated)   healthHtml += '<span class="health-badge">' + t('pet-health-vaccinated') + '</span>';
+        if (p.neutered)     healthHtml += '<span class="health-badge">' + t('pet-health-neutered') + '</span>';
+        if (p.microchipped) healthHtml += '<span class="health-badge">' + t('pet-health-chipped') + '</span>';
 
         return '<div class="pet-card adopt-pet-card" role="listitem" data-pet-id="' + p.id + '">' +
             '<div class="pet-card-img" style="background:' + p.colors + ';">' +
                 badgeHtml +
-                '<button class="pet-fav-btn' + (isFav ? ' is-fav' : '') + '" data-fav-id="' + p.id + '" aria-label="' + (isFav ? 'Remove from favourites' : 'Save to favourites') + '">' +
+                '<button class="pet-fav-btn' + (isFav ? ' is-fav' : '') + '" data-fav-id="' + p.id + '" aria-label="' + (isFav ? t('adopt-fav-remove') : t('adopt-fav-save')) + '">' +
                     favSvg +
                 '</button>' +
                 '<span class="pet-emoji">' + p.emoji + '</span>' +
@@ -290,7 +297,7 @@
                     genderTag +
                     '<span class="pet-tag">' + p.breed + '</span>' +
                     '<span class="pet-tag">' + p.ageNum + ' ' + p.ageUnit + '</span>' +
-                    '<span class="pet-tag">' + capFirst(p.size) + '</span>' +
+                    '<span class="pet-tag">' + t('tag-' + p.size) + '</span>' +
                 '</div>' +
                 '<p class="pet-card-desc">' + p.desc + '</p>' +
                 '<p class="pet-location">' +
@@ -298,7 +305,7 @@
                     p.city + ', ' + p.province +
                 '</p>' +
                 (healthHtml ? '<div class="health-badges">' + healthHtml + '</div>' : '') +
-                '<a href="/Home/PetDetail?id=' + p.id + '" class="btn btn-more-info" style="margin-top:0.75rem">More Info</a>' +
+                '<a href="/Home/PetDetail?id=' + p.id + '" class="btn btn-more-info" style="margin-top:0.75rem">' + t('btn-more-info') + '</a>' +
             '</div>' +
         '</div>';
     }
@@ -372,14 +379,14 @@
         var active = [];
 
         if (state.search)      active.push({ key:'search',      label:'"' + state.search + '"' });
-        if (state.breed)       active.push({ key:'breed',       label:capFirst(state.breed) + ' (breed)' });
-        if (state.size)        active.push({ key:'size',        label:capFirst(state.size) });
-        if (state.age)         active.push({ key:'age',         label:capFirst(state.age) });
-        if (state.genderM && !state.genderF) active.push({ key:'genderM', label:'Male' });
-        if (!state.genderM && state.genderF) active.push({ key:'genderF', label:'Female' });
-        if (state.vaccinated)  active.push({ key:'vaccinated',  label:'Vaccinated' });
-        if (state.neutered)    active.push({ key:'neutered',    label:'Neutered' });
-        if (state.microchipped)active.push({ key:'microchipped',label:'Microchipped' });
+        if (state.breed)       active.push({ key:'breed',       label:capFirst(state.breed) + ' ' + t('adopt-chip-breed-suffix') });
+        if (state.size)        active.push({ key:'size',        label:t('tag-' + state.size) });
+        if (state.age)         active.push({ key:'age',         label:t('adopt-age-' + state.age) });
+        if (state.genderM && !state.genderF) active.push({ key:'genderM', label:t('tag-male') });
+        if (!state.genderM && state.genderF) active.push({ key:'genderF', label:t('tag-female') });
+        if (state.vaccinated)  active.push({ key:'vaccinated',  label:t('adopt-health-vaccinated') });
+        if (state.neutered)    active.push({ key:'neutered',    label:t('adopt-health-neutered') });
+        if (state.microchipped)active.push({ key:'microchipped',label:t('adopt-health-microchipped') });
 
         if (active.length) {
             row.style.display = '';
@@ -507,6 +514,9 @@
     document.getElementById('applyFiltersBtn').addEventListener('click', function () { state.page=1; render(); });
     document.getElementById('resetFiltersBtn').addEventListener('click', clearAll);
     document.getElementById('emptyStateClearBtn').addEventListener('click', clearAll);
+
+    // Re-render cards when language changes
+    document.addEventListener('pawdopt:langchange', function () { render(); });
 
     // Initial render
     syncSbPills('size');
