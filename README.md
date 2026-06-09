@@ -6,7 +6,7 @@
 
 ## 📌 About the Project
 
-**Pawdopt v2** is a full-stack web application built for animal shelters and rescue organizations in Quebec. It centralizes pet discovery, adoption applications, rehoming submissions, and document verification in one secure, bilingual platform — replacing fragmented email and social media workflows with a structured, transparent digital system.
+**Pawdopt v2** is a full-stack web application built for animal shelters and rescue organizations in Quebec. It centralizes pet discovery, adoption applications, rehoming submissions, and document verification in one secure, bilingual platform replacing fragmented email and social media workflows with a structured, transparent digital system.
 
 This project is developed as part of **System Development (420-940-VA)** at **Vanier College**, Summer 2026.
 
