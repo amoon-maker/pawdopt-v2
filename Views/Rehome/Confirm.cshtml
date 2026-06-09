@@ -2,6 +2,18 @@
     ViewData["Title"] = "Confirm & Publish";
 }
 
+<!-- Teal progress banner -->
+<div class="rw-banner">
+    <div class="rw-banner-inner">
+        <div class="rw-banner-left">
+            <span class="rw-banner-step">Step 5 of 5</span>
+            <span class="rw-banner-sep">·</span>
+            <span class="rw-banner-name">Confirm &amp; publish</span>
+        </div>
+        <div class="rw-banner-bar"><div class="rw-banner-fill" style="width:100%"></div></div>
+    </div>
+</div>
+
 <div class="rehome-page">
     <div class="rehome-container">
 
@@ -18,35 +30,23 @@
         <div class="rehome-stepper" role="list">
             <div class="step-item completed" role="listitem">
                 <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+                <span class="step-label">Pet info</span>
             </div>
             <div class="step-item completed" role="listitem">
                 <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step2">Images</span>
+                <span class="step-label">Photos</span>
             </div>
             <div class="step-item completed" role="listitem">
                 <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step3">Character</span>
+                <span class="step-label">Character</span>
             </div>
             <div class="step-item completed" role="listitem">
                 <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
-            </div>
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step5">Location</span>
-            </div>
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step6">Story</span>
-            </div>
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label" data-i18n="rehome-step7">Documents</span>
+                <span class="step-label">Location</span>
             </div>
             <div class="step-item active" role="listitem">
-                <div class="step-circle">8</div>
-                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+                <div class="step-circle">5</div>
+                <span class="step-label">Confirm</span>
             </div>
         </div>
 
@@ -55,7 +55,7 @@
             <div class="rehome-card-header">
                 <h1 class="rehome-card-title" data-i18n="rehome-confirm-title">Review &amp; publish</h1>
                 <p class="rehome-card-subtitle">
-                    <span class="step-pill" data-i18n="rehome-confirm-step-pill">Step 8 of 8</span>
+                    <span class="step-pill">Step 5 of 5</span>
                     <span data-i18n="rehome-confirm-step-desc">Check everything looks good before your listing goes live.</span>
                 </p>
             </div>
@@ -82,7 +82,7 @@
 
                     <div class="confirm-section">
                         <div class="confirm-section-header">
-                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-character">Character</span>
+                            <span class="confirm-section-title">Character &amp; health</span>
                             <a href="/Rehome/Character" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
                         </div>
                         <div class="confirm-section-body" id="summary-character">—</div>
@@ -90,24 +90,8 @@
 
                     <div class="confirm-section">
                         <div class="confirm-section-header">
-                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-keyfacts">Key facts</span>
-                            <a href="/Rehome/KeyFacts" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
-                        </div>
-                        <div class="confirm-section-body" id="summary-keyfacts">—</div>
-                    </div>
-
-                    <div class="confirm-section">
-                        <div class="confirm-section-header">
-                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-location">Location</span>
+                            <span class="confirm-section-title">Location &amp; story</span>
                             <a href="/Rehome/Location" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
-                        </div>
-                        <div class="confirm-section-body" id="summary-location">—</div>
-                    </div>
-
-                    <div class="confirm-section">
-                        <div class="confirm-section-header">
-                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-story">Story</span>
-                            <a href="/Rehome/Story" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
                         </div>
                         <div class="confirm-section-body" id="summary-story">—</div>
                     </div>
@@ -127,7 +111,7 @@
                     </div>
 
                     <div class="rehome-nav-btns">
-                        <a href="/Rehome/Documents" class="rehome-btn-back">
+                        <a href="/Rehome/Location" class="rehome-btn-back">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                             <span data-i18n="rehome-btn-back">Back</span>
                         </a>

@@ -39,7 +39,7 @@ public class RehomeController : Controller
     [HttpPost]
     public IActionResult SaveStep3()
     {
-        return RedirectToAction("KeyFacts");
+        return RedirectToAction("Location");
     }
 
     public IActionResult KeyFacts()
@@ -61,7 +61,7 @@ public class RehomeController : Controller
     [HttpPost]
     public IActionResult SaveStep5()
     {
-        return RedirectToAction("Story");
+        return RedirectToAction("Confirm");
     }
 
     public IActionResult Story()

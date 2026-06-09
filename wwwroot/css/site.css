@@ -3251,3 +3251,110 @@ body {
     .wz-nav-right  { justify-content: stretch; }
     .wz-btn-next, .wz-btn-submit, .wz-btn-back { width: 100%; justify-content: center; }
 }
+
+/* =============================================
+   REHOME WIZARD — 5-STEP REDESIGN
+   ============================================= */
+
+/* ── Progress banner ─────────────────────────── */
+.rw-banner {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    padding: 0.9rem 0;
+}
+.rw-banner-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.rw-banner-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+.rw-banner-step {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+}
+.rw-banner-sep { color: rgba(255,255,255,0.3); font-size: 0.85rem; }
+.rw-banner-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+}
+.rw-banner-bar {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 3px;
+    margin-left: auto;
+    max-width: 200px;
+    overflow: hidden;
+}
+.rw-banner-fill {
+    height: 100%;
+    background: rgba(255,255,255,0.85);
+    border-radius: 3px;
+}
+@media (max-width: 540px) { .rw-banner-bar { display: none; } }
+
+/* ── Stepper connecting line ─────────────────── */
+.step-item {
+    position: relative;
+    z-index: 1;
+}
+.step-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: calc(50% + 15px);
+    width: calc(100% - 30px);
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+}
+.step-item.completed:not(:last-child)::after {
+    background: var(--teal);
+}
+.step-circle { position: relative; z-index: 2; }
+
+/* ── Section header for merged steps ────────── */
+.rw-section-hdr {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin: 0 0 1.5rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--bg-alt);
+    border-radius: 10px;
+    border-left: 3px solid var(--teal);
+}
+.rw-section-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+.rw-section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.2rem;
+}
+.rw-section-sub {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+.rw-section-divider {
+    height: 1.5px;
+    background: var(--border);
+    margin: 2rem 0 1.75rem;
+    border: none;
+}

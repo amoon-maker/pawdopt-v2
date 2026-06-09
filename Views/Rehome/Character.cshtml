@@ -1,6 +1,18 @@
 @{
-    ViewData["Title"] = "Pet Character";
+    ViewData["Title"] = "Character & Health";
 }
+
+<!-- Teal progress banner -->
+<div class="rw-banner">
+    <div class="rw-banner-inner">
+        <div class="rw-banner-left">
+            <span class="rw-banner-step">Step 3 of 5</span>
+            <span class="rw-banner-sep">·</span>
+            <span class="rw-banner-name">Character &amp; health</span>
+        </div>
+        <div class="rw-banner-bar"><div class="rw-banner-fill" style="width:60%"></div></div>
+    </div>
+</div>
 
 <div class="rehome-page">
     <div class="rehome-container">
@@ -11,143 +23,205 @@
             <span class="bc-sep">›</span>
             <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
             <span class="bc-sep">›</span>
-            <span class="bc-current" data-i18n="rehome-breadcrumb-character">Character</span>
+            <span class="bc-current">Character &amp; health</span>
         </nav>
 
         <!-- Step progress -->
         <div class="rehome-stepper" role="list">
             <div class="step-item completed" role="listitem">
-                <div class="step-circle">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <span class="step-label" data-i18n="rehome-step1">Pet info</span>
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label">Pet info</span>
             </div>
             <div class="step-item completed" role="listitem">
-                <div class="step-circle">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <span class="step-label" data-i18n="rehome-step2">Images</span>
+                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="step-label">Photos</span>
             </div>
             <div class="step-item active" role="listitem">
                 <div class="step-circle">3</div>
-                <span class="step-label" data-i18n="rehome-step3">Character</span>
+                <span class="step-label">Character</span>
             </div>
             <div class="step-item" role="listitem">
                 <div class="step-circle">4</div>
-                <span class="step-label" data-i18n="rehome-step4">Key facts</span>
+                <span class="step-label">Location</span>
             </div>
             <div class="step-item" role="listitem">
                 <div class="step-circle">5</div>
-                <span class="step-label" data-i18n="rehome-step5">Location</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">6</div>
-                <span class="step-label" data-i18n="rehome-step6">Story</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">7</div>
-                <span class="step-label" data-i18n="rehome-step7">Documents</span>
-            </div>
-            <div class="step-item" role="listitem">
-                <div class="step-circle">8</div>
-                <span class="step-label" data-i18n="rehome-step8">Confirm</span>
+                <span class="step-label">Confirm</span>
             </div>
         </div>
 
         <!-- Form card -->
         <div class="rehome-card">
             <div class="rehome-card-header">
-                <h1 class="rehome-card-title" data-i18n="rehome-char-title">Describe your pet's character</h1>
+                <h1 class="rehome-card-title">Character &amp; health</h1>
                 <p class="rehome-card-subtitle">
-                    <span class="step-pill" data-i18n="rehome-char-step-pill">Step 3 of 8</span>
-                    <span data-i18n="rehome-char-step-desc">Help adopters understand what makes your pet special.</span>
+                    <span class="step-pill">Step 3 of 5</span>
+                    <span>Help adopters understand your pet's personality and health needs.</span>
                 </p>
             </div>
 
             <form method="post" action="/Rehome/SaveStep3">
-
                 <div class="rehome-char-body">
 
-                    <!-- Trait chips -->
-                    <span class="char-traits-label" data-i18n="rehome-char-traits-label">Personality traits</span>
-                    <p class="char-traits-hint" data-i18n="rehome-char-traits-hint">Select all that apply</p>
+                    <!-- ── Section 1: Personality ──────────────────── -->
+                    <div class="rw-section-hdr">
+                        <span class="rw-section-icon">🐾</span>
+                        <div>
+                            <p class="rw-section-title">Personality traits</p>
+                            <p class="rw-section-sub">Select all that apply — adopters love knowing what to expect</p>
+                        </div>
+                    </div>
 
                     <div class="char-traits-grid">
                         <button type="button" class="char-trait-chip" data-trait="playful">
-                            <span class="chip-icon">🎾</span>
-                            <span data-i18n="trait-playful">Playful</span>
+                            <span class="chip-icon">🎾</span><span data-i18n="trait-playful">Playful</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="calm">
-                            <span class="chip-icon">😌</span>
-                            <span data-i18n="trait-calm">Calm</span>
+                            <span class="chip-icon">😌</span><span data-i18n="trait-calm">Calm</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="energetic">
-                            <span class="chip-icon">⚡</span>
-                            <span data-i18n="trait-energetic">Energetic</span>
+                            <span class="chip-icon">⚡</span><span data-i18n="trait-energetic">Energetic</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="affectionate">
-                            <span class="chip-icon">💕</span>
-                            <span data-i18n="trait-affectionate">Affectionate</span>
+                            <span class="chip-icon">💕</span><span data-i18n="trait-affectionate">Affectionate</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="shy">
-                            <span class="chip-icon">🙈</span>
-                            <span data-i18n="trait-shy">Shy</span>
+                            <span class="chip-icon">🙈</span><span data-i18n="trait-shy">Shy</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="loyal">
-                            <span class="chip-icon">💛</span>
-                            <span data-i18n="trait-loyal">Loyal</span>
+                            <span class="chip-icon">💛</span><span data-i18n="trait-loyal">Loyal</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="gentle">
-                            <span class="chip-icon">🌸</span>
-                            <span data-i18n="trait-gentle">Gentle</span>
+                            <span class="chip-icon">🌸</span><span data-i18n="trait-gentle">Gentle</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="curious">
-                            <span class="chip-icon">👀</span>
-                            <span data-i18n="trait-curious">Curious</span>
+                            <span class="chip-icon">👀</span><span data-i18n="trait-curious">Curious</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="kids">
-                            <span class="chip-icon">👶</span>
-                            <span data-i18n="trait-kids">Good with kids</span>
+                            <span class="chip-icon">👶</span><span data-i18n="trait-kids">Good with kids</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="dogs">
-                            <span class="chip-icon">🐕</span>
-                            <span data-i18n="trait-dogs">Good with dogs</span>
+                            <span class="chip-icon">🐕</span><span data-i18n="trait-dogs">Good with dogs</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="cats">
-                            <span class="chip-icon">🐈</span>
-                            <span data-i18n="trait-cats">Good with cats</span>
+                            <span class="chip-icon">🐈</span><span data-i18n="trait-cats">Good with cats</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="trained">
-                            <span class="chip-icon">🏠</span>
-                            <span data-i18n="trait-trained">House-trained</span>
+                            <span class="chip-icon">🏠</span><span data-i18n="trait-trained">House-trained</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="outdoors">
-                            <span class="chip-icon">🌿</span>
-                            <span data-i18n="trait-outdoors">Loves outdoors</span>
+                            <span class="chip-icon">🌿</span><span data-i18n="trait-outdoors">Loves outdoors</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="independent">
-                            <span class="chip-icon">🦅</span>
-                            <span data-i18n="trait-independent">Independent</span>
+                            <span class="chip-icon">🦅</span><span data-i18n="trait-independent">Independent</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="vocal">
-                            <span class="chip-icon">🔊</span>
-                            <span data-i18n="trait-vocal">Vocal</span>
+                            <span class="chip-icon">🔊</span><span data-i18n="trait-vocal">Vocal</span>
                         </button>
                         <button type="button" class="char-trait-chip" data-trait="quiet">
-                            <span class="chip-icon">🤫</span>
-                            <span data-i18n="trait-quiet">Quiet</span>
+                            <span class="chip-icon">🤫</span><span data-i18n="trait-quiet">Quiet</span>
                         </button>
                     </div>
-
-                    <!-- Hidden inputs populated by JS -->
                     <div id="traitInputs"></div>
 
-                    <!-- Notes -->
-                    <div class="mb-0">
-                        <label class="rehome-label" data-i18n="rehome-char-notes-label">Anything else to add?</label>
+                    <div class="mb-3 mt-3">
+                        <label class="rehome-label" data-i18n="rehome-char-notes-label">Anything else about their personality?</label>
                         <textarea class="rehome-textarea" name="characterNotes"
                             data-i18n-placeholder="rehome-char-notes-placeholder"
                             placeholder="e.g. loves cuddles, gets anxious in thunderstorms..."></textarea>
+                    </div>
+
+                    <!-- ── Section 2: Health & lifestyle ──────────── -->
+                    <hr class="rw-section-divider">
+
+                    <div class="rw-section-hdr">
+                        <span class="rw-section-icon">🏥</span>
+                        <div>
+                            <p class="rw-section-title">Health &amp; lifestyle</p>
+                            <p class="rw-section-sub">Let adopters know about medical history and daily needs</p>
+                        </div>
+                    </div>
+
+                    <!-- Vaccinated + Sterilized -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="rehome-label" data-i18n="rehome-kf-label-vaccinated">Vaccinated?</label>
+                            <select class="rehome-select" name="vaccinated">
+                                <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
+                                <option value="yes" data-i18n="rehome-kf-opt-vaccinated-yes">Yes, fully vaccinated</option>
+                                <option value="partial" data-i18n="rehome-kf-opt-vaccinated-partial">Partially vaccinated</option>
+                                <option value="no" data-i18n="rehome-kf-opt-vaccinated-no">Not vaccinated</option>
+                                <option value="unknown" data-i18n="rehome-kf-opt-vaccinated-unknown">Unknown</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="rehome-label" data-i18n="rehome-kf-label-sterilized">Spayed / Neutered?</label>
+                            <select class="rehome-select" name="sterilized">
+                                <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
+                                <option value="yes" data-i18n="rehome-kf-opt-sterilized-yes">Yes</option>
+                                <option value="no" data-i18n="rehome-kf-opt-sterilized-no">No</option>
+                                <option value="unknown" data-i18n="rehome-kf-opt-sterilized-unknown">Unknown</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Activity level -->
+                    <div class="kf-section">
+                        <label class="rehome-label" data-i18n="rehome-kf-label-activity">Activity level</label>
+                        <div class="option-chips" data-group="activity">
+                            <button type="button" class="option-chip" data-value="low">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-activity-low">Low</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="moderate">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-activity-moderate">Moderate</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="high">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-activity-high">High</span>
+                            </button>
+                        </div>
+                        <input type="hidden" name="activityLevel" id="activityLevel" />
+                    </div>
+
+                    <!-- Training level -->
+                    <div class="kf-section">
+                        <label class="rehome-label" data-i18n="rehome-kf-label-training">Training level</label>
+                        <div class="option-chips" data-group="training">
+                            <button type="button" class="option-chip" data-value="none">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-training-none">Not trained</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="basic">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-training-basic">Basic commands</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="well">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-training-well">Well trained</span>
+                            </button>
+                        </div>
+                        <input type="hidden" name="trainingLevel" id="trainingLevel" />
+                    </div>
+
+                    <!-- Ideal home -->
+                    <div class="kf-section">
+                        <label class="rehome-label" data-i18n="rehome-kf-label-home">Ideal home</label>
+                        <div class="option-chips" data-group="home">
+                            <button type="button" class="option-chip" data-value="apartment">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-home-apartment">Apartment</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="house">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-home-house">House + yard</span>
+                            </button>
+                            <button type="button" class="option-chip" data-value="any">
+                                <span class="chip-dot"></span><span data-i18n="rehome-kf-home-any">Any home</span>
+                            </button>
+                        </div>
+                        <input type="hidden" name="idealHome" id="idealHome" />
+                    </div>
+
+                    <!-- Health notes -->
+                    <div class="mb-0">
+                        <label class="rehome-label" data-i18n="rehome-kf-label-health">Health &amp; medical notes</label>
+                        <textarea class="rehome-textarea" name="healthNotes"
+                            data-i18n-placeholder="rehome-kf-health-placeholder"
+                            placeholder="Any known conditions, allergies, medications..."></textarea>
                     </div>
 
                     <div class="rehome-divider"></div>
@@ -163,7 +237,6 @@
                     </div>
 
                 </div>
-
             </form>
         </div>
 
@@ -173,17 +246,16 @@
 @section Scripts {
 <script>
 (function () {
+    // Trait chips
     const chips = document.querySelectorAll('.char-trait-chip');
     const inputsContainer = document.getElementById('traitInputs');
-
     chips.forEach(function (chip) {
         chip.addEventListener('click', function () {
             chip.classList.toggle('selected');
-            syncInputs();
+            syncTraits();
         });
     });
-
-    function syncInputs() {
+    function syncTraits() {
         inputsContainer.innerHTML = '';
         document.querySelectorAll('.char-trait-chip.selected').forEach(function (chip) {
             const input = document.createElement('input');
@@ -193,6 +265,22 @@
             inputsContainer.appendChild(input);
         });
     }
+
+    // Option chips (activity, training, home)
+    document.querySelectorAll('.option-chips').forEach(function (group) {
+        const groupName = group.getAttribute('data-group');
+        const hiddenInput = document.getElementById(
+            groupName === 'activity' ? 'activityLevel' :
+            groupName === 'training' ? 'trainingLevel' : 'idealHome'
+        );
+        group.querySelectorAll('.option-chip').forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                group.querySelectorAll('.option-chip').forEach(c => c.classList.remove('selected'));
+                chip.classList.add('selected');
+                if (hiddenInput) hiddenInput.value = chip.getAttribute('data-value');
+            });
+        });
+    });
 })();
 </script>
 }
