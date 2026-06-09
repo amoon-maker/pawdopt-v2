@@ -34,14 +34,16 @@
                                asp-area="" asp-controller="Home" asp-action="Adopt" data-i18n="nav-adopt">Adopt</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pawdopt-nav-link" asp-controller="Rehome" asp-action="List" data-i18n="nav-rehome">Rehome</a>
+                            <a class="nav-link pawdopt-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Rehome" ? "active" : "")"
+                               asp-controller="Rehome" asp-action="List" data-i18n="nav-rehome">Rehome</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link pawdopt-nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "CareGuide" ? "active" : "")"
                                asp-area="" asp-controller="Home" asp-action="CareGuide" data-i18n="nav-care">Care Guide</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link pawdopt-nav-link" href="#" data-i18n="nav-about">About Us</a>
+                            <a class="nav-link pawdopt-nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")"
+                               asp-controller="Home" asp-action="About" data-i18n="nav-about">About Us</a>
                         </li>
                     </ul>
 
@@ -92,9 +94,9 @@
                 <div class="col-6 col-md-2">
                     <h6 class="footer-heading" data-i18n="footer-company">Company</h6>
                     <ul class="footer-links">
-                        <li><a href="#" data-i18n="nav-about">About Us</a></li>
+                        <li><a asp-controller="Home" asp-action="About" data-i18n="nav-about">About Us</a></li>
                         <li><a href="#" data-i18n="footer-contact">Contact</a></li>
-                        <li><a href="#" data-i18n="footer-privacy">Privacy</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy" data-i18n="footer-privacy">Privacy</a></li>
                     </ul>
                 </div>
             </div>

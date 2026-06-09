@@ -1,0 +1,189 @@
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="about-page">
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-shell">
+                <div class="about-hero-grid">
+                    <div class="about-hero-copy">
+                        <span class="about-kicker" data-i18n="about-hero-eyebrow">OUR STORY</span>
+                        <h1 class="about-title" data-i18n="about-hero-title">Built to make pet rehoming feel safer, kinder, and more human.</h1>
+                        <p class="about-subtitle" data-i18n="about-hero-subtitle">
+                            Pawdopt helps adopters and pet owners connect through a process designed around trust, clarity, and the wellbeing of every animal.
+                        </p>
+
+                        <div class="about-actions">
+                            <a asp-controller="Home" asp-action="Adopt" class="btn btn-hero-primary" data-i18n="about-hero-cta1">Browse pets</a>
+                            <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary" data-i18n="about-hero-cta2">Start rehoming</a>
+                        </div>
+                    </div>
+
+                    <div class="about-hero-side">
+                        <div class="about-paw-pills">
+                            <span class="about-paw-pill">🐾 <span data-i18n="about-stat1">direct adopter and rehomer connection</span></span>
+                            <span class="about-paw-pill">🐾 <span data-i18n="about-stat2">guided flow for rehoming with less stress</span></span>
+                            <span class="about-paw-pill">🐾 <span data-i18n="about-stat3">profiles, details, and conversations built for clarity</span></span>
+                        </div>
+
+                        <div class="about-panel-card">
+                            <span class="about-panel-label" data-i18n="about-panel-label">What we protect</span>
+                            <ul class="about-panel-list">
+                                <li data-i18n="about-panel-item1">Pets should move into homes with more context and less guesswork.</li>
+                                <li data-i18n="about-panel-item2">Owners deserve a respectful alternative to rushed classifieds.</li>
+                                <li data-i18n="about-panel-item3">Adopters need a clearer, calmer way to take the next step.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-stat-grid">
+                    <div class="about-stat-card">
+                        <strong>1:1</strong>
+                        <span data-i18n="about-stat1">direct adopter and rehomer connection</span>
+                    </div>
+                    <div class="about-stat-card">
+                        <strong>3-step</strong>
+                        <span data-i18n="about-stat2">guided flow for rehoming with less stress</span>
+                    </div>
+                    <div class="about-stat-card">
+                        <strong>Trust-first</strong>
+                        <span data-i18n="about-stat3">profiles, details, and conversations built for clarity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="about-wave-sep about-wave-hero-story" aria-hidden="true">
+        <svg viewBox="0 0 1440 76" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="about-wave-path" d="M0,18 C180,70 340,78 540,46 C740,14 930,-10 1120,18 C1260,38 1365,54 1440,44 L1440,76 L0,76 Z"></path>
+        </svg>
+    </div>
+
+    <section class="about-story">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-eyebrow" data-i18n="about-story-eyebrow">WHY WE EXIST</span>
+                <h2 class="section-title" data-i18n="about-story-title">Pawdopt began with a simple problem.</h2>
+            </div>
+
+            <div class="about-paw-strip" aria-hidden="true">🐾 🐾 🐾 🐾 🐾 🐾</div>
+
+            <div class="about-story-grid">
+                <div class="about-story-card">
+                    <p data-i18n="about-story-p1">
+                        Too many pet owners are forced into impossible choices: post on unsafe marketplaces, hand their animal to someone they barely know, or wait for already overwhelmed support systems.
+                    </p>
+                    <p data-i18n="about-story-p2">
+                        At the same time, caring adopters often struggle to understand a pet's real needs, history, and personality before reaching out. We built Pawdopt to make that connection more thoughtful for everyone involved.
+                    </p>
+                </div>
+
+                <div class="about-note-card">
+                    <span class="about-note-icon">🐾</span>
+                    <h3 data-i18n="about-note-title">What guides every decision</h3>
+                    <p data-i18n="about-note-text">
+                        Protect the pet, respect the person, and make the next step feel clear instead of overwhelming.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="about-wave-sep about-wave-main-alt" aria-hidden="true">
+        <svg viewBox="0 0 1440 76" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="about-wave-path" d="M0,26 C220,0 420,6 620,34 C820,62 1030,82 1240,58 C1320,49 1387,38 1440,28 L1440,76 L0,76 Z"></path>
+        </svg>
+    </div>
+
+    <section class="about-values">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-eyebrow" data-i18n="about-values-eyebrow">WHAT WE BELIEVE</span>
+                <h2 class="section-title" data-i18n="about-values-title">The principles behind the platform</h2>
+            </div>
+
+            <div class="about-values-grid">
+                <article class="about-value-card">
+                    <span class="about-value-icon">🔎</span>
+                    <h3 data-i18n="about-value1-title">Clarity builds trust</h3>
+                    <p data-i18n="about-value1-text">Better profiles, better pet details, and honest expectations help the right people find each other faster.</p>
+                </article>
+
+                <article class="about-value-card">
+                    <span class="about-value-icon">🤝</span>
+                    <h3 data-i18n="about-value2-title">Support beats pressure</h3>
+                    <p data-i18n="about-value2-text">Rehoming can be emotional. Our flows are designed to guide people gently instead of pushing rushed decisions.</p>
+                </article>
+
+                <article class="about-value-card">
+                    <span class="about-value-icon">🏠</span>
+                    <h3 data-i18n="about-value3-title">A better match matters most</h3>
+                    <p data-i18n="about-value3-text">Every feature should move pets toward homes that fit their needs, routines, and temperament for the long term.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <div class="about-wave-sep about-wave-alt-main" aria-hidden="true">
+        <svg viewBox="0 0 1440 76" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="about-wave-path" d="M0,12 C185,46 378,70 581,48 C783,26 998,-5 1193,16 C1297,27 1379,45 1440,60 L1440,76 L0,76 Z"></path>
+        </svg>
+    </div>
+
+    <section class="about-impact">
+        <div class="container">
+            <div class="about-impact-grid">
+                <div>
+                    <span class="section-eyebrow" data-i18n="about-impact-eyebrow">WHAT PAWDOPT DOES</span>
+                    <h2 class="section-title about-impact-title" data-i18n="about-impact-title">More than listings, a calmer process from start to finish.</h2>
+
+                    <div class="about-feature-list">
+                        <div class="about-feature-item">
+                            <h3 data-i18n="about-feature1-title">Structured pet profiles</h3>
+                            <p data-i18n="about-feature1-text">Health, personality, lifestyle, and story details help adopters understand the full picture before they connect.</p>
+                        </div>
+                        <div class="about-feature-item">
+                            <h3 data-i18n="about-feature2-title">Safer communication</h3>
+                            <p data-i18n="about-feature2-text">Owners keep control over who they respond to while adopters can reach out with more confidence and context.</p>
+                        </div>
+                        <div class="about-feature-item">
+                            <h3 data-i18n="about-feature3-title">Thoughtful matching</h3>
+                            <p data-i18n="about-feature3-text">The goal is not speed at any cost. It's helping the right family and the right pet find each other.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="about-commitment-card">
+                    <span class="about-commitment-label" data-i18n="about-commitment-eyebrow">OUR COMMITMENT</span>
+                    <h3 data-i18n="about-commitment-title">Designed for real-life rehoming moments</h3>
+                    <p data-i18n="about-commitment-text">
+                        Whether someone is navigating a move, a health change, a family transition, or simply trying to choose responsibly, Pawdopt should feel supportive, not transactional.
+                    </p>
+                    <a asp-controller="Rehome" asp-action="List" class="about-inline-link" data-i18n="about-commitment-link">See how rehoming works →</a>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <div class="about-wave-sep about-wave-main-soft" aria-hidden="true">
+        <svg viewBox="0 0 1440 76" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="about-wave-path" d="M0,36 C208,68 430,72 649,44 C867,16 1066,-2 1263,20 C1338,28 1397,38 1440,46 L1440,76 L0,76 Z"></path>
+        </svg>
+    </div>
+
+    <section class="about-cta">
+        <div class="container">
+            <div class="about-cta-card">
+                <h2 data-i18n="about-cta-title">Ready to meet Pawdopt in action?</h2>
+                <p data-i18n="about-cta-text">Explore available pets or start a rehoming journey with a flow built to feel clear, respectful, and safe.</p>
+                <div class="about-actions about-actions-center">
+                    <a asp-controller="Home" asp-action="Adopt" class="btn btn-hero-primary" data-i18n="about-cta-btn1">Explore pets</a>
+                    <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary" data-i18n="about-cta-btn2">Go to rehome</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
