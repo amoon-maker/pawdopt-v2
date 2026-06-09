@@ -3583,6 +3583,25 @@ body {
 @media (max-width: 860px) { .rl-adv-grid { grid-template-columns: 1fr; } }
 @media (max-width: 500px) { .rl-adv-card { flex-direction: column; } }
 
+/* Verified badge + stars on rehomer cards */
+.rl-adv-badges { display: flex; align-items: center; gap: 0.5rem; margin: 0.15rem 0 0.3rem; }
+.rl-adv-verified {
+    display: inline-flex; align-items: center; gap: 0.22rem;
+    background: rgba(29,143,163,0.1); color: var(--teal);
+    border: 1px solid rgba(29,143,163,0.3);
+    border-radius: 100px; padding: 0.17rem 0.6rem;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.03em;
+}
+.rl-adv-stars { color: #f59e0b; font-size: 0.8rem; letter-spacing: 0.06em; }
+[data-theme="dark"] .rl-adv-verified { background: rgba(29,143,163,0.18); border-color: rgba(29,143,163,0.4); }
+
+/* Wave separator between sections */
+.rl-wave-sep { line-height: 0; overflow: hidden; }
+.rl-wave-sep svg { display: block; width: 100%; height: 52px; }
+.rl-wave-path { fill: var(--bg-main); }
+.rl-wave-sep-main-alt { background: var(--bg-main); }
+.rl-wave-sep-main-alt .rl-wave-path { fill: var(--bg-alt); }
+
 /* ── Bottom CTA ── */
 .rl-bottom-cta {
     padding: 4.5rem 0;
