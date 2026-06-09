@@ -74,12 +74,12 @@
                     </div>
                     <p class="upload-zone-title" data-i18n="rehome-img-drop-title">Drag your photos here</p>
                     <p class="upload-zone-sub" data-i18n="rehome-img-drop-sub">or click to browse files</p>
-                    <span class="upload-zone-hint" data-i18n="rehome-img-drop-hint">JPG · PNG · WebP &nbsp;·&nbsp; Max 5 MB each &nbsp;·&nbsp; Up to 6 photos</span>
+                    <span class="upload-zone-hint" data-i18n="rehome-img-drop-hint">JPG · PNG · WebP &nbsp;·&nbsp; Max 5 MB each &nbsp;·&nbsp; Up to 3 photos</span>
                 </div>
 
                 <!-- Photo counter -->
                 <div class="photo-counter-row">
-                    <span class="photo-counter" id="photoCounter">0 / 6</span>
+                    <span class="photo-counter" id="photoCounter">0 / 3</span>
                     <span class="photo-counter-label" data-i18n="rehome-img-counter-label">photos added</span>
                 </div>
 
@@ -97,7 +97,7 @@
                             <li data-i18n="rehome-img-tip1">Use natural lighting for clearer, warmer photos</li>
                             <li data-i18n="rehome-img-tip2">Include a clear face shot as the first (main) photo</li>
                             <li data-i18n="rehome-img-tip3">Show different angles and environments</li>
-                            <li data-i18n="rehome-img-tip4">3–6 photos gets the best response from adopters</li>
+                            <li data-i18n="rehome-img-tip4">Up to 3 photos keeps things clear and focused for adopters</li>
                         </ul>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
     const input    = document.getElementById('photoInput');
     const grid     = document.getElementById('photoGrid');
     const counter  = document.getElementById('photoCounter');
-    const MAX      = 6;
+    const MAX      = 3;
     let photos     = [];
 
     if (!zone) return;

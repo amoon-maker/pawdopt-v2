@@ -3805,3 +3805,57 @@ body {
     .radv-hero { padding: 2rem 0 2.5rem; }
     .radv-avatar-xl { width: 76px; height: 76px; font-size: 1.5rem; }
 }
+
+/* ── Auth-required modal (Rehome/List) ──────────────────── */
+.rl-auth-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.45); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center;
+}
+.rl-auth-overlay.open { display: flex; }
+.rl-auth-card {
+    background: var(--bg-surface, #fff); border-radius: 20px;
+    padding: 2.5rem 2rem 2rem; max-width: 400px; width: 90%;
+    text-align: center; position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    animation: rl-auth-in 0.22s ease;
+}
+@keyframes rl-auth-in {
+    from { opacity: 0; transform: scale(0.94) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.rl-auth-close {
+    position: absolute; top: 1rem; right: 1.1rem;
+    background: none; border: none; cursor: pointer;
+    font-size: 1.4rem; color: var(--text-muted, #888); line-height: 1;
+}
+.rl-auth-close:hover { color: var(--text-main, #333); }
+.rl-auth-icon { font-size: 2.2rem; margin-bottom: 0.6rem; }
+.rl-auth-title { font-size: 1.3rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--text-main, #1a1a1a); }
+.rl-auth-sub { font-size: 0.92rem; color: var(--text-muted, #666); margin: 0 0 1.4rem; line-height: 1.5; }
+.rl-auth-btn {
+    display: block; width: 100%; padding: 0.75rem 1rem;
+    border-radius: 10px; font-size: 0.95rem; font-weight: 600;
+    text-decoration: none; cursor: pointer; margin-bottom: 0.65rem;
+    transition: opacity .15s, transform .15s;
+}
+.rl-auth-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.rl-auth-btn.primary { background: var(--teal, #1D8FA3); color: #fff; }
+.rl-auth-btn.outline {
+    background: transparent; color: var(--teal, #1D8FA3);
+    border: 1.5px solid var(--teal, #1D8FA3);
+}
+[data-theme="dark"] .rl-auth-card { background: var(--bg-surface, #1e2530); }
+
+/* ── Wizard step error banner ───────────────────────────── */
+.rw-step-error {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: #fff3f3; border: 1.5px solid #f87171;
+    color: #b91c1c; border-radius: 10px;
+    padding: 0.75rem 1rem; margin-bottom: 1.25rem;
+    font-size: 0.9rem; font-weight: 500;
+}
+.rw-step-error::before { content: '⚠'; font-size: 1rem; }
+[data-theme="dark"] .rw-step-error {
+    background: #3b1c1c; border-color: #ef4444; color: #fca5a5;
+}

@@ -66,11 +66,11 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-5">
                         <label class="rehome-label" data-i18n="rehome-label-name">Pet Name</label>
-                        <input type="text" class="rehome-input" name="petName" placeholder="Magie" />
+                        <input type="text" class="rehome-input" name="petName" placeholder="Magie" required />
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-species">Species</label>
-                        <select class="rehome-select" name="species">
+                        <select class="rehome-select" name="species" required>
                             <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
                             <option value="dog" data-i18n="rehome-opt-dog">Dog</option>
                             <option value="cat" data-i18n="rehome-opt-cat">Cat</option>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-gender">Gender</label>
-                        <select class="rehome-select" name="gender">
+                        <select class="rehome-select" name="gender" required>
                             <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
                             <option value="male" data-i18n="tag-male">Male</option>
                             <option value="female" data-i18n="tag-female">Female</option>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-size">Size</label>
-                        <select class="rehome-select" name="size">
+                        <select class="rehome-select" name="size" required>
                             <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
                             <option value="small" data-i18n="tag-small">Small</option>
                             <option value="medium" data-i18n="tag-medium">Medium</option>
@@ -132,7 +132,7 @@
                 <div class="mb-0">
                     <label class="rehome-label" data-i18n="rehome-label-reason">Reason for Rehoming</label>
                     <textarea class="rehome-textarea" name="reason" data-i18n-placeholder="rehome-placeholder-reason"
-                        placeholder="Moving to a smaller apartment that does not allow pets..."></textarea>
+                        placeholder="Moving to a smaller apartment that does not allow pets..." required minlength="20"></textarea>
                 </div>
 
                 <div class="rehome-divider"></div>
@@ -152,3 +152,67 @@
 
     </div>
 </div>
+
+@section Scripts {
+<script>
+(function () {
+    var form = document.querySelector('form[action="/Rehome/SaveStep1"]');
+    var errorBanner = null;
+
+    function showError(msg) {
+        if (!errorBanner) {
+            errorBanner = document.createElement('div');
+            errorBanner.className = 'rw-step-error';
+            form.insertBefore(errorBanner, form.firstChild);
+        }
+        errorBanner.textContent = msg;
+        errorBanner.style.display = 'flex';
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function hideError() {
+        if (errorBanner) errorBanner.style.display = 'none';
+    }
+
+    form.setAttribute('novalidate', '');
+    form.addEventListener('submit', function (e) {
+        var lang = localStorage.getItem('pawdopt-lang') || 'en';
+        var fr = lang === 'fr';
+
+        var name = form.querySelector('[name="petName"]').value.trim();
+        var species = form.querySelector('[name="species"]').value;
+        var gender = form.querySelector('[name="gender"]').value;
+        var size = form.querySelector('[name="size"]').value;
+        var reason = form.querySelector('[name="reason"]').value.trim();
+
+        if (!name) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez entrer le nom de votre animal.' : 'Please enter your pet\'s name.');
+            return;
+        }
+        if (!species) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez sélectionner l\'espèce.' : 'Please select a species.');
+            return;
+        }
+        if (!gender) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez sélectionner le sexe.' : 'Please select a gender.');
+            return;
+        }
+        if (!size) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez sélectionner la taille.' : 'Please select a size.');
+            return;
+        }
+        if (reason.length < 20) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez décrire la raison du rehoming (20 caractères minimum).' : 'Please describe your reason for rehoming (at least 20 characters).');
+            return;
+        }
+        hideError();
+    });
+})();
+</script>
+}
+

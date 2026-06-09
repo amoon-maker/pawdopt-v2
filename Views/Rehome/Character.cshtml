@@ -146,7 +146,7 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
                             <label class="rehome-label" data-i18n="rehome-kf-label-vaccinated">Vaccinated?</label>
-                            <select class="rehome-select" name="vaccinated">
+                            <select class="rehome-select" name="vaccinated" required>
                                 <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
                                 <option value="yes" data-i18n="rehome-kf-opt-vaccinated-yes">Yes, fully vaccinated</option>
                                 <option value="partial" data-i18n="rehome-kf-opt-vaccinated-partial">Partially vaccinated</option>
@@ -156,7 +156,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="rehome-label" data-i18n="rehome-kf-label-sterilized">Spayed / Neutered?</label>
-                            <select class="rehome-select" name="sterilized">
+                            <select class="rehome-select" name="sterilized" required>
                                 <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
                                 <option value="yes" data-i18n="rehome-kf-opt-sterilized-yes">Yes</option>
                                 <option value="no" data-i18n="rehome-kf-opt-sterilized-no">No</option>
@@ -280,6 +280,53 @@
                 if (hiddenInput) hiddenInput.value = chip.getAttribute('data-value');
             });
         });
+    });
+
+    // Step 3 validation
+    var form = document.querySelector('form[action="/Rehome/SaveStep3"]');
+    var errorBanner = null;
+
+    function showError(msg) {
+        if (!errorBanner) {
+            errorBanner = document.createElement('div');
+            errorBanner.className = 'rw-step-error';
+            form.insertBefore(errorBanner, form.firstChild);
+        }
+        errorBanner.textContent = msg;
+        errorBanner.style.display = 'flex';
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    form.setAttribute('novalidate', '');
+    form.addEventListener('submit', function (e) {
+        var lang = localStorage.getItem('pawdopt-lang') || 'en';
+        var fr = lang === 'fr';
+
+        var vaccinated = form.querySelector('[name="vaccinated"]').value;
+        var sterilized = form.querySelector('[name="sterilized"]').value;
+        var activity   = document.getElementById('activityLevel').value;
+        var hasTraits  = document.querySelectorAll('.char-trait-chip.selected').length > 0;
+
+        if (!hasTraits) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez sélectionner au moins un trait de personnalité.' : 'Please select at least one personality trait.');
+            return;
+        }
+        if (!vaccinated) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez indiquer le statut vaccinal.' : 'Please indicate the vaccination status.');
+            return;
+        }
+        if (!sterilized) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez indiquer si l\'animal est stérilisé.' : 'Please indicate if your pet is spayed/neutered.');
+            return;
+        }
+        if (!activity) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez sélectionner le niveau d\'activité.' : 'Please select an activity level.');
+            return;
+        }
     });
 })();
 </script>

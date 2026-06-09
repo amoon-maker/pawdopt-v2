@@ -78,11 +78,11 @@
                             <label class="rehome-label" data-i18n="rehome-loc-label-city">City / Town</label>
                             <input type="text" class="rehome-input" name="city"
                                 data-i18n-placeholder="rehome-loc-city-placeholder"
-                                placeholder="Montréal" />
+                                placeholder="Montréal" required />
                         </div>
                         <div class="col-md-4">
                             <label class="rehome-label" data-i18n="rehome-loc-label-province">Province</label>
-                            <select class="rehome-select" name="province">
+                            <select class="rehome-select" name="province" required>
                                 <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
                                 <option value="QC">Québec</option>
                                 <option value="ON">Ontario</option>
@@ -218,6 +218,47 @@
     }
     textarea.addEventListener('input', updateCount);
     updateCount();
+
+    // Step 4 validation
+    var form = document.querySelector('form[action="/Rehome/SaveStep5"]');
+    var errorBanner = null;
+
+    function showError(msg) {
+        if (!errorBanner) {
+            errorBanner = document.createElement('div');
+            errorBanner.className = 'rw-step-error';
+            form.insertBefore(errorBanner, form.firstChild);
+        }
+        errorBanner.textContent = msg;
+        errorBanner.style.display = 'flex';
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    form.setAttribute('novalidate', '');
+    form.addEventListener('submit', function (e) {
+        var lang = localStorage.getItem('pawdopt-lang') || 'en';
+        var fr = lang === 'fr';
+
+        var city     = form.querySelector('[name="city"]').value.trim();
+        var province = form.querySelector('[name="province"]').value;
+        var story    = textarea.value.trim();
+
+        if (!city) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez entrer votre ville.' : 'Please enter your city.');
+            return;
+        }
+        if (!province) {
+            e.preventDefault();
+            showError(fr ? 'Veuillez sélectionner votre province.' : 'Please select a province.');
+            return;
+        }
+        if (story.length < 80) {
+            e.preventDefault();
+            showError(fr ? 'L\'histoire de votre animal doit contenir au moins 80 caractères.' : 'Your pet\'s story must be at least 80 characters.');
+            return;
+        }
+    });
 })();
 </script>
 }
