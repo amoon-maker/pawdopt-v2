@@ -1,172 +1,179 @@
 @using PawdoptApp.Models
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
     var users    = ViewData["Users"]    as List<ApplicationUser> ?? new();
     var listings = ViewData["Listings"] as List<PetListing>      ?? new();
     var adopters = users.Count(u => u.UserType == "Adopter");
     var rehomers = users.Count(u => u.UserType == "Rehomer");
-    var admins   = users.Count(u => u.UserType == "Admin");
     var pending  = listings.Count(l => l.Status == "Pending");
+    var approved = listings.Count(l => l.Status == "Approved");
 }
 
-<div class="admin-wrap">
-    <div class="adopt-pg-container">
+@if (TempData["AdminMsg"] != null)
+{
+    <div class="adm-toast">@TempData["AdminMsg"]</div>
+}
 
-        <div class="admin-header">
-            <h1 class="admin-title">🐾 Admin Dashboard</h1>
-            <p class="admin-sub">Pawdopt platform overview</p>
-        </div>
+<!-- Page header -->
+<div class="adm-page-header">
+    <h1 class="adm-page-title">Overview</h1>
+    <p class="adm-page-sub">Platform activity at a glance</p>
+</div>
 
-        @if (TempData["AdminMsg"] != null)
-        {
-            <div class="admin-toast">@TempData["AdminMsg"]</div>
-        }
+<!-- Stats -->
+<div class="adm-stats">
+    <div class="adm-stat">
+        <div class="adm-stat-icon" style="background:#f0f9ff;">👥</div>
+        <div class="adm-stat-num">@users.Count</div>
+        <div class="adm-stat-lbl">Total Users</div>
+    </div>
+    <div class="adm-stat">
+        <div class="adm-stat-icon" style="background:#f0fdfa;">🏠</div>
+        <div class="adm-stat-num">@adopters</div>
+        <div class="adm-stat-lbl">Adopters</div>
+    </div>
+    <div class="adm-stat">
+        <div class="adm-stat-icon" style="background:#fffbeb;">🐾</div>
+        <div class="adm-stat-num">@rehomers</div>
+        <div class="adm-stat-lbl">Rehomers</div>
+    </div>
+    <div class="adm-stat">
+        <div class="adm-stat-icon" style="background:#f0fdf4;">✅</div>
+        <div class="adm-stat-num">@approved</div>
+        <div class="adm-stat-lbl">Active Listings</div>
+    </div>
+    <div class="adm-stat @(pending > 0 ? "warn" : "")">
+        <div class="adm-stat-icon" style="background:#fffbeb;">⏳</div>
+        <div class="adm-stat-num">@pending</div>
+        <div class="adm-stat-lbl">Pending Review</div>
+    </div>
+</div>
 
-        <!-- Stats -->
-        <div class="admin-stats-row">
-            <div class="admin-stat-card">
-                <span class="admin-stat-num">@users.Count</span>
-                <span class="admin-stat-lbl">Total Users</span>
-            </div>
-            <div class="admin-stat-card">
-                <span class="admin-stat-num">@adopters</span>
-                <span class="admin-stat-lbl">Adopters</span>
-            </div>
-            <div class="admin-stat-card">
-                <span class="admin-stat-num">@rehomers</span>
-                <span class="admin-stat-lbl">Rehomers</span>
-            </div>
-            <div class="admin-stat-card">
-                <span class="admin-stat-num">@listings.Count</span>
-                <span class="admin-stat-lbl">Listings</span>
-            </div>
-            <div class="admin-stat-card @(pending > 0 ? "highlight" : "")">
-                <span class="admin-stat-num">@pending</span>
-                <span class="admin-stat-lbl">Pending Review</span>
-            </div>
-        </div>
-
-        <!-- Pet Listings section -->
-        <div class="admin-section">
-            <h2 class="admin-section-title">Pet Listings</h2>
-            @if (!listings.Any())
-            {
-                <div class="admin-empty">No listings yet.</div>
-            }
-            else
-            {
-                <div class="admin-table-wrap">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Pet</th>
-                                <th>Rehomer</th>
-                                <th>Status</th>
-                                <th>Submitted</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var listing in listings)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="admin-user-cell">
-                                            <span class="admin-pet-emoji">@(listing.Species == "cat" ? "🐱" : listing.Species == "rabbit" ? "🐰" : "🐶")</span>
-                                            <div>
-                                                <div>@listing.Name</div>
-                                                <div class="admin-sub-text">@listing.Breed · @listing.Age</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>@(listing.Rehomer?.DisplayName ?? "—")</td>
-                                    <td>
-                                        <span class="admin-status-badge @listing.Status.ToLower()">@listing.Status</span>
-                                    </td>
-                                    <td>@(listing.PublishedAt?.ToString("MMM d, yyyy") ?? listing.CreatedAt.ToString("MMM d, yyyy"))</td>
-                                    <td>
-                                        @if (listing.Status == "Pending")
-                                        {
-                                            <div class="admin-action-row">
-                                                <form method="post" asp-controller="Admin" asp-action="ApproveListing" style="display:inline">
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="id" value="@listing.Id" />
-                                                    <button type="submit" class="admin-btn approve">Approve</button>
-                                                </form>
-                                                <button type="button" class="admin-btn reject" onclick="showReject(@listing.Id)">Reject</button>
-                                            </div>
-                                        }
-                                        else if (listing.Status == "Approved")
-                                        {
-                                            <span class="admin-sub-text">Approved @listing.ApprovedAt?.ToString("MMM d")</span>
-                                        }
-                                        else if (listing.Status == "Rejected")
-                                        {
-                                            <span class="admin-sub-text">Rejected</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="admin-sub-text">Draft</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </div>
-
-        <!-- Users table -->
-        <div class="admin-section">
-            <h2 class="admin-section-title">Registered Users</h2>
-            <div class="admin-table-wrap">
-                <table class="admin-table">
-                    <thead>
+<!-- Listings -->
+<div class="adm-card" id="adm-listings">
+    <div class="adm-card-header">
+        <h2 class="adm-card-title">Pet Listings</h2>
+        <span class="adm-card-count">@listings.Count total</span>
+    </div>
+    @if (!listings.Any())
+    {
+        <div class="adm-empty">No listings yet.</div>
+    }
+    else
+    {
+        <div class="adm-table-wrap">
+            <table class="adm-table">
+                <thead>
+                    <tr>
+                        <th>Pet</th>
+                        <th>Rehomer</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var listing in listings)
+                    {
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>City</th>
-                            <th>Joined</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in users)
-                        {
-                            <tr>
-                                <td>
-                                    <div class="admin-user-cell">
-                                        <span class="admin-user-avatar">@(user.DisplayName.Length > 0 ? user.DisplayName[0].ToString().ToUpper() : "?")</span>
-                                        <span>@user.DisplayName</span>
+                            <td>
+                                <div class="adm-user-cell">
+                                    <div class="adm-avatar" style="background:#f0f9ff;color:#0e7490;font-size:1rem;">
+                                        @(listing.Species == "cat" ? "🐱" : listing.Species == "rabbit" ? "🐰" : "🐶")
                                     </div>
-                                </td>
-                                <td>@user.Email</td>
-                                <td><span class="admin-role-badge @user.UserType.ToLower()">@user.UserType</span></td>
-                                <td>@(string.IsNullOrEmpty(user.City) ? "—" : $"{user.City}, {user.Province}")</td>
-                                <td>@user.CreatedAt.ToString("MMM d, yyyy")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                    <div>
+                                        <div class="adm-cell-main">@listing.Name</div>
+                                        <div class="adm-cell-sub">@listing.Breed · @listing.Age</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="color:#475569;font-size:0.85rem;">@(listing.Rehomer?.DisplayName ?? "—")</td>
+                            <td><span class="adm-badge @listing.Status.ToLower()">@listing.Status</span></td>
+                            <td style="color:#94a3b8;font-size:0.82rem;">@(listing.PublishedAt?.ToString("MMM d, yyyy") ?? listing.CreatedAt.ToString("MMM d, yyyy"))</td>
+                            <td>
+                                @if (listing.Status == "Pending")
+                                {
+                                    <div class="adm-action-row">
+                                        <form method="post" asp-controller="Admin" asp-action="ApproveListing" style="display:inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@listing.Id" />
+                                            <button type="submit" class="adm-btn approve">Approve</button>
+                                        </form>
+                                        <button type="button" class="adm-btn reject" onclick="showReject(@listing.Id)">Reject</button>
+                                    </div>
+                                }
+                                else if (listing.Status == "Approved")
+                                {
+                                    <span style="font-size:0.78rem;color:#94a3b8;">Approved @listing.ApprovedAt?.ToString("MMM d")</span>
+                                }
+                                else if (listing.Status == "Rejected")
+                                {
+                                    <span style="font-size:0.78rem;color:#94a3b8;">Rejected</span>
+                                }
+                                else
+                                {
+                                    <span style="font-size:0.78rem;color:#94a3b8;">Draft</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
+    }
+</div>
 
+<!-- Users -->
+<div class="adm-card" id="adm-users">
+    <div class="adm-card-header">
+        <h2 class="adm-card-title">Registered Users</h2>
+        <span class="adm-card-count">@users.Count total</span>
+    </div>
+    <div class="adm-table-wrap">
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>City</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in users)
+                {
+                    <tr>
+                        <td>
+                            <div class="adm-user-cell">
+                                <div class="adm-avatar">@(user.DisplayName.Length > 0 ? user.DisplayName[0].ToString().ToUpper() : "?")</div>
+                                <div class="adm-cell-main">@user.DisplayName</div>
+                            </div>
+                        </td>
+                        <td style="color:#475569;font-size:0.83rem;">@user.Email</td>
+                        <td><span class="adm-badge @user.UserType.ToLower()">@user.UserType</span></td>
+                        <td style="color:#94a3b8;font-size:0.82rem;">@(string.IsNullOrEmpty(user.City) ? "—" : $"{user.City}, {user.Province}")</td>
+                        <td style="color:#94a3b8;font-size:0.82rem;">@user.CreatedAt.ToString("MMM d, yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
 
 <!-- Reject modal -->
-<div class="admin-modal-backdrop" id="rejectBackdrop" style="display:none">
-    <div class="admin-modal">
-        <h3 class="admin-modal-title">Reject listing</h3>
+<div class="adm-modal-backdrop" id="rejectBackdrop" style="display:none">
+    <div class="adm-modal">
+        <h3 class="adm-modal-title">Reject listing</h3>
         <form method="post" asp-controller="Admin" asp-action="RejectListing" id="rejectForm">
             @Html.AntiForgeryToken()
             <input type="hidden" name="id" id="rejectListingId" />
-            <label class="admin-modal-label">Reason (shown to rehomer)</label>
-            <textarea class="admin-modal-textarea" name="reason" placeholder="e.g. Missing vaccination info, photos unclear…" rows="3"></textarea>
-            <div class="admin-modal-btns">
-                <button type="button" class="admin-btn" onclick="hideReject()">Cancel</button>
-                <button type="submit" class="admin-btn reject">Reject Listing</button>
+            <label class="adm-modal-label">Reason (shown to rehomer)</label>
+            <textarea class="adm-modal-textarea" name="reason" placeholder="e.g. Missing vaccination info, photos unclear…" rows="3"></textarea>
+            <div class="adm-modal-btns">
+                <button type="button" class="adm-btn" onclick="hideReject()">Cancel</button>
+                <button type="submit" class="adm-btn reject">Reject Listing</button>
             </div>
         </form>
     </div>

@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Location & Story";
+    ViewData["Title"] = "Location";
     var listingId = (int)(ViewData["ListingId"] ?? 0);
 }
 
@@ -9,7 +9,7 @@
         <div class="rw-banner-left">
             <span class="rw-banner-step">Step 4 of 5</span>
             <span class="rw-banner-sep">·</span>
-            <span class="rw-banner-name">Location &amp; story</span>
+            <span class="rw-banner-name">Location</span>
         </div>
         <div class="rw-banner-bar"><div class="rw-banner-fill" style="width:80%"></div></div>
     </div>
@@ -24,7 +24,7 @@
             <span class="bc-sep">›</span>
             <a href="/Rehome/List" data-i18n="nav-rehome">Rehome</a>
             <span class="bc-sep">›</span>
-            <span class="bc-current">Location &amp; story</span>
+            <span class="bc-current">Location</span>
         </nav>
 
         <!-- Step progress -->
@@ -54,10 +54,10 @@
         <!-- Form card -->
         <div class="rehome-card">
             <div class="rehome-card-header">
-                <h1 class="rehome-card-title">Location &amp; story</h1>
+                <h1 class="rehome-card-title">Location</h1>
                 <p class="rehome-card-subtitle">
                     <span class="step-pill">Step 4 of 5</span>
-                    <span>Where is your pet and what's their story?</span>
+                    <span>Where is your pet located?</span>
                 </p>
             </div>
 
@@ -139,43 +139,6 @@
                         <span data-i18n="rehome-loc-privacy-note">Only your city and province are shown publicly. Your exact address is never shared.</span>
                     </div>
 
-                    <!-- ── Section 2: Your story ───────────────────── -->
-                    <hr class="rw-section-divider">
-
-                    <div class="rw-section-hdr">
-                        <span class="rw-section-icon">✍️</span>
-                        <div>
-                            <p class="rw-section-title">Your pet's story</p>
-                            <p class="rw-section-sub">A personal story helps adopters connect and builds trust</p>
-                        </div>
-                    </div>
-
-                    <div class="rehome-story-body" style="padding:0">
-                        <label class="rehome-label" data-i18n="rehome-story-label">Tell us about your pet</label>
-                        <textarea class="story-textarea" name="story" id="storyTextarea"
-                            data-i18n-placeholder="rehome-story-placeholder"
-                            placeholder="Tell us about your pet's personality, favourite things, daily routine, and why you're looking for a new home for them..."></textarea>
-
-                        <div class="story-footer">
-                            <span class="story-char-count">
-                                <span class="count-num" id="charCount">0</span>
-                                &nbsp;<span data-i18n="rehome-story-chars">characters</span>
-                            </span>
-                            <span class="story-min-hint" id="minHint" data-i18n="rehome-story-min">Minimum 80 characters</span>
-                        </div>
-
-                        <!-- Writing prompts -->
-                        <div class="story-prompts">
-                            <p class="story-prompts-title" data-i18n="rehome-story-prompts-title">Need inspiration?</p>
-                            <ul class="story-prompts-list">
-                                <li data-i18n="rehome-story-prompt1">What does a typical day look like for your pet?</li>
-                                <li data-i18n="rehome-story-prompt2">What are their favourite toys, games, or activities?</li>
-                                <li data-i18n="rehome-story-prompt3">How do they behave around strangers or new environments?</li>
-                                <li data-i18n="rehome-story-prompt4">What do you love most about them?</li>
-                            </ul>
-                        </div>
-                    </div>
-
                     <div class="rehome-divider"></div>
 
                     <div class="rehome-nav-btns">
@@ -210,18 +173,6 @@
         });
     });
 
-    // Story character counter
-    const textarea = document.getElementById('storyTextarea');
-    const countEl  = document.getElementById('charCount');
-    const hintEl   = document.getElementById('minHint');
-    function updateCount() {
-        const len = textarea.value.length;
-        countEl.textContent = len;
-        hintEl.classList.toggle('met', len >= 80);
-    }
-    textarea.addEventListener('input', updateCount);
-    updateCount();
-
     // Step 4 validation
     var form = document.querySelector('form[action="/Rehome/SaveStep5"]');
     var errorBanner = null;
@@ -244,7 +195,6 @@
 
         var city     = form.querySelector('[name="city"]').value.trim();
         var province = form.querySelector('[name="province"]').value;
-        var story    = textarea.value.trim();
 
         if (!city) {
             e.preventDefault();
@@ -254,11 +204,6 @@
         if (!province) {
             e.preventDefault();
             showError(fr ? 'Veuillez sélectionner votre province.' : 'Please select a province.');
-            return;
-        }
-        if (story.length < 80) {
-            e.preventDefault();
-            showError(fr ? 'L\'histoire de votre animal doit contenir au moins 80 caractères.' : 'Your pet\'s story must be at least 80 characters.');
             return;
         }
     });

@@ -55,7 +55,7 @@ public class HomeController : Controller
             .ToListAsync();
         ViewData["Applications"] = apps;
 
-        // Real listings if rehomer
+        // Real listings + incoming applications if rehomer
         if (user?.UserType == "Rehomer" || user?.UserType == "Admin")
         {
             var listings = await _context.PetListings
@@ -63,6 +63,14 @@ public class HomeController : Controller
                 .OrderByDescending(l => l.CreatedAt)
                 .ToListAsync();
             ViewData["Listings"] = listings;
+
+            var listingIds = listings.Select(l => l.Id).ToList();
+            var incomingApps = await _context.AdoptionApplications
+                .Include(a => a.PetListing)
+                .Where(a => a.PetListingId != null && listingIds.Contains(a.PetListingId.Value))
+                .OrderByDescending(a => a.SubmittedAt)
+                .ToListAsync();
+            ViewData["IncomingApplications"] = incomingApps;
         }
 
         return View();

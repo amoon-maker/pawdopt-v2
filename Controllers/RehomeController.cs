@@ -4,18 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PawdoptApp.Data;
 using PawdoptApp.Models;
+using System.Text.Json;
 
 namespace PawdoptApp.Controllers;
 
 public class RehomeController : Controller
 {
-    private readonly ApplicationDbContext    _context;
+    private readonly ApplicationDbContext         _context;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IWebHostEnvironment          _env;
 
-    public RehomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public RehomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment env)
     {
         _context     = context;
         _userManager = userManager;
+        _env         = env;
     }
 
     // ── Public landing page ───────────────────────────────────────────────
@@ -100,11 +103,33 @@ public class RehomeController : Controller
     }
 
     [HttpPost, Authorize, ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveStep2(int id)
+    public async Task<IActionResult> SaveStep2(int id, List<IFormFile>? photos)
     {
         var listing = await GetDraft(id);
         if (listing == null) return RedirectToAction("NewListing");
-        listing.HasPhotos = true;
+
+        if (photos != null && photos.Count > 0)
+        {
+            var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "listings", id.ToString());
+            Directory.CreateDirectory(uploadDir);
+
+            foreach (var file in photos.Take(3))
+            {
+                if (file.Length == 0) continue;
+                var ext      = Path.GetExtension(file.FileName).ToLowerInvariant();
+                var filename = Guid.NewGuid().ToString("N") + ext;
+                var fullPath = Path.Combine(uploadDir, filename);
+                using var stream = System.IO.File.Create(fullPath);
+                await file.CopyToAsync(stream);
+            }
+
+            listing.HasPhotos = true;
+        }
+        else
+        {
+            listing.HasPhotos = true;
+        }
+
         await _context.SaveChangesAsync();
         return RedirectToAction("Character", new { id });
     }
@@ -188,7 +213,7 @@ public class RehomeController : Controller
     [HttpPost, Authorize, ValidateAntiForgeryToken]
     public async Task<IActionResult> SaveStep5(
         int id, string? city, string? province, string? postalCode,
-        string? pickupType, string? pickupNotes, string? story)
+        string? pickupType, string? pickupNotes)
     {
         var listing = await GetDraft(id);
         if (listing == null) return RedirectToAction("NewListing");
@@ -197,7 +222,6 @@ public class RehomeController : Controller
         listing.PostalCode  = postalCode;
         listing.PickupType  = pickupType;
         listing.PickupNotes = pickupNotes;
-        listing.Story       = story;
         await _context.SaveChangesAsync();
         return RedirectToAction("Story", new { id });
     }
@@ -257,6 +281,16 @@ public class RehomeController : Controller
     {
         var listing = await GetDraft(id);
         if (listing == null) return RedirectToAction("NewListing");
+
+        var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "listings", id.ToString());
+        if (Directory.Exists(uploadDir))
+        {
+            var files = Directory.GetFiles(uploadDir)
+                .Select(f => $"/uploads/listings/{id}/{Path.GetFileName(f)}")
+                .ToList();
+            listing.PhotoUrlsJson = files.Count > 0 ? JsonSerializer.Serialize(files) : null;
+        }
+
         return View(listing);
     }
 
