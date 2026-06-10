@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pawdopt v2 — Remaining Wireframes</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#1A6B8A;--teal2:#2B8CAD;--teal-l:#D5EEF5;
+  --pink:#993356;--pink-l:#FBEAF0;
+  --dark:#1A1A2E;--gray:#F5F7F9;--mid:#8899AA;
+  --border:#DDE4EA;--white:#fff;--green:#28CA41;
+  --amber:#EF9F27;--red:#E24B4A;
+}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f7;color:var(--dark)}
+.page-title{background:var(--dark);color:white;padding:20px 32px;font-size:18px;font-weight:700}
+.page-title span{color:#7BC8E8}
+.section-divider{background:var(--teal);color:white;padding:10px 32px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.wireframe-wrap{padding:24px 32px 32px;border-bottom:2px solid var(--border)}
+.wf-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mid);margin-bottom:10px}
+.screen{background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.08);margin-bottom:24px}
+.screen-bar{background:var(--dark);color:white;padding:8px 16px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%}
+.sec-tag{background:var(--teal);color:white;padding:5px 16px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+
+/* NAV */
+.nav{height:50px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.logo{font-size:14px;font-weight:800;color:var(--teal)}
+.logo span{color:var(--pink)}
+.nav-links{display:flex;gap:16px;font-size:11px;color:var(--mid)}
+.nav-links a{text-decoration:none;color:var(--mid)}
+.nav-links a.active{color:var(--teal);font-weight:700}
+.nav-r{display:flex;gap:8px;align-items:center;font-size:10px}
+.n-tog{background:var(--gray);border-radius:10px;padding:3px 8px;font-size:10px;font-weight:600}
+.n-btn{background:var(--teal);color:white;border-radius:6px;padding:5px 12px;font-size:10px;font-weight:700}
+.breadcrumb{padding:7px 24px;font-size:10px;color:var(--mid);background:var(--gray);border-bottom:1px solid var(--border)}
+.breadcrumb span{color:var(--teal);font-weight:600}
+/* SHARED CARD */
+.card{background:white;border-radius:10px;border:0.5px solid var(--border)}
+.tag{border-radius:5px;padding:2px 7px;font-size:9px;font-weight:700}
+.tag.teal{background:var(--teal-l);color:var(--teal)}
+.tag.pink{background:var(--pink-l);color:var(--pink)}
+.tag.gray{background:var(--gray);color:var(--mid)}
+.tag.green{background:#EAF3DE;color:#3B6D11}
+.tag.amber{background:#FAEEDA;color:#854F0B}
+.tag.red{background:#FCF0F0;color:var(--red)}
+.status{padding:3px 8px;border-radius:12px;font-size:9px;font-weight:700}
+.status.pending{background:#FFF8E8;color:var(--amber)}
+.status.approved{background:#EAF3DE;color:#3B6D11}
+.status.rejected{background:#FCF0F0;color:var(--red)}
+.status.review{background:var(--teal-l);color:var(--teal)}
+/* WIZARD */
+.wizard-steps{display:flex;align-items:center;padding:14px 24px;background:var(--gray);border-bottom:1px solid var(--border);gap:0}
+.ws{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.ws::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:1px;background:var(--border);z-index:0}
+.ws:last-child::after{display:none}
+.ws-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;z-index:1;position:relative}
+.ws-dot.done{background:var(--teal);color:white}
+.ws-dot.active{background:var(--teal);color:white;box-shadow:0 0 0 3px var(--teal-l)}
+.ws-dot.future{background:var(--gray);color:var(--mid);border:1px solid var(--border)}
+.ws-label{font-size:9px;color:var(--mid);margin-top:4px;text-align:center;max-width:60px;line-height:1.3}
+.ws-label.active{color:var(--teal);font-weight:700}
+/* FORM */
+.form-group{margin-bottom:12px}
+.form-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--dark);margin-bottom:4px;display:block}
+.form-input{width:100%;background:var(--gray);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--mid)}
+.form-input.focus{border-color:var(--teal);background:white}
+.submit-btn{background:var(--teal);color:white;border:none;border-radius:8px;padding:10px;width:100%;font-size:12px;font-weight:700;cursor:pointer;text-align:center}
+.outline-btn{background:white;color:var(--teal);border:1.5px solid var(--teal);border-radius:8px;padding:10px;width:100%;font-size:12px;font-weight:700;cursor:pointer;text-align:center}
+/* SIDEBAR DASH */
+.dash-layout{display:flex;min-height:500px}
+.sidebar{width:180px;background:var(--dark);flex-shrink:0;display:flex;flex-direction:column;padding:16px 0}
+.sb-user{padding:12px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sb-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-bottom:6px}
+.sb-name{font-size:11px;font-weight:700;color:white}
+.sb-role{font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.5px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:11px;color:rgba(255,255,255,0.5);cursor:pointer;border-left:2px solid transparent}
+.sb-item.active{color:white;background:rgba(255,255,255,0.07);border-left-color:var(--teal)}
+.sb-item.active.pink{border-left-color:var(--pink)}
+.sb-sect{padding:6px 16px;font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.2);margin-top:6px}
+.sb-badge{margin-left:auto;background:var(--red);color:white;font-size:8px;font-weight:700;padding:1px 5px;border-radius:8px}
+.dash-main{flex:1;background:var(--gray)}
+.dash-header{background:white;padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.dash-title{font-size:14px;font-weight:800}
+.dash-sub{font-size:10px;color:var(--mid);margin-top:2px}
+.action-btn{background:var(--teal);color:white;border:none;border-radius:6px;padding:6px 14px;font-size:10px;font-weight:700;cursor:pointer}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px}
+.stat-card{background:white;border-radius:8px;padding:12px;border:0.5px solid var(--border)}
+.stat-num{font-size:20px;font-weight:900;color:var(--dark)}
+.stat-lbl{font-size:9px;color:var(--mid);font-weight:600;margin-top:2px}
+.table-wrap{background:white;border-radius:10px;margin:0 14px 14px;border:0.5px solid var(--border);overflow:hidden}
+.t-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:10px}
+thead td{padding:7px 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--mid);background:var(--gray);border-bottom:1px solid var(--border)}
+tbody td{padding:10px 12px;border-bottom:0.5px solid var(--border)}
+tbody tr:last-child td{border-bottom:none}
+/* MOBILE */
+.mobile-frame{width:320px;background:white;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12)}
+.m-nav{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.m-logo{font-size:13px;font-weight:800;color:var(--teal)}
+.m-logo span{color:var(--pink)}
+.m-bnav{display:flex;border-top:1px solid var(--border)}
+.m-bi{flex:1;padding:8px 0;text-align:center;font-size:8px;color:var(--mid)}
+.m-bi.active{color:var(--teal)}
+.m-bi .ico{font-size:15px;display:block;margin-bottom:2px}
+/* CARE GUIDE */
+.guide-hero{background:linear-gradient(135deg,#E8F4F8,#C5E4EF);padding:28px 24px;display:flex;align-items:center;gap:24px}
+.guide-article{display:flex;gap:14px;padding:14px;border-bottom:1px solid var(--border);align-items:flex-start}
+.guide-img{width:80px;height:60px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.guide-img.dog{background:linear-gradient(135deg,#E8F4F8,#C5E4EF)}
+.guide-img.cat{background:linear-gradient(135deg,#FBEAF0,#F4C0D1)}
+.guide-img.other{background:linear-gradient(135deg,#EAF3DE,#C0DD97)}
+/* ABOUT */
+.mission-hero{background:var(--dark);padding:40px 32px;text-align:center;color:white}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:24px}
+.team-card{background:var(--gray);border-radius:10px;padding:16px;text-align:center}
+.team-avatar{width:48px;height:48px;border-radius:50%;background:var(--teal-l);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--teal);margin:0 auto 8px}
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.contact-left{padding:24px;border-right:1px solid var(--border)}
+.contact-right{padding:24px;background:var(--gray)}
+/* FAQ */
+.faq-item{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
+.faq-q{font-size:12px;font-weight:600;flex:1}
+.faq-icon{color:var(--teal);font-size:16px;font-weight:300;margin-left:12px}
+.faq-a{font-size:11px;color:var(--mid);padding:0 20px 14px;border-bottom:1px solid var(--border);line-height:1.6;background:var(--gray)}
+/* 404 */
+.notfound-center{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px;text-align:center}
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:28px;text-align:center;background:var(--gray);cursor:pointer}
+.upload-zone:hover{border-color:var(--teal);background:var(--teal-l)}
+</style>
+</head>
+<body>
+
+<div class="page-title">Pawdopt v2 — <span>Wireframes: Remaining Pages</span></div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ADOPTION WIZARD — DESKTOP -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">Adoption Wizard — Desktop (5 steps)</div>
+<div class="wireframe-wrap">
+<div class="wf-label">Wireframe — Adoption Wizard Step 1: Personal Info</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/adopt/apply — Adoption Wizard</span></div>
+  <div class="nav">
+    <div class="logo">Paw<span>dopt</span></div>
+    <div class="nav-links"><a href="#">Home</a><a href="#" class="active">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#">About Us</a></div>
+    <div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">Samanta ▾</div></div>
+  </div>
+  <div class="breadcrumb">Home › <span>Adopt</span> › <span>Pitter</span> › <span>Apply</span></div>
+  <!-- WIZARD STEPS -->
+  <div class="wizard-steps">
+    <div class="ws"><div class="ws-dot active">1</div><div class="ws-label active">Personal<br>info</div></div>
+    <div class="ws"><div class="ws-dot future">2</div><div class="ws-label">Home<br>env.</div></div>
+    <div class="ws"><div class="ws-dot future">3</div><div class="ws-label">Home<br>photos</div></div>
+    <div class="ws"><div class="ws-dot future">4</div><div class="ws-label">Other<br>animals</div></div>
+    <div class="ws"><div class="ws-dot future">5</div><div class="ws-label">Confirm<br>& submit</div></div>
+  </div>
+  <!-- FORM -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:420px">
+    <div style="padding:24px;border-right:1px solid var(--border)">
+      <div style="font-size:14px;font-weight:800;margin-bottom:4px">Apply to adopt Pitter</div>
+      <div style="font-size:11px;color:var(--mid);margin-bottom:20px">Step 1 of 5 — Personal information</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label class="form-label">First name</label><div class="form-input focus">Samanta</div></div>
+        <div class="form-group"><label class="form-label">Last name</label><div class="form-input">Smith</div></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email address</label><div class="form-input">samanta@email.com</div></div>
+      <div class="form-group"><label class="form-label">Phone number</label><div class="form-input">+1 (702) 884-2821</div></div>
+      <div class="form-group"><label class="form-label">Current address</label><div class="form-input">1028 Hall Street, Las Vegas</div></div>
+      <div class="form-group"><label class="form-label">City / Province</label><div class="form-input">Las Vegas, NV</div></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <div class="outline-btn" style="width:auto;padding:8px 18px">← Back</div>
+        <div class="submit-btn">Continue →</div>
+      </div>
+    </div>
+    <div style="padding:24px;background:var(--gray)">
+      <div style="font-size:11px;font-weight:700;margin-bottom:12px">You are applying for</div>
+      <div class="card" style="padding:14px;margin-bottom:16px">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,#E8F4F8,#C5E4EF);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px">🐕</div>
+          <div>
+            <div style="font-size:13px;font-weight:800">Pitter</div>
+            <div style="font-size:10px;color:var(--mid)">Pit Bull · 3 yrs · Large · Male</div>
+            <div style="font-size:10px;color:var(--mid)">📍 Quebec, Canada</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag green">✓ Vaccinated</span><span class="tag green">✓ Neutered</span><span class="tag green">✓ House trained</span></div>
+      </div>
+      <div style="background:var(--teal-l);border-radius:8px;padding:12px;font-size:10px;color:var(--teal);line-height:1.6">
+        <strong>How it works:</strong><br>
+        Complete all 5 steps. The pet owner will review your application and contact you within 48 hours. You can track your application status from your dashboard.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wf-label" style="margin-top:20px">Wireframe — Adoption Wizard Step 3: Home Photos</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">Step 3 — Upload home photos</span></div>
+  <div class="wizard-steps">
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label">Personal<br>info</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label">Home<br>env.</div></div>
+    <div class="ws"><div class="ws-dot active">3</div><div class="ws-label active">Home<br>photos</div></div>
+    <div class="ws"><div class="ws-dot future">4</div><div class="ws-label">Other<br>animals</div></div>
+    <div class="ws"><div class="ws-dot future">5</div><div class="ws-label">Confirm<br>& submit</div></div>
+  </div>
+  <div style="padding:24px">
+    <div style="font-size:13px;font-weight:800;margin-bottom:4px">Upload photos of your home</div>
+    <div style="font-size:10px;color:var(--mid);margin-bottom:16px">Please upload at least 2 photos of your home. Include the main living area and outdoor space if available. Max 6 photos, JPG/PNG, max 5MB each.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+      <div class="upload-zone" style="height:100px;font-size:9px;color:var(--mid)"><div style="font-size:20px;margin-bottom:4px">+</div>Add photo</div>
+      <div class="upload-zone" style="height:100px;font-size:9px;color:var(--mid)"><div style="font-size:20px;margin-bottom:4px">+</div>Add photo</div>
+      <div class="upload-zone" style="height:100px;font-size:9px;color:var(--mid)"><div style="font-size:20px;margin-bottom:4px">+</div>Add photo</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <div class="outline-btn" style="width:auto;padding:8px 18px">← Back</div>
+      <div class="submit-btn">Continue →</div>
+    </div>
+  </div>
+</div>
+
+<div class="wf-label" style="margin-top:20px">Wireframe — Adoption Wizard Step 5: Confirm & Submit</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">Step 5 — Confirm & submit</span></div>
+  <div class="wizard-steps">
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label">Personal</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label">Home env.</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label">Photos</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label">Animals</div></div>
+    <div class="ws"><div class="ws-dot active">5</div><div class="ws-label active">Confirm</div></div>
+  </div>
+  <div style="padding:24px">
+    <div style="font-size:13px;font-weight:800;margin-bottom:14px">Review your application</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <div class="card" style="padding:12px"><div style="font-size:10px;font-weight:700;margin-bottom:8px;color:var(--mid)">PERSONAL INFO</div><div style="font-size:11px;line-height:1.8">Samanta Smith<br>samanta@email.com<br>+1 (702) 884-2821<br>Las Vegas, NV</div></div>
+      <div class="card" style="padding:12px"><div style="font-size:10px;font-weight:700;margin-bottom:8px;color:var(--mid)">HOME INFO</div><div style="font-size:11px;line-height:1.8">House with yard<br>2 adults, 2 children<br>No other pets<br>2 photos uploaded</div></div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:16px;font-size:11px;color:var(--mid)">
+      <div style="width:14px;height:14px;border-radius:3px;background:var(--teal);flex-shrink:0;margin-top:1px"></div>
+      I have read and agreed to the <span style="color:var(--teal);font-weight:700">&nbsp;Terms &amp; Conditions</span>&nbsp;and&nbsp;<span style="color:var(--teal);font-weight:700">Privacy Policy</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <div class="outline-btn" style="width:auto;padding:8px 18px">← Back</div>
+      <div class="submit-btn">🐾 Submit Application</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- REHOME WIZARD — DESKTOP -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">Rehome Wizard — Desktop (8 steps)</div>
+<div class="wireframe-wrap">
+<div class="wf-label">Wireframe — Rehome Wizard Step 1: Pet Basic Info</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/rehome/list — Rehome Wizard</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#">Adopt</a><a href="#" class="active">Rehome</a><a href="#">Care Guide</a><a href="#">About Us</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">John ▾</div></div></div>
+  <div class="breadcrumb">Home › <span>Rehome</span> › <span>List a pet</span></div>
+  <!-- 8 STEP WIZARD -->
+  <div class="wizard-steps" style="padding:12px 16px">
+    <div class="ws"><div class="ws-dot active">1</div><div class="ws-label active" style="font-size:8px">Pet info</div></div>
+    <div class="ws"><div class="ws-dot future">2</div><div class="ws-label" style="font-size:8px">Images</div></div>
+    <div class="ws"><div class="ws-dot future">3</div><div class="ws-label" style="font-size:8px">Character</div></div>
+    <div class="ws"><div class="ws-dot future">4</div><div class="ws-label" style="font-size:8px">Key facts</div></div>
+    <div class="ws"><div class="ws-dot future">5</div><div class="ws-label" style="font-size:8px">Location</div></div>
+    <div class="ws"><div class="ws-dot future">6</div><div class="ws-label" style="font-size:8px">Story</div></div>
+    <div class="ws"><div class="ws-dot future">7</div><div class="ws-label" style="font-size:8px">Documents</div></div>
+    <div class="ws"><div class="ws-dot future">8</div><div class="ws-label" style="font-size:8px">Confirm</div></div>
+  </div>
+  <div style="padding:24px">
+    <div style="font-size:13px;font-weight:800;margin-bottom:4px">Tell us about your pet</div>
+    <div style="font-size:10px;color:var(--mid);margin-bottom:18px">Step 1 of 8 — Basic information. Your progress is saved after each step.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div class="form-group"><label class="form-label">Pet name</label><div class="form-input focus">Magie</div></div>
+      <div class="form-group"><label class="form-label">Species</label><div class="form-input">Dog</div></div>
+      <div class="form-group"><label class="form-label">Breed</label><div class="form-input">Shiba Inu</div></div>
+      <div class="form-group"><label class="form-label">Age</label><div class="form-input">14 months</div></div>
+      <div class="form-group"><label class="form-label">Gender</label><div class="form-input">Female</div></div>
+      <div class="form-group"><label class="form-label">Size</label><div class="form-input">Medium</div></div>
+      <div class="form-group"><label class="form-label">Color</label><div class="form-input">Brown / White</div></div>
+      <div class="form-group"><label class="form-label">Weight (kg)</label><div class="form-input">12 kg</div></div>
+      <div class="form-group"><label class="form-label">Microchipped?</label><div class="form-input">Yes</div></div>
+    </div>
+    <div class="form-group" style="margin-top:4px"><label class="form-label">Reason for rehoming</label><div class="form-input" style="height:56px;padding-top:8px">Moving to a smaller apartment that does not allow pets...</div></div>
+    <div style="display:flex;gap:8px;margin-top:10px"><div class="submit-btn">Save &amp; Continue →</div></div>
+  </div>
+</div>
+
+<div class="wf-label" style="margin-top:20px">Wireframe — Rehome Wizard Step 7: Document Upload (key step)</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">Step 7 — Vaccination / health document upload</span></div>
+  <div class="wizard-steps" style="padding:12px 16px">
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label" style="font-size:8px">Pet info</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label" style="font-size:8px">Images</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label" style="font-size:8px">Character</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label" style="font-size:8px">Key facts</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label" style="font-size:8px">Location</div></div>
+    <div class="ws"><div class="ws-dot done">✓</div><div class="ws-label" style="font-size:8px">Story</div></div>
+    <div class="ws"><div class="ws-dot active">7</div><div class="ws-label active" style="font-size:8px">Documents</div></div>
+    <div class="ws"><div class="ws-dot future">8</div><div class="ws-label" style="font-size:8px">Confirm</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+    <div style="padding:24px;border-right:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:800;margin-bottom:4px">Upload vaccination / health document</div>
+      <div style="font-size:10px;color:var(--mid);margin-bottom:6px;line-height:1.6">This step is required before your listing can be reviewed and published. Upload your pet's vaccination record, health certificate, or vet letter. Accepted formats: PDF, JPG, PNG. Max 10MB.</div>
+      <div style="background:var(--teal-l);border-radius:8px;padding:10px 12px;font-size:10px;color:var(--teal);margin-bottom:16px;line-height:1.6">
+        🛡 This document is only visible to platform administrators for verification purposes. It will never be shared publicly or with adopters.
+      </div>
+      <div class="upload-zone" style="margin-bottom:16px">
+        <div style="font-size:28px;margin-bottom:8px;opacity:0.4">📄</div>
+        <div style="font-size:11px;font-weight:700;margin-bottom:4px">Drag and drop your document here</div>
+        <div style="font-size:10px;color:var(--mid)">or click to browse files</div>
+        <div style="font-size:9px;color:var(--mid);margin-top:6px">PDF, JPG, PNG · Max 10MB</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <div class="outline-btn" style="width:auto;padding:8px 18px">← Back</div>
+        <div class="submit-btn" style="background:#ccc;cursor:not-allowed">Continue → (upload required)</div>
+      </div>
+    </div>
+    <div style="padding:24px;background:var(--gray)">
+      <div style="font-size:11px;font-weight:700;margin-bottom:12px">Why is this required?</div>
+      <div style="font-size:10px;color:var(--mid);line-height:1.7;margin-bottom:16px">Pawdopt v2 is built for shelter clients who need every listing to be trustworthy. Before your pet appears in search results, a platform administrator reviews your document to confirm your pet is healthy and properly cared for. This protects both adopters and animals from scams and unsafe placements.</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:10px">Accepted documents</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:10px;color:var(--mid)">
+        <div>✓ Vaccination record (from vet)</div>
+        <div>✓ Health certificate</div>
+        <div>✓ Vet visit summary (within 12 months)</div>
+        <div>✓ Shelter intake documentation</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ADMIN PANEL — DESKTOP -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">Admin Panel — Desktop</div>
+<div class="wireframe-wrap">
+<div class="wf-label">Wireframe — Admin Dashboard Overview</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/admin — Admin Dashboard</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#" class="active">Admin</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn" style="background:#854F0B">Admin ▾</div></div></div>
+  <div class="dash-layout">
+    <div class="sidebar">
+      <div class="sb-user"><div class="sb-av" style="background:var(--amber-l);color:#854F0B">A</div><div class="sb-name">Admin Panel</div><div class="sb-role">Administrator</div></div>
+      <div class="sb-sect">Main</div>
+      <div class="sb-item active" style="border-left-color:#EF9F27">🏠 Overview</div>
+      <div class="sb-item">📄 Pending reviews<span class="sb-badge">4</span></div>
+      <div class="sb-item">🐾 All listings</div>
+      <div class="sb-item">📋 Applications</div>
+      <div class="sb-item">🏠 Rehome submissions</div>
+      <div class="sb-sect">Management</div>
+      <div class="sb-item">👤 Manage users<span class="sb-badge">2</span></div>
+      <div class="sb-item">📊 Analytics</div>
+      <div class="sb-item">⚙ Settings</div>
+    </div>
+    <div class="dash-main">
+      <div class="dash-header">
+        <div><div class="dash-title">Admin overview</div><div class="dash-sub">Platform status · Pawdopt v2</div></div>
+        <div style="display:flex;gap:8px"><div class="action-btn" style="background:#854F0B">Review pending (4)</div></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div style="font-size:16px;margin-bottom:4px">🐾</div><div class="stat-num" style="color:#854F0B">4</div><div class="stat-lbl">Pending document reviews</div></div>
+        <div class="stat-card"><div style="font-size:16px;margin-bottom:4px">👤</div><div class="stat-num">142</div><div class="stat-lbl">Total registered users</div></div>
+        <div class="stat-card"><div style="font-size:16px;margin-bottom:4px">✅</div><div class="stat-num">38</div><div class="stat-lbl">Active listings</div></div>
+        <div class="stat-card"><div style="font-size:16px;margin-bottom:4px">📋</div><div class="stat-num">91</div><div class="stat-lbl">Total applications</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="t-header"><span>Pending document reviews</span><span style="font-size:10px;color:var(--teal);cursor:pointer">View all →</span></div>
+        <table>
+          <thead><tr><td>Pet</td><td>Owner</td><td>Submitted</td><td>Document</td><td>Status</td><td>Actions</td></tr></thead>
+          <tbody>
+            <tr>
+              <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;background:linear-gradient(135deg,#FBEAF0,#F4C0D1);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px">🐕‍🦺</div><div><div style="font-weight:700;font-size:10px">Magie</div><div style="font-size:9px;color:var(--mid)">Shiba Inu · Female</div></div></div></td>
+              <td style="font-size:10px">John Collins</td>
+              <td style="font-size:10px">May 20</td>
+              <td><span class="tag teal" style="font-size:9px">PDF uploaded</span></td>
+              <td><span class="status pending">⏳ Pending</span></td>
+              <td><div style="display:flex;gap:4px"><div style="background:#EAF3DE;color:#3B6D11;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;cursor:pointer">✓ Approve</div><div style="background:#FCF0F0;color:var(--red);border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;cursor:pointer">✕ Reject</div></div></td>
+            </tr>
+            <tr>
+              <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;background:linear-gradient(135deg,#E8F4F8,#C5E4EF);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px">🐈</div><div><div style="font-weight:700;font-size:10px">Whiskers</div><div style="font-size:9px;color:var(--mid)">Tabby · Male</div></div></div></td>
+              <td style="font-size:10px">Marie Lavoie</td>
+              <td style="font-size:10px">May 19</td>
+              <td><span class="tag teal" style="font-size:9px">JPG uploaded</span></td>
+              <td><span class="status pending">⏳ Pending</span></td>
+              <td><div style="display:flex;gap:4px"><div style="background:#EAF3DE;color:#3B6D11;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;cursor:pointer">✓ Approve</div><div style="background:#FCF0F0;color:var(--red);border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;cursor:pointer">✕ Reject</div></div></td>
+            </tr>
+            <tr>
+              <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;background:linear-gradient(135deg,#EAF3DE,#C0DD97);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px">🦮</div><div><div style="font-weight:700;font-size:10px">Bruno</div><div style="font-size:9px;color:var(--mid)">Labrador · Male</div></div></div></td>
+              <td style="font-size:10px">Alice Bouchard</td>
+              <td style="font-size:10px">May 18</td>
+              <td><span class="tag teal" style="font-size:9px">PDF uploaded</span></td>
+              <td><span class="status review">● Reviewing</span></td>
+              <td><div style="display:flex;gap:4px"><div style="background:#EAF3DE;color:#3B6D11;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;cursor:pointer">✓ Approve</div><div style="background:#FCF0F0;color:var(--red);border-radius:5px;padding:3px 8px;font-size:9px;font-weight:700;cursor:pointer">✕ Reject</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap" style="margin:0 14px 14px">
+        <div class="t-header"><span>Recent user registrations</span><span style="font-size:10px;color:var(--teal);cursor:pointer">View all →</span></div>
+        <table>
+          <thead><tr><td>Name</td><td>Email</td><td>Role</td><td>Registered</td><td>Status</td></tr></thead>
+          <tbody>
+            <tr><td style="font-size:10px;font-weight:700">Samanta Smith</td><td style="font-size:10px">samanta@email.com</td><td><span class="tag teal">Adopter</span></td><td style="font-size:10px">May 20</td><td><span class="status approved">✓ Verified</span></td></tr>
+            <tr><td style="font-size:10px;font-weight:700">Pierre Dumont</td><td style="font-size:10px">pierre@email.com</td><td><span class="tag pink">Rehomer</span></td><td style="font-size:10px">May 19</td><td><span class="status pending">⏳ Unverified</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CARE GUIDE -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">Care Guide — Desktop + Mobile</div>
+<div class="wireframe-wrap">
+<div class="wf-label">Wireframe — Care Guide (Desktop)</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/care-guide — Care Guide</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#" class="active">Care Guide</a><a href="#">About Us</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">Login / Register</div></div></div>
+  <div class="breadcrumb">Home › <span>Care Guide</span></div>
+  <!-- HERO -->
+  <div class="guide-hero">
+    <div style="font-size:48px">📚</div>
+    <div>
+      <div style="font-size:18px;font-weight:800;margin-bottom:6px">Pet care guides</div>
+      <div style="font-size:12px;color:var(--mid);max-width:400px;line-height:1.6">Everything you need to know before and after adopting. Learn about nutrition, health, behavior, and how to create the perfect home for your new companion.</div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:10px">
+      <div style="background:var(--teal-l);color:var(--teal);border-radius:20px;padding:8px 18px;font-size:11px;font-weight:700;cursor:pointer">🐕 Dog guides</div>
+      <div style="background:var(--pink-l);color:var(--pink);border-radius:20px;padding:8px 18px;font-size:11px;font-weight:700;cursor:pointer">🐈 Cat guides</div>
+    </div>
+  </div>
+  <!-- FEATURED ARTICLE -->
+  <div class="guide-article" style="background:white;border-top:none">
+    <div class="guide-img dog" style="width:200px;height:120px;font-size:48px">🐕</div>
+    <div style="flex:1">
+      <div style="display:flex;gap:6px;margin-bottom:6px"><span class="tag teal">Dogs</span><span class="tag gray">Nutrition</span></div>
+      <div style="font-size:14px;font-weight:800;margin-bottom:4px">Consequences of obesity in cats and dogs</div>
+      <div style="font-size:11px;color:var(--mid);line-height:1.6;margin-bottom:8px">40 percent of all cats are overweight. The basic problem lies in the eye of the beholder — many owners are rather offended when their pet's curves are pointed out to them...</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:var(--mid)"><span>👁 3,004 views</span><span>·</span><span>June 1, 2025</span><a href="#" style="color:var(--teal);font-weight:700;margin-left:8px">Read more →</a></div>
+    </div>
+  </div>
+  <!-- ARTICLE GRID -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)">
+    <div class="guide-article" style="flex-direction:column;background:white;border-bottom:none;padding:14px">
+      <div class="guide-img cat" style="width:100%;height:70px;margin-bottom:8px;font-size:32px">🐈</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:3px">How many hours do cats sleep?</div>
+      <div style="font-size:9px;color:var(--mid)">June 1, 2025</div>
+    </div>
+    <div class="guide-article" style="flex-direction:column;background:white;border-bottom:none;padding:14px">
+      <div class="guide-img dog" style="width:100%;height:70px;margin-bottom:8px;font-size:32px">🦮</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:3px">Human-dog relationship science</div>
+      <div style="font-size:9px;color:var(--mid)">June 1, 2025</div>
+    </div>
+    <div class="guide-article" style="flex-direction:column;background:white;border-bottom:none;padding:14px">
+      <div class="guide-img cat" style="width:100%;height:70px;margin-bottom:8px;font-size:32px">🐱</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:3px">Cat behavior explained</div>
+      <div style="font-size:9px;color:var(--mid)">May 28, 2025</div>
+    </div>
+    <div class="guide-article" style="flex-direction:column;background:white;border-bottom:none;padding:14px">
+      <div class="guide-img other" style="width:100%;height:70px;margin-bottom:8px;font-size:32px">🐕</div>
+      <div style="font-size:11px;font-weight:700;margin-bottom:3px">Dog training basics</div>
+      <div style="font-size:9px;color:var(--mid)">May 20, 2025</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ABOUT US -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">About Us + Contact — Desktop</div>
+<div class="wireframe-wrap">
+<div class="wf-label">Wireframe — About Us (Desktop)</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/about — About Us</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#" class="active">About Us</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">Login / Register</div></div></div>
+  <!-- MISSION HERO -->
+  <div class="mission-hero">
+    <div style="font-size:36px;margin-bottom:12px">🐾</div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:8px">Our mission</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.65);max-width:480px;margin:0 auto;line-height:1.7">Pawdopt is a lifesaving platform that brings pets and people together. We are here to create loving families — connecting shelter animals with verified, caring adopters across Quebec.</div>
+  </div>
+  <!-- STATS -->
+  <div style="display:flex;justify-content:space-around;padding:24px;background:white;border-bottom:1px solid var(--border)">
+    <div style="text-align:center"><div style="font-size:24px;font-weight:900;color:var(--teal)">4.2M+</div><div style="font-size:10px;color:var(--mid)">pets rehomed</div></div>
+    <div style="text-align:center"><div style="font-size:24px;font-weight:900;color:var(--teal)">0.8M+</div><div style="font-size:10px;color:var(--mid)">pets adopted</div></div>
+    <div style="text-align:center"><div style="font-size:24px;font-weight:900;color:var(--teal)">12K+</div><div style="font-size:10px;color:var(--mid)">active listings</div></div>
+    <div style="text-align:center"><div style="font-size:24px;font-weight:900;color:var(--teal)">98%</div><div style="font-size:10px;color:var(--mid)">success rate</div></div>
+  </div>
+  <!-- TEAM -->
+  <div style="padding:24px 28px;background:var(--gray)">
+    <div style="font-size:14px;font-weight:800;margin-bottom:16px;text-align:center">Our team</div>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">A</div><div style="font-size:11px;font-weight:700">Amina Ayad</div><div style="font-size:9px;color:var(--mid)">Developer · Adopt side</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:var(--pink-l);color:var(--pink)">I</div><div style="font-size:11px;font-weight:700">Isabela Sierra</div><div style="font-size:9px;color:var(--mid)">Developer · Rehome side</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:var(--amber-l);color:#854F0B">P</div><div style="font-size:11px;font-weight:700">Pejman Azadi</div><div style="font-size:9px;color:var(--mid)">Instructor / Advisor</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:#EAF3DE;color:#3B6D11">🐾</div><div style="font-size:11px;font-weight:700">SPCA Montreal</div><div style="font-size:9px;color:var(--mid)">Target client partner</div></div>
+    </div>
+  </div>
+  <!-- REVIEWS PREVIEW -->
+  <div style="padding:24px 28px">
+    <div style="font-size:14px;font-weight:800;margin-bottom:14px;text-align:center">What people say about us</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+      <div class="card" style="padding:14px"><div style="color:#F5A623;font-size:12px;margin-bottom:6px">★★★★★</div><div style="font-size:11px;color:var(--mid);line-height:1.5;margin-bottom:8px;font-style:italic">"Found our dog Luna in under a week. The process was smooth and trustworthy."</div><div style="font-size:10px;font-weight:700">Samanta S. · Montreal</div></div>
+      <div class="card" style="padding:14px"><div style="color:#F5A623;font-size:12px;margin-bottom:6px">★★★★★</div><div style="font-size:11px;color:var(--mid);line-height:1.5;margin-bottom:8px;font-style:italic">"Rehoming Magie was emotional but Pawdopt made sure she went to a loving family."</div><div style="font-size:10px;font-weight:700">John C. · Quebec City</div></div>
+      <div class="card" style="padding:14px"><div style="color:#F5A623;font-size:12px;margin-bottom:6px">★★★★☆</div><div style="font-size:11px;color:var(--mid);line-height:1.5;margin-bottom:8px;font-style:italic">"The adoption wizard made the whole application feel clear and structured."</div><div style="font-size:10px;font-weight:700">Alice B. · Laval</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wf-label" style="margin-top:20px">Wireframe — Contact Us (Desktop)</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/contact — Contact Us</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#" class="active">About Us</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">Login / Register</div></div></div>
+  <div class="breadcrumb">Home › <span>About Us</span> › <span>Contact Us</span></div>
+  <div class="contact-layout">
+    <div class="contact-left">
+      <div style="font-size:16px;font-weight:800;margin-bottom:4px">Get in touch</div>
+      <div style="font-size:11px;color:var(--mid);margin-bottom:20px;line-height:1.6">Choose what kind of service you are looking for and we will connect you with the right team.</div>
+      <div class="form-group"><label class="form-label">Name</label><div class="form-input focus">Your name</div></div>
+      <div class="form-group"><label class="form-label">Email</label><div class="form-input">your@email.com</div></div>
+      <div class="form-group"><label class="form-label">Phone number</label><div class="form-input">+1 (514) 000-0000</div></div>
+      <div class="form-group"><label class="form-label">Message</label><div class="form-input" style="height:80px;padding-top:8px">Write your message here...</div></div>
+      <div class="submit-btn">Send message →</div>
+    </div>
+    <div class="contact-right">
+      <div style="font-size:13px;font-weight:700;margin-bottom:14px">Ready to help you</div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:11px">
+        <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:14px">📍</span><div><div style="font-weight:700;margin-bottom:2px">Address</div><div style="color:var(--mid)">123 Main Street, Montreal, QC</div></div></div>
+        <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:14px">📞</span><div><div style="font-weight:700;margin-bottom:2px">Phone</div><div style="color:var(--mid)">+1 (514) 123-4567</div></div></div>
+        <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:14px">✉️</span><div><div style="font-weight:700;margin-bottom:2px">Email</div><div style="color:var(--mid)">hello@pawdopt.com</div></div></div>
+      </div>
+      <div style="margin-top:20px;background:var(--teal-l);border-radius:8px;padding:12px">
+        <div style="font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px">Keep in touch</div>
+        <div style="font-size:10px;color:var(--teal);margin-bottom:8px">Join the Pawdopt newsletter and be the first to hear about new pets and updates.</div>
+        <div style="display:flex;gap:6px"><div class="form-input" style="background:white;border-color:var(--teal-l);font-size:10px;padding:6px 10px">your@email.com</div><div style="background:var(--teal);color:white;border-radius:6px;padding:6px 12px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap">Subscribe</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- FAQ + 404 -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">FAQ + 404 Error — Desktop</div>
+<div class="wireframe-wrap">
+<div class="wf-label">Wireframe — FAQ Page (Desktop)</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/faq — FAQ</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#">About Us</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">Login / Register</div></div></div>
+  <div style="padding:32px;text-align:center;background:var(--gray);border-bottom:1px solid var(--border)">
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Frequently asked questions</div>
+    <div style="font-size:12px;color:var(--mid)">Find answers to common questions about adopting and rehoming a pet on Pawdopt v2</div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
+      <div style="background:var(--teal-l);color:var(--teal);border-radius:20px;padding:7px 18px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--teal)">For adopters</div>
+      <div style="background:var(--pink-l);color:var(--pink);border-radius:20px;padding:7px 18px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid var(--pink)">For rehomers</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:900px;margin:0 auto">
+    <div style="border-right:1px solid var(--border)">
+      <div style="padding:14px 20px;font-size:11px;font-weight:800;background:var(--teal-l);color:var(--teal)">FAQ for Adopters</div>
+      <div class="faq-item"><div class="faq-q">Why are you only helping dogs and cats?</div><div class="faq-icon">+</div></div>
+      <div class="faq-a">We focus on dogs and cats because they are the most popular types of pet in Canada. We plan to help rehome other types of pets in the future.</div>
+      <div class="faq-item"><div class="faq-q">Will you carry out a home check before adoption?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">Why do I have to pay an adoption fee?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">What do I need to know about dog microchipping?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">Can I message the pet owner before applying?</div><div class="faq-icon">+</div></div>
+    </div>
+    <div>
+      <div style="padding:14px 20px;font-size:11px;font-weight:800;background:var(--pink-l);color:var(--pink)">FAQ for Rehomers</div>
+      <div class="faq-item"><div class="faq-q">Why are you only helping dogs and cats?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">Do I have to pay a fee to rehome my pet?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">Will you carry out a home check?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">My pet has behavioural problems. Can I still use Pawdopt?</div><div class="faq-icon">+</div></div>
+      <div class="faq-item"><div class="faq-q">Why do I need to upload a vaccination document?</div><div class="faq-icon">+</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wf-label" style="margin-top:20px">Wireframe — 404 Error Page (Desktop)</div>
+<div class="screen">
+  <div class="screen-bar"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FFBD2E"></div><div class="dot" style="background:#28CA41"></div><span style="margin-left:8px">pawdopt.com/404 — Page Not Found</span></div>
+  <div class="nav"><div class="logo">Paw<span>dopt</span></div><div class="nav-links"><a href="#">Home</a><a href="#">Adopt</a><a href="#">Rehome</a><a href="#">Care Guide</a><a href="#">About Us</a></div><div class="nav-r"><div class="n-tog">EN/FR</div><div class="n-tog">🌙</div><div class="n-btn">Login / Register</div></div></div>
+  <div class="notfound-center" style="min-height:380px">
+    <div style="font-size:64px;margin-bottom:16px">🐾</div>
+    <div style="font-size:72px;font-weight:900;color:var(--teal);opacity:0.15;line-height:1;margin-bottom:-20px">404</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:8px">Oops — page not found</div>
+    <div style="font-size:12px;color:var(--mid);max-width:360px;line-height:1.7;margin-bottom:24px">The page you are looking for has moved, been removed, or never existed. Maybe the pet you were looking for has already found a home!</div>
+    <div style="display:flex;gap:10px">
+      <div class="submit-btn" style="width:auto;padding:10px 24px;cursor:pointer">🏠 Back to home</div>
+      <div class="outline-btn" style="width:auto;padding:10px 24px;cursor:pointer">🐾 Browse pets</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MOBILE: REMAINING PAGES -->
+<!-- ════════════════════════════════════════════ -->
+<div class="section-divider">Mobile Wireframes — Remaining Pages (375px)</div>
+<div class="wireframe-wrap">
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+
+  <!-- MOBILE ADOPT WIZARD -->
+  <div>
+    <div class="wf-label" style="text-align:center">Adopt wizard (mobile)</div>
+    <div class="mobile-frame">
+      <div class="m-nav"><div class="m-logo">Paw<span>dopt</span></div><div style="font-size:11px;color:var(--teal);font-weight:700">← Back to Pitter</div></div>
+      <div style="padding:12px 16px 8px;background:var(--gray);border-bottom:1px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <div style="font-size:11px;font-weight:700">Apply to adopt Pitter</div>
+          <div style="font-size:10px;color:var(--mid)">1 of 5</div>
+        </div>
+        <div style="height:4px;background:var(--border);border-radius:2px"><div style="width:20%;height:100%;background:var(--teal);border-radius:2px"></div></div>
+        <div style="font-size:9px;color:var(--teal);margin-top:4px;font-weight:700">Step 1 — Personal info</div>
+      </div>
+      <div style="padding:14px 16px">
+        <div class="form-group" style="margin-bottom:10px"><label class="form-label">Full name</label><div class="form-input" style="font-size:12px">Samanta Smith</div></div>
+        <div class="form-group" style="margin-bottom:10px"><label class="form-label">Email</label><div class="form-input" style="font-size:12px">samanta@email.com</div></div>
+        <div class="form-group" style="margin-bottom:10px"><label class="form-label">Phone</label><div class="form-input" style="font-size:12px">+1 (702) 884-2821</div></div>
+        <div class="form-group" style="margin-bottom:14px"><label class="form-label">Address</label><div class="form-input" style="font-size:12px">1028 Hall Street, LV</div></div>
+        <div class="submit-btn" style="font-size:12px">Continue →</div>
+      </div>
+      <div class="m-bnav"><div class="m-bi"><span class="ico">🏠</span>Home</div><div class="m-bi active"><span class="ico">🐾</span>Adopt</div><div class="m-bi"><span class="ico">🏡</span>Rehome</div><div class="m-bi"><span class="ico">📖</span>Guides</div><div class="m-bi"><span class="ico">👤</span>Profile</div></div>
+    </div>
+  </div>
+
+  <!-- MOBILE DOC UPLOAD -->
+  <div>
+    <div class="wf-label" style="text-align:center">Doc upload (mobile)</div>
+    <div class="mobile-frame">
+      <div class="m-nav"><div class="m-logo">Paw<span>dopt</span></div><div style="font-size:10px;color:var(--mid)">Step 7 of 8</div></div>
+      <div style="padding:12px 16px 8px;background:var(--pink-l);border-bottom:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;color:var(--pink)">Upload vaccination document</div>
+        <div style="height:4px;background:rgba(153,51,86,0.15);border-radius:2px;margin-top:6px"><div style="width:87.5%;height:100%;background:var(--pink);border-radius:2px"></div></div>
+      </div>
+      <div style="padding:14px 16px">
+        <div style="background:var(--teal-l);border-radius:8px;padding:10px;font-size:10px;color:var(--teal);line-height:1.5;margin-bottom:14px">🛡 This document is only visible to platform admins for verification. Required before your listing goes live.</div>
+        <div class="upload-zone" style="margin-bottom:12px;padding:20px 14px">
+          <div style="font-size:24px;margin-bottom:6px;opacity:0.4">📄</div>
+          <div style="font-size:11px;font-weight:700;margin-bottom:3px">Tap to upload document</div>
+          <div style="font-size:9px;color:var(--mid)">PDF, JPG, PNG · Max 10MB</div>
+        </div>
+        <div class="submit-btn" style="font-size:12px;background:#ccc;cursor:not-allowed">Continue (upload required)</div>
+        <div class="outline-btn" style="font-size:12px;margin-top:8px">← Back</div>
+      </div>
+      <div class="m-bnav"><div class="m-bi"><span class="ico">🏠</span>Home</div><div class="m-bi"><span class="ico">🐾</span>Adopt</div><div class="m-bi active"><span class="ico">🏡</span>Rehome</div><div class="m-bi"><span class="ico">📖</span>Guides</div><div class="m-bi"><span class="ico">👤</span>Profile</div></div>
+    </div>
+  </div>
+
+  <!-- MOBILE ADMIN -->
+  <div>
+    <div class="wf-label" style="text-align:center">Admin panel (mobile)</div>
+    <div class="mobile-frame">
+      <div class="m-nav"><div class="m-logo">Paw<span>dopt</span></div><div style="background:var(--amber-l);color:#854F0B;border-radius:8px;padding:3px 8px;font-size:10px;font-weight:700">Admin</div></div>
+      <div style="background:#854F0B;padding:16px;color:white;text-align:center">
+        <div style="font-size:14px;font-weight:800">Admin overview</div>
+        <div style="display:flex;justify-content:space-around;margin-top:10px">
+          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FAC775">4</div><div style="font-size:8px;opacity:0.7">Pending</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FAC775">142</div><div style="font-size:8px;opacity:0.7">Users</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:900;color:#FAC775">38</div><div style="font-size:8px;opacity:0.7">Listings</div></div>
+        </div>
+      </div>
+      <div style="padding:12px 16px">
+        <div style="font-size:11px;font-weight:700;margin-bottom:10px">Pending reviews</div>
+        <div style="background:var(--gray);border-radius:10px;padding:10px;margin-bottom:8px;display:flex;gap:8px;align-items:center">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#FBEAF0,#F4C0D1);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🐕‍🦺</div>
+          <div style="flex:1"><div style="font-size:11px;font-weight:700">Magie</div><div style="font-size:9px;color:var(--mid)">John Collins · PDF</div></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="background:#EAF3DE;color:#3B6D11;border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700">✓</div><div style="background:#FCF0F0;color:var(--red);border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700">✕</div></div>
+        </div>
+        <div style="background:var(--gray);border-radius:10px;padding:10px;display:flex;gap:8px;align-items:center">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#E8F4F8,#C5E4EF);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🐈</div>
+          <div style="flex:1"><div style="font-size:11px;font-weight:700">Whiskers</div><div style="font-size:9px;color:var(--mid)">Marie Lavoie · JPG</div></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><div style="background:#EAF3DE;color:#3B6D11;border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700">✓</div><div style="background:#FCF0F0;color:var(--red);border-radius:5px;padding:3px 7px;font-size:9px;font-weight:700">✕</div></div>
+        </div>
+      </div>
+      <div class="m-bnav"><div class="m-bi active"><span class="ico">🏠</span>Overview</div><div class="m-bi"><span class="ico">🐾</span>Listings</div><div class="m-bi"><span class="ico">📄</span>Docs</div><div class="m-bi"><span class="ico">👤</span>Users</div><div class="m-bi"><span class="ico">📊</span>Stats</div></div>
+    </div>
+  </div>
+
+  <!-- MOBILE FAQ -->
+  <div>
+    <div class="wf-label" style="text-align:center">FAQ (mobile)</div>
+    <div class="mobile-frame">
+      <div class="m-nav"><div class="m-logo">Paw<span>dopt</span></div><div style="font-size:20px;color:var(--mid)">☰</div></div>
+      <div style="padding:14px 16px;background:var(--gray);border-bottom:1px solid var(--border);text-align:center">
+        <div style="font-size:13px;font-weight:800;margin-bottom:8px">FAQ</div>
+        <div style="display:flex;gap:6px;justify-content:center">
+          <div style="background:var(--teal);color:white;border-radius:16px;padding:5px 12px;font-size:10px;font-weight:700">Adopters</div>
+          <div style="background:white;color:var(--pink);border:1.5px solid var(--pink);border-radius:16px;padding:5px 12px;font-size:10px;font-weight:700">Rehomers</div>
+        </div>
+      </div>
+      <div>
+        <div class="faq-item" style="padding:12px 16px"><div class="faq-q" style="font-size:11px">Why are you only helping dogs and cats?</div><div class="faq-icon">+</div></div>
+        <div style="padding:10px 16px 12px;background:var(--gray);font-size:10px;color:var(--mid);line-height:1.6;border-bottom:1px solid var(--border)">We focus on dogs and cats because they are the most popular types of pet in Canada. We plan to expand in the future.</div>
+        <div class="faq-item" style="padding:12px 16px"><div class="faq-q" style="font-size:11px">Will you carry out a home check before adoption?</div><div class="faq-icon">+</div></div>
+        <div class="faq-item" style="padding:12px 16px"><div class="faq-q" style="font-size:11px">Why do I have to pay an adoption fee?</div><div class="faq-icon">+</div></div>
+        <div class="faq-item" style="padding:12px 16px"><div class="faq-q" style="font-size:11px">Can I message the pet owner before applying?</div><div class="faq-icon">+</div></div>
+        <div class="faq-item" style="padding:12px 16px;border-bottom:none"><div class="faq-q" style="font-size:11px">How do I delete my user account?</div><div class="faq-icon">+</div></div>
+      </div>
+      <div class="m-bnav"><div class="m-bi"><span class="ico">🏠</span>Home</div><div class="m-bi"><span class="ico">🐾</span>Adopt</div><div class="m-bi"><span class="ico">🏡</span>Rehome</div><div class="m-bi active"><span class="ico">📖</span>Guides</div><div class="m-bi"><span class="ico">👤</span>Profile</div></div>
+    </div>
+  </div>
+
+  <!-- MOBILE 404 -->
+  <div>
+    <div class="wf-label" style="text-align:center">404 error (mobile)</div>
+    <div class="mobile-frame">
+      <div class="m-nav"><div class="m-logo">Paw<span>dopt</span></div><div style="font-size:20px;color:var(--mid)">☰</div></div>
+      <div style="padding:48px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div style="font-size:48px;margin-bottom:4px">🐾</div>
+        <div style="font-size:52px;font-weight:900;color:var(--teal);opacity:0.12;line-height:1;margin-bottom:-10px">404</div>
+        <div style="font-size:16px;font-weight:800">Page not found</div>
+        <div style="font-size:11px;color:var(--mid);line-height:1.6;max-width:240px">The page you are looking for does not exist. Maybe this pet already found a home!</div>
+        <div class="submit-btn" style="margin-top:8px;width:100%">🏠 Back to home</div>
+        <div class="outline-btn" style="width:100%">🐾 Browse pets</div>
+      </div>
+      <div class="m-bnav"><div class="m-bi active"><span class="ico">🏠</span>Home</div><div class="m-bi"><span class="ico">🐾</span>Adopt</div><div class="m-bi"><span class="ico">🏡</span>Rehome</div><div class="m-bi"><span class="ico">📖</span>Guides</div><div class="m-bi"><span class="ico">👤</span>Profile</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

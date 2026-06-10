@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Pet Story";
+    var listingId = (int)(ViewData["ListingId"] ?? 0);
 }
 
 <div class="rehome-page">
@@ -70,7 +71,9 @@
                 </p>
             </div>
 
-            <form method="post" action="/Rehome/SaveStep6">
+            <form method="post" asp-controller="Rehome" asp-action="SaveStep6" asp-route-id="@listingId">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@listingId" />
                 <div class="rehome-story-body">
 
                     <label class="rehome-label" data-i18n="rehome-story-label">Your pet's story</label>

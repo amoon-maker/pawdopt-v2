@@ -20,3 +20,8 @@ obj/
 ## OS files
 .DS_Store
 Thumbs.db
+
+## Local secrets — each developer keeps their own copy, never commit
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json

@@ -60,6 +60,46 @@ const i18n = {
         'faq-a3': "All adopter profiles are verified and we provide a structured application process. You can review the adopter's profile, ask questions, and arrange a meet-and-greet before making a decision.",
         'faq-q4': 'Can I message the pet owner before applying?',
         'faq-a4': 'Yes! Registered users can send messages directly to pet owners or shelters through our in-platform messaging system before submitting a formal adoption application.',
+        'about-hero-eyebrow': 'OUR STORY',
+        'about-hero-title': 'Pet rehoming that actually feels human.',
+        'about-hero-subtitle': 'We started Pawdopt because we saw how broken pet rehoming felt — rushed, unclear, and full of unnecessary stress. We built something better: a platform where every connection is guided, private, and built around the animal\'s wellbeing.',
+        'about-panel-label': 'What we protect',
+        'about-panel-item1': 'Pets should move into homes with more context and less guesswork.',
+        'about-panel-item2': 'Owners deserve a respectful alternative to rushed classifieds.',
+        'about-panel-item3': 'Adopters need a clearer, calmer way to take the next step.',
+        'about-stat1': 'Small team, big care',
+        'about-stat2': 'Built in Québec',
+        'about-stat3': 'Pet-first always',
+        'about-story-eyebrow': 'WHY WE EXIST',
+        'about-story-title': 'Pawdopt began with a simple problem.',
+        'about-story-p1': 'Too many pet owners are forced into impossible choices: post on unsafe marketplaces, hand their animal to someone they barely know, or wait for already overwhelmed support systems.',
+        'about-story-p2': "At the same time, caring adopters often struggle to understand a pet's real needs, history, and personality before reaching out. We built Pawdopt to make that connection more thoughtful for everyone involved.",
+        'about-note-title': 'What guides every decision',
+        'about-note-text': 'Protect the pet, respect the person, and make the next step feel clear instead of overwhelming.',
+        'about-values-eyebrow': 'WHAT WE BELIEVE',
+        'about-values-title': 'The principles behind the platform',
+        'about-value1-title': 'Clarity builds trust',
+        'about-value1-text': 'Better profiles, better pet details, and honest expectations help the right people find each other faster.',
+        'about-value2-title': 'Support beats pressure',
+        'about-value2-text': 'Rehoming can be emotional. Our flows are designed to guide people gently instead of pushing rushed decisions.',
+        'about-value3-title': 'A better match matters most',
+        'about-value3-text': 'Every feature should move pets toward homes that fit their needs, routines, and temperament for the long term.',
+        'about-impact-eyebrow': 'WHAT PAWDOPT DOES',
+        'about-impact-title': 'More than listings, a calmer process from start to finish.',
+        'about-feature1-title': 'Structured pet profiles',
+        'about-feature1-text': 'Health, personality, lifestyle, and story details help adopters understand the full picture before they connect.',
+        'about-feature2-title': 'Safer communication',
+        'about-feature2-text': 'Owners keep control over who they respond to while adopters can reach out with more confidence and context.',
+        'about-feature3-title': 'Thoughtful matching',
+        'about-feature3-text': "The goal is not speed at any cost. It's helping the right family and the right pet find each other.",
+        'about-commitment-eyebrow': 'OUR COMMITMENT',
+        'about-commitment-title': 'Designed for real-life rehoming moments',
+        'about-commitment-text': 'Whether someone is navigating a move, a health change, a family transition, or simply trying to choose responsibly, Pawdopt should feel supportive, not transactional.',
+        'about-commitment-link': 'See how rehoming works →',
+        'about-cta-title': 'Ready to meet Pawdopt in action?',
+        'about-cta-text': 'Explore available pets or start a rehoming journey with a flow built to feel clear, respectful, and safe.',
+        'about-cta-btn1': 'Explore pets',
+        'about-cta-btn2': 'Go to rehome',
         'footer-tagline': "Quebec's trusted pet adoption and rehoming platform.",
         'footer-explore': 'Explore',
         'footer-company': 'Company',
@@ -88,7 +128,6 @@ const i18n = {
         'pd-apply':       'Apply to Adopt',
         'pd-save':        'Save to Favourites',
         'pd-message':     'Message Owner',
-        'pd-login-note':  'You need an account to apply.',
         'pd-login-link':  'Login or Register →',
         'pd-how-title':   'How adoption works',
         'pd-how-1':       'Create your profile and submit a short application',
@@ -149,13 +188,13 @@ const i18n = {
         'rehome-img-step-desc': 'Great photos increase adoption chances significantly.',
         'rehome-img-drop-title': 'Drag your photos here',
         'rehome-img-drop-sub': 'or click to browse files',
-        'rehome-img-drop-hint': 'JPG · PNG · WebP · Max 5 MB each · Up to 6 photos',
+        'rehome-img-drop-hint': 'JPG · PNG · WebP · Max 5 MB each · Up to 3 photos',
         'rehome-img-counter-label': 'photos added',
         'rehome-img-tips-title': 'Photo tips',
         'rehome-img-tip1': 'Use natural lighting for clearer, warmer photos',
         'rehome-img-tip2': 'Include a clear face shot as the first (main) photo',
         'rehome-img-tip3': 'Show different angles and environments',
-        'rehome-img-tip4': '3–6 photos gets the best response from adopters',
+        'rehome-img-tip4': 'Up to 3 photos keeps things clear and focused for adopters',
         'rehome-char-title': 'Describe your pet\'s character',
         'rehome-char-step-pill': 'Step 3 of 8',
         'rehome-char-step-desc': 'Help adopters understand what makes your pet special.',
@@ -275,41 +314,150 @@ const i18n = {
         'rehome-success-next3-desc': 'Interested adopters will send you applications for you to review at your own pace.',
         'rehome-success-btn-home': 'Back to Home',
         'rehome-success-btn-browse': 'Browse pets →',
-        'rl-eyebrow': 'PETS LOOKING FOR A NEW HOME',
-        'rl-title': 'Help them find their forever family',
-        'rl-subtitle': 'Browse pets in need of rehoming, or list your own pet safely and for free.',
-        'rl-btn-list': 'List my pet →',
-        'rl-stat-label': 'pets rehomed this month',
-        'rl-search-placeholder': 'Search by breed, name, or keyword…',
-        'rl-search-btn': 'Search',
-        'rl-filters-title': 'Filters',
-        'rl-filters-reset': 'Reset all',
-        'rl-filter-type': 'Pet type',
-        'rl-type-all': 'All',
-        'rl-type-dogs': 'Dogs',
-        'rl-type-cats': 'Cats',
-        'rl-filter-size': 'Size',
-        'rl-filter-age': 'Age',
-        'rl-filter-gender': 'Gender',
-        'rl-filter-province': 'Province',
-        'rl-any': 'Any',
-        'rl-any-province': 'Any province',
-        'rl-age-young': 'Young',
-        'rl-age-adult': 'Adult',
-        'rl-age-senior': 'Senior',
-        'rl-apply-btn': 'Apply filters',
-        'rl-results-label': ' pets available',
-        'rl-sort-label': 'Sort by:',
-        'rl-sort-newest': 'Newest first',
-        'rl-sort-az': 'Name A–Z',
-        'rl-sort-za': 'Name Z–A',
-        'rl-sort-youngest': 'Youngest first',
-        'rl-sort-oldest': 'Oldest first',
-        'rl-empty-title': 'No pets match your filters',
-        'rl-empty-desc': 'Try adjusting or clearing your filters to see more results.',
-        'rl-empty-clear': 'Clear all filters',
-        'rl-cta-title': 'Have a pet that needs a new home?',
-        'rl-cta-desc': 'Create a free listing in minutes and connect with verified adopters.',
+        'rl-eyebrow': '🐾 FOR PET OWNERS',
+        'rl-title': 'Give your pet the home they deserve',
+        'rl-subtitle': 'List your pet for free and connect directly with caring adopters in your area, in minutes.',
+        'rl-btn-list': 'Start listing →',
+        'rl-btn-advisors': 'Talk to the community ↓',
+        'rl-paw1': 'Always free',
+        'rl-paw2': 'Verified adopters',
+        'rl-paw3': 'You stay in control',
+        'rl-paw4': 'Safe & private',
+        'rl-auth-title': 'You need an account',
+        'rl-auth-sub': 'Create a free account or sign in to start your listing. It only takes a minute.',
+        'rl-auth-signup': 'Create a free account →',
+        'rl-auth-login': 'I already have an account →',
+        'rl-metric1': 'rehomed this month',
+        'rl-metric2': 'to create a listing',
+        'rl-metric3': 'always & forever',
+        'rl-how-title': 'How rehoming works',
+        'rl-how-sub': 'Three simple steps to finding your pet a loving new home',
+        'rl-how-s1': 'Create your listing',
+        'rl-how-s1d': "Fill out a short profile about your pet: personality, health, photos, and the kind of home you're hoping for.",
+        'rl-how-s2': 'Get connected',
+        'rl-how-s2d': "Verified adopters near you discover your listing and reach out. You choose who to respond to, and you're always in control.",
+        'rl-how-s3': 'Find the right match',
+        'rl-how-s3d': 'Meet potential adopters, ask questions, and when it feels right, hand your pet to their new family with confidence.',
+        'rl-adv-title': "Talk to someone who's been there",
+        'rl-adv-sub': "Connect with Pawdopt members who've already rehomed a pet. They know what it feels like, and they're happy to share their experience.",
+        'rl-adv-r1': '🐕 Rehomed a Golden Retriever',
+        'rl-adv-r2': '🐈 Rehomed two tabby cats',
+        'rl-adv-r3': '🐕 Rehomed a rescue mix',
+        'rl-adv-r4': '🐈 Rehomed a senior cat',
+        'rl-adv-d1': '"Be honest about your pet\'s energy level. It saves time and finds the right match faster."',
+        'rl-adv-d2': '"Don\'t rush. A thoughtful listing and good photos make all the difference."',
+        'rl-adv-d3': '"Take your time with screening. The right family will come, don\'t settle for the first offer."',
+        'rl-adv-d4': '"Senior pets can find wonderful homes. Don\'t let age scare you, highlight their gentle nature."',
+        'rl-adv-when1': '6 months ago',
+        'rl-adv-when2': 'About a year ago',
+        'rl-adv-when3': '8 months ago',
+        'rl-adv-when4': '3 months ago',
+        'rl-adv-btn': 'Read their story →',
+        'rl-why-title': 'Why rehome through Pawdopt?',
+        'rl-why-c1': 'Safe & private',
+        'rl-why-c1d': 'Your address is never shown publicly. Only your city and province appear on your listing.',
+        'rl-why-c3': 'Direct contact',
+        'rl-why-c3d': 'Talk to adopters before deciding. Read their profiles and ask as many questions as you need.',
+        'rl-why-c4': 'You stay in control',
+        'rl-why-c4d': 'You choose who to meet. You decide the timing. You pick the family that feels right for your pet.',
+        // Care Guide page
+        'care-see-all': 'View all care guides →',
+        'cg-breadcrumb': 'Care Guide',
+        'cg-eyebrow': 'LEARN & PREPARE',
+        'cg-page-title': 'Pet Care Guides',
+        'cg-subtitle': 'Everything you need to know to give your pet a happy, healthy life in Quebec.',
+        'cg-tab-dogs': '🐕 Dogs',
+        'cg-tab-cats': '🐈 Cats',
+        'cg-tab-small': '🐰 Small Pets',
+        'cg-dog-intro-title': 'Caring for your dog',
+        'cg-dog-intro-desc': 'Dogs are loyal, social animals that thrive on routine, love, and consistent care. Whether you\'re a first-time owner or welcoming a new companion, these guides cover everything from daily feeding to long-term health.',
+        'cg-dog-nutrition-title': 'Nutrition & Feeding',
+        'cg-dog-exercise-title': 'Exercise & Play',
+        'cg-dog-training-title': 'Training Basics',
+        'cg-dog-health-title': 'Health & Vet Care',
+        'cg-dog-grooming-title': 'Grooming',
+        'cg-checklist-title': 'First week checklist',
+        'cg-cat-intro-title': 'Caring for your cat',
+        'cg-cat-intro-desc': 'Cats are independent yet deeply affectionate animals that need a safe, enriched environment to flourish. Learn how to meet their physical and emotional needs from day one.',
+        'cg-cat-nutrition-title': 'Nutrition & Diet',
+        'cg-cat-litter-title': 'Litter Box & Hygiene',
+        'cg-cat-enrichment-title': 'Enrichment & Play',
+        'cg-cat-health-title': 'Health & Vaccines',
+        'cg-cat-grooming-title': 'Grooming',
+        'cg-small-intro-title': 'Small pets & pocket animals',
+        'cg-small-intro-desc': 'Small animals have big personalities and specific care needs. Whether you\'ve adopted a rabbit, hamster, or bird, these guides help you create the ideal environment for them to thrive.',
+        'cg-small-rabbit-title': '🐰 Rabbits',
+        'cg-small-hamster-title': '🐹 Hamsters & Guinea Pigs',
+        'cg-small-bird-title': '🦜 Birds',
+        'cg-cta-title': 'Ready to find your companion?',
+        'cg-cta-desc': 'Browse our available pets and start your adoption journey today.',
+        'cg-cta-btn': 'Browse all pets →',
+        'cg-pro-tip': 'Pro Tip',
+        // Adopt page
+        'adopt-breadcrumb': 'Adopt a pet',
+        'adopt-filters-title': 'Filters',
+        'adopt-reset-all': 'Reset all',
+        'adopt-filter-pet-type': 'Pet type',
+        'adopt-type-all': 'All',
+        'adopt-type-dogs': 'Dogs',
+        'adopt-type-cats': 'Cats',
+        'adopt-filter-location': 'Location',
+        'adopt-use-location': '📡 Use current location',
+        'adopt-filter-distance': 'Distance',
+        'adopt-filter-size': 'Size',
+        'adopt-size-any': 'Any',
+        'adopt-filter-breed': 'Breed',
+        'adopt-breed-placeholder': 'Any breed…',
+        'adopt-filter-gender': 'Gender',
+        'adopt-filter-age': 'Age',
+        'adopt-age-any': 'Any',
+        'adopt-age-young': 'Young',
+        'adopt-age-adult': 'Adult',
+        'adopt-age-senior': 'Senior',
+        'adopt-filter-health': 'Health status',
+        'adopt-health-vaccinated': 'Vaccinated',
+        'adopt-health-neutered': 'Neutered / Spayed',
+        'adopt-health-microchipped': 'Microchipped',
+        'adopt-apply-filters': 'Apply filters',
+        'adopt-pets-found': ' pets found',
+        'adopt-sort-newest': 'Newest first',
+        'adopt-sort-az': 'Name A–Z',
+        'adopt-sort-za': 'Name Z–A',
+        'adopt-sort-youngest': 'Youngest first',
+        'adopt-sort-oldest': 'Oldest first',
+        'adopt-empty-clear': 'Clear All Filters',
+        'pet-badge-urgent': 'Urgent',
+        'pet-health-vaccinated': '💉 Vaccinated',
+        'pet-health-neutered': '✂️ Neutered',
+        'pet-health-chipped': '📡 Chipped',
+        'adopt-chip-breed-suffix': '(breed)',
+        'adopt-fav-save': 'Save to favourites',
+        'adopt-fav-remove': 'Remove from favourites',
+        // Auth pages
+        'auth-login-title': 'Welcome back',
+        'auth-login-sub': 'Sign in to your Pawdopt account',
+        'auth-email': 'Email address',
+        'auth-password': 'Password',
+        'auth-confirm-pwd': 'Confirm password',
+        'auth-remember': 'Remember me',
+        'auth-forgot': 'Forgot password?',
+        'auth-forgot-msg': 'Password reset is not available in the demo. Please contact <strong>support@pawdopt.ca</strong>.',
+        'auth-btn-login': 'Sign in',
+        'auth-no-account': "Don't have an account?",
+        'auth-register-link': 'Register →',
+        'auth-reg-title': 'Create your account',
+        'auth-reg-sub': 'Join Pawdopt and start your adoption journey',
+        'auth-fullname': 'Full name',
+        'auth-city': 'City (optional)',
+        'auth-role-title': 'I am a:',
+        'auth-role-adopter': 'Adopter',
+        'auth-role-adopter-desc': 'I want to find a pet to adopt',
+        'auth-role-rehomer': 'Rehomer',
+        'auth-role-rehomer-desc': 'I need to find a new home for my pet',
+        'auth-btn-register': 'Create account',
+        'auth-has-account': 'Already have an account?',
+        'auth-login-link': 'Sign in →',
+        'pd-login-note': 'You need an account to apply or save pets.',
     },
     fr: {
         'nav-home': 'Accueil',
@@ -365,6 +513,46 @@ const i18n = {
         'faq-a3': "Tous les profils d'adoptants sont vérifiés et nous proposons un processus de candidature structuré. Vous pouvez consulter le profil de l'adoptant, poser des questions et organiser une rencontre avant de prendre une décision.",
         'faq-q4': "Puis-je contacter le propriétaire de l'animal avant de postuler?",
         'faq-a4': "Oui ! Les utilisateurs inscrits peuvent envoyer des messages directement aux propriétaires d'animaux ou aux refuges via notre système de messagerie intégré, avant de soumettre une demande d'adoption formelle.",
+        'about-hero-eyebrow': 'NOTRE HISTOIRE',
+        'about-hero-title': 'Un réhébergement qui se sent vraiment humain.',
+        'about-hero-subtitle': "Nous avons lancé Pawdopt parce que nous avons vu à quel point le réhébergement d'animaux était difficile — précipité, flou et stressant. Nous avons construit quelque chose de mieux : une plateforme où chaque connexion est guidée, privée et centrée sur le bien-être de l'animal.",
+        'about-panel-label': 'Ce que nous protégeons',
+        'about-panel-item1': "Les animaux méritent des foyers trouvés avec plus de contexte et moins d'improvisation.",
+        'about-panel-item2': 'Les propriétaires méritent une alternative respectueuse aux petites annonces précipitées.',
+        'about-panel-item3': "Les adoptants ont besoin d'une prochaine étape plus claire et plus apaisante.",
+        'about-stat1': 'Petite équipe, grand soin',
+        'about-stat2': 'Construit au Québec',
+        'about-stat3': "L'animal d'abord",
+        'about-story-eyebrow': 'POURQUOI NOUS EXISTONS',
+        'about-story-title': "Pawdopt est né d'un problème simple.",
+        'about-story-p1': "Trop de propriétaires doivent faire un choix impossible : publier sur des plateformes peu sûres, confier leur animal à quelqu'un qu'ils connaissent à peine, ou attendre des réseaux déjà débordés.",
+        'about-story-p2': "En même temps, des adoptants attentionnés ont souvent du mal à comprendre les vrais besoins, l'historique et la personnalité d'un animal avant de prendre contact. Nous avons créé Pawdopt pour rendre cette rencontre plus réfléchie pour tout le monde.",
+        'about-note-title': 'Ce qui guide chaque décision',
+        'about-note-text': "Protéger l'animal, respecter la personne, et rendre la prochaine étape claire plutôt qu'écrasante.",
+        'about-values-eyebrow': 'CE EN QUOI NOUS CROYONS',
+        'about-values-title': 'Les principes derrière la plateforme',
+        'about-value1-title': 'La clarté crée la confiance',
+        'about-value1-text': 'De meilleurs profils, de meilleurs détails et des attentes honnêtes aident les bonnes personnes à se trouver plus vite.',
+        'about-value2-title': 'Le soutien avant la pression',
+        'about-value2-text': 'Le réhébergement peut être émotionnel. Nos parcours guident avec douceur au lieu de pousser à des décisions hâtives.',
+        'about-value3-title': 'La bonne correspondance avant tout',
+        'about-value3-text': 'Chaque fonctionnalité doit rapprocher les animaux de foyers adaptés à leurs besoins, leurs habitudes et leur tempérament.',
+        'about-impact-eyebrow': 'CE QUE FAIT PAWDOPT',
+        'about-impact-title': 'Bien plus que des annonces, un processus plus calme du début à la fin.',
+        'about-feature1-title': 'Profils structurés',
+        'about-feature1-text': "Santé, personnalité, style de vie et histoire aident les adoptants à comprendre l'ensemble avant de prendre contact.",
+        'about-feature2-title': 'Communication plus sûre',
+        'about-feature2-text': 'Les propriétaires gardent le contrôle sur les réponses, tandis que les adoptants contactent avec plus de confiance et de contexte.',
+        'about-feature3-title': 'Correspondance réfléchie',
+        'about-feature3-text': "Le but n'est pas d'aller vite à tout prix. C'est d'aider la bonne famille et le bon animal à se trouver.",
+        'about-commitment-eyebrow': 'NOTRE ENGAGEMENT',
+        'about-commitment-title': 'Pensé pour les vrais moments de réhébergement',
+        'about-commitment-text': "Qu'il s'agisse d'un déménagement, d'un changement de santé, d'une transition familiale ou simplement d'un choix responsable, Pawdopt doit rester rassurant, pas transactionnel.",
+        'about-commitment-link': 'Voir comment fonctionne le réhébergement →',
+        'about-cta-title': 'Prêt à voir Pawdopt en action ?',
+        'about-cta-text': 'Découvrez les animaux disponibles ou commencez un réhébergement avec un parcours clair, respectueux et sécurisant.',
+        'about-cta-btn1': 'Découvrir les animaux',
+        'about-cta-btn2': 'Aller vers Rehome',
         'footer-tagline': "La plateforme québécoise de confiance pour l'adoption et le réhébergement d'animaux.",
         'footer-explore': 'Explorer',
         'footer-company': 'Compagnie',
@@ -380,20 +568,20 @@ const i18n = {
         'pd-traits':      'Personnalité et traits',
         'pd-health':      'État de santé',
         'pd-location':    'Localisation',
-        'pd-apply':       "Demander l’adoption",
+        'pd-apply':       "Demander l'adoption",
         'pd-save':        'Sauvegarder',
         'pd-message':     'Contacter le propriétaire',
-        'pd-login-note':  'Vous devez avoir un compte pour postuler.',
+        'pd-login-note':  'Vous devez avoir un compte pour postuler ou sauvegarder des animaux.',
         'pd-login-link':  'Connexion ou inscription →',
-        'pd-how-title':   "Comment fonctionne l’adoption",
+        'pd-how-title':   "Comment fonctionne l'adoption",
         'pd-how-1':       'Créez votre profil et soumettez une courte demande',
         'pd-how-2':       'Le propriétaire examine votre profil et organise une rencontre',
-        'pd-how-3':       "Une fois accepté, contactez-vous directement pour l’arrangement",
+        'pd-how-3':       "Une fois accepté, contactez-vous directement pour l'arrangement",
         'pd-similar':     'Animaux similaires qui pourraient vous plaire',
         // Adopter profile (FR)
         'ap-demo-note':         'Vous consultez un profil de démonstration. Connectez-vous pour voir le vôtre.',
         'ap-completion':        'Complétion du profil',
-        'ap-tab-overview':      "Vue d’ensemble",
+        'ap-tab-overview':      "Vue d'ensemble",
         'ap-tab-applications':  'Mes demandes',
         'ap-tab-saved':         'Animaux sauvegardés',
         'ap-tab-settings':      'Paramètres',
@@ -401,7 +589,7 @@ const i18n = {
         'ap-stat-saved':        'Animaux sauvegardés',
         'ap-stat-profile':      'Profil complété',
         'ap-recent':            'Activité récente',
-        'ap-my-apps':           "Mes demandes d’adoption",
+        'ap-my-apps':           "Mes demandes d'adoption",
         'ap-saved-pets':        'Animaux sauvegardés',
         'ap-settings-personal': 'Informations personnelles',
         'ap-settings-password': 'Changer le mot de passe',
@@ -444,13 +632,13 @@ const i18n = {
         'rehome-img-step-desc': "De bonnes photos augmentent considérablement les chances d'adoption.",
         'rehome-img-drop-title': 'Glissez vos photos ici',
         'rehome-img-drop-sub': 'ou cliquez pour parcourir les fichiers',
-        'rehome-img-drop-hint': 'JPG · PNG · WebP · Max 5 Mo chacune · Jusqu\'à 6 photos',
+        'rehome-img-drop-hint': 'JPG · PNG · WebP · Max 5 Mo chacune · Jusqu\'à 3 photos',
         'rehome-img-counter-label': 'photos ajoutées',
         'rehome-img-tips-title': 'Conseils photo',
         'rehome-img-tip1': 'Utilisez la lumière naturelle pour des photos plus claires et chaleureuses',
         'rehome-img-tip2': 'Incluez une photo nette du visage comme première (principale) photo',
         'rehome-img-tip3': 'Montrez différents angles et environnements',
-        'rehome-img-tip4': '3 à 6 photos obtiennent la meilleure réponse des adoptants',
+        'rehome-img-tip4': 'Jusqu\'à 3 photos suffit pour attirer les bons adoptants',
         'rehome-char-title': 'Décrivez le caractère de votre animal',
         'rehome-char-step-pill': 'Étape 3 sur 8',
         'rehome-char-step-desc': 'Aidez les adoptants à comprendre ce qui rend votre animal spécial.',
@@ -570,43 +758,153 @@ const i18n = {
         'rehome-success-next3-desc': 'Les adoptants intéressés vous enverront des demandes que vous pouvez examiner à votre rythme.',
         'rehome-success-btn-home': 'Retour à l\'accueil',
         'rehome-success-btn-browse': 'Voir les animaux →',
-        'rl-eyebrow': 'ANIMAUX À LA RECHERCHE D\'UN NOUVEAU FOYER',
-        'rl-title': 'Aidez-les à trouver leur famille pour toujours',
-        'rl-subtitle': 'Parcourez les animaux en attente d\'un nouveau foyer, ou publiez votre annonce gratuitement.',
-        'rl-btn-list': 'Lister mon animal →',
-        'rl-stat-label': 'animaux réhébergés ce mois-ci',
-        'rl-search-placeholder': 'Rechercher par race, nom ou mot-clé…',
-        'rl-search-btn': 'Rechercher',
-        'rl-filters-title': 'Filtres',
-        'rl-filters-reset': 'Tout réinitialiser',
-        'rl-filter-type': 'Type d\'animal',
-        'rl-type-all': 'Tous',
-        'rl-type-dogs': 'Chiens',
-        'rl-type-cats': 'Chats',
-        'rl-filter-size': 'Taille',
-        'rl-filter-age': 'Âge',
-        'rl-filter-gender': 'Sexe',
-        'rl-filter-province': 'Province',
-        'rl-any': 'Tous',
-        'rl-any-province': 'Toute province',
-        'rl-age-young': 'Jeune',
-        'rl-age-adult': 'Adulte',
-        'rl-age-senior': 'Sénior',
-        'rl-apply-btn': 'Appliquer les filtres',
-        'rl-results-label': ' animaux disponibles',
-        'rl-sort-label': 'Trier par :',
-        'rl-sort-newest': 'Plus récents',
-        'rl-sort-az': 'Nom A–Z',
-        'rl-sort-za': 'Nom Z–A',
-        'rl-sort-youngest': 'Plus jeunes',
-        'rl-sort-oldest': 'Plus âgés',
-        'rl-empty-title': 'Aucun animal ne correspond à vos filtres',
-        'rl-empty-desc': 'Essayez d\'ajuster ou de réinitialiser vos filtres pour voir plus de résultats.',
-        'rl-empty-clear': 'Effacer tous les filtres',
-        'rl-cta-title': 'Avez-vous un animal qui a besoin d\'un nouveau foyer ?',
-        'rl-cta-desc': 'Créez une annonce gratuite en quelques minutes et connectez-vous avec des adoptants vérifiés.',
+        'rl-eyebrow': '🐾 POUR LES PROPRIÉTAIRES D\'ANIMAUX',
+        'rl-title': 'Offrez à votre animal le foyer qu\'il mérite',
+        'rl-subtitle': 'Publiez une annonce gratuite et connectez-vous directement avec des adoptants bienveillants dans votre région, en quelques minutes.',
+        'rl-btn-list': 'Créer une annonce →',
+        'rl-btn-advisors': 'Parler à la communauté ↓',
+        'rl-paw1': 'Toujours gratuit',
+        'rl-paw2': 'Adoptants vérifiés',
+        'rl-paw3': 'Vous restez aux commandes',
+        'rl-paw4': 'Sécurisé et privé',
+        'rl-auth-title': 'Vous avez besoin d\'un compte',
+        'rl-auth-sub': 'Créez un compte gratuit ou connectez-vous pour publier votre annonce. Ça prend une minute.',
+        'rl-auth-signup': 'Créer un compte gratuit →',
+        'rl-auth-login': 'J\'ai déjà un compte →',
+        'rl-metric1': 'réhébergés ce mois-ci',
+        'rl-metric2': 'pour créer une annonce',
+        'rl-metric3': 'toujours gratuit',
+        'rl-how-title': 'Comment fonctionne le réhébergement',
+        'rl-how-sub': 'Trois étapes simples pour trouver un nouveau foyer aimant à votre animal',
+        'rl-how-s1': 'Créez votre annonce',
+        'rl-how-s1d': 'Remplissez un profil court sur votre animal : personnalité, santé, photos et le type de foyer que vous recherchez.',
+        'rl-how-s2': 'Entrez en contact',
+        'rl-how-s2d': 'Des adoptants vérifiés près de chez vous découvrent votre annonce et vous contactent. Vous choisissez à qui répondre et gardez toujours le contrôle.',
+        'rl-how-s3': 'Trouvez la bonne correspondance',
+        'rl-how-s3d': 'Rencontrez les adoptants potentiels, posez vos questions et, quand ça vous semble juste, confiez votre animal à sa nouvelle famille en toute confiance.',
+        'rl-adv-title': 'Parlez à quelqu\'un qui est passé par là',
+        'rl-adv-sub': 'Connectez-vous avec des membres Pawdopt qui ont déjà confié un animal. Ils savent ce que c\'est, et ils sont prêts à partager leur vécu.',
+        'rl-adv-r1': '🐕 A confié un Golden Retriever',
+        'rl-adv-r2': '🐈 A confié deux chats tigrés',
+        'rl-adv-r3': '🐕 A confié un chien de sauvetage',
+        'rl-adv-r4': '🐈 A confié un chat sénior',
+        'rl-adv-d1': '"Soyez honnête sur le niveau d\'énergie de votre animal. Ça fait gagner du temps et trouve la bonne correspondance plus vite."',
+        'rl-adv-d2': '"Ne vous précipitez pas. Une annonce réfléchie avec de bonnes photos fait toute la différence."',
+        'rl-adv-d3': '"Prenez le temps de sélectionner les candidats. La bonne famille viendra, ne vous contentez pas de la première offre."',
+        'rl-adv-d4': '"Les animaux âgés peuvent trouver de merveilleuses familles. L\'âge n\'est pas un obstacle, mettez en avant leur douceur."',
+        'rl-adv-when1': 'Il y a 6 mois',
+        'rl-adv-when2': 'Il y a environ un an',
+        'rl-adv-when3': 'Il y a 8 mois',
+        'rl-adv-when4': 'Il y a 3 mois',
+        'rl-adv-btn': 'Lire leur histoire →',
+        'rl-why-title': 'Pourquoi réhéberger via Pawdopt ?',
+        'rl-why-c1': 'Sûr et privé',
+        'rl-why-c1d': 'Votre adresse n\'est jamais affichée publiquement. Seuls votre ville et votre province apparaissent sur votre annonce.',
+        'rl-why-c3': 'Contact direct',
+        'rl-why-c3d': 'Parlez aux adoptants avant de décider. Consultez leurs profils et posez autant de questions que vous le souhaitez.',
+        'rl-why-c4': 'Vous gardez le contrôle',
+        'rl-why-c4d': 'Vous choisissez qui rencontrer. Vous décidez du moment. Vous sélectionnez la famille qui vous semble être la bonne pour votre animal.',
+        // Care Guide page
+        'care-see-all': 'Voir tous les guides →',
+        'cg-breadcrumb': 'Guide de soins',
+        'cg-eyebrow': 'APPRENDRE & SE PRÉPARER',
+        'cg-page-title': 'Guides de soins pour animaux',
+        'cg-subtitle': 'Tout ce dont vous avez besoin pour offrir à votre animal une vie heureuse et saine au Québec.',
+        'cg-tab-dogs': '🐕 Chiens',
+        'cg-tab-cats': '🐈 Chats',
+        'cg-tab-small': '🐰 Petits animaux',
+        'cg-dog-intro-title': 'Prendre soin de votre chien',
+        'cg-dog-intro-desc': "Les chiens sont des animaux loyaux et sociaux qui s'épanouissent avec une routine, de l'amour et des soins constants. Que vous soyez propriétaire pour la première fois ou que vous accueilliez un nouveau compagnon, ces guides couvrent tout.",
+        'cg-dog-nutrition-title': 'Nutrition et alimentation',
+        'cg-dog-exercise-title': 'Exercice et jeu',
+        'cg-dog-training-title': 'Bases du dressage',
+        'cg-dog-health-title': 'Santé et soins vétérinaires',
+        'cg-dog-grooming-title': 'Toilettage',
+        'cg-checklist-title': 'Liste de la première semaine',
+        'cg-cat-intro-title': 'Prendre soin de votre chat',
+        'cg-cat-intro-desc': "Les chats sont des animaux indépendants mais profondément affectueux qui ont besoin d'un environnement sûr et enrichissant pour s'épanouir. Apprenez à répondre à leurs besoins physiques et émotionnels dès le premier jour.",
+        'cg-cat-nutrition-title': 'Nutrition et régime alimentaire',
+        'cg-cat-litter-title': 'Litière et hygiène',
+        'cg-cat-enrichment-title': 'Enrichissement et jeu',
+        'cg-cat-health-title': 'Santé et vaccins',
+        'cg-cat-grooming-title': 'Toilettage',
+        'cg-small-intro-title': 'Petits animaux de compagnie',
+        'cg-small-intro-desc': "Les petits animaux ont de grandes personnalités et des besoins de soins spécifiques. Que vous ayez adopté un lapin, un hamster ou un oiseau, ces guides vous aident à créer l'environnement idéal.",
+        'cg-small-rabbit-title': '🐰 Lapins',
+        'cg-small-hamster-title': '🐹 Hamsters et cochons d\'Inde',
+        'cg-small-bird-title': '🦜 Oiseaux',
+        'cg-cta-title': 'Prêt à trouver votre compagnon ?',
+        'cg-cta-desc': "Parcourez nos animaux disponibles et commencez votre parcours d'adoption aujourd'hui.",
+        'cg-cta-btn': 'Voir tous les animaux →',
+        'cg-pro-tip': 'Conseil pratique',
+        // Adopt page
+        'adopt-breadcrumb': 'Adopter un animal',
+        'adopt-filters-title': 'Filtres',
+        'adopt-reset-all': 'Réinitialiser',
+        'adopt-filter-pet-type': "Type d'animal",
+        'adopt-type-all': 'Tous',
+        'adopt-type-dogs': 'Chiens',
+        'adopt-type-cats': 'Chats',
+        'adopt-filter-location': 'Localisation',
+        'adopt-use-location': '📡 Utiliser ma position',
+        'adopt-filter-distance': 'Distance',
+        'adopt-filter-size': 'Taille',
+        'adopt-size-any': 'Tout',
+        'adopt-filter-breed': 'Race',
+        'adopt-breed-placeholder': 'Toute race…',
+        'adopt-filter-gender': 'Sexe',
+        'adopt-filter-age': 'Âge',
+        'adopt-age-any': 'Tout',
+        'adopt-age-young': 'Jeune',
+        'adopt-age-adult': 'Adulte',
+        'adopt-age-senior': 'Aîné',
+        'adopt-filter-health': 'État de santé',
+        'adopt-health-vaccinated': 'Vacciné',
+        'adopt-health-neutered': 'Stérilisé(e)',
+        'adopt-health-microchipped': 'Micropucé',
+        'adopt-apply-filters': 'Appliquer les filtres',
+        'adopt-pets-found': ' animaux trouvés',
+        'adopt-sort-newest': "Plus récents d'abord",
+        'adopt-sort-az': 'Nom A–Z',
+        'adopt-sort-za': 'Nom Z–A',
+        'adopt-sort-youngest': "Plus jeunes d'abord",
+        'adopt-sort-oldest': "Plus anciens d'abord",
+        'adopt-empty-clear': 'Effacer tous les filtres',
+        'pet-badge-urgent': 'Urgent',
+        'pet-health-vaccinated': '💉 Vacciné',
+        'pet-health-neutered': '✂️ Stérilisé',
+        'pet-health-chipped': '📡 Micropucé',
+        'adopt-chip-breed-suffix': '(race)',
+        'adopt-fav-save': 'Sauvegarder dans les favoris',
+        'adopt-fav-remove': 'Retirer des favoris',
+        // Auth pages
+        'auth-login-title': 'Bienvenue',
+        'auth-login-sub': 'Connectez-vous à votre compte Pawdopt',
+        'auth-email': 'Adresse courriel',
+        'auth-password': 'Mot de passe',
+        'auth-confirm-pwd': 'Confirmer le mot de passe',
+        'auth-remember': 'Se souvenir de moi',
+        'auth-forgot': 'Mot de passe oublié ?',
+        'auth-forgot-msg': "La réinitialisation n'est pas disponible dans la démo. Contactez <strong>support@pawdopt.ca</strong>.",
+        'auth-btn-login': 'Se connecter',
+        'auth-no-account': "Vous n'avez pas de compte ?",
+        'auth-register-link': "S'inscrire →",
+        'auth-reg-title': 'Créez votre compte',
+        'auth-reg-sub': "Rejoignez Pawdopt et commencez votre parcours d'adoption",
+        'auth-fullname': 'Nom complet',
+        'auth-city': 'Ville (optionnel)',
+        'auth-role-title': 'Je suis un(e) :',
+        'auth-role-adopter': 'Adoptant(e)',
+        'auth-role-adopter-desc': 'Je veux trouver un animal à adopter',
+        'auth-role-rehomer': 'Confiant(e)',
+        'auth-role-rehomer-desc': 'Je dois trouver un nouveau foyer pour mon animal',
+        'auth-btn-register': 'Créer un compte',
+        'auth-has-account': 'Vous avez déjà un compte ?',
+        'auth-login-link': 'Se connecter →',
     }
 };
+
+window.pawdoptI18n = i18n;
 
 function applyLang(lang) {
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
@@ -621,11 +919,12 @@ function applyLang(lang) {
         const key = el.getAttribute('data-i18n-placeholder');
         if (i18n[lang][key] !== undefined) el.placeholder = i18n[lang][key];
     });
-    document.querySelectorAll('#termsModal [data-lang]').forEach(function (el) {
+    document.querySelectorAll('[data-lang]').forEach(function (el) {
         el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
     });
     document.documentElement.lang = lang === 'fr' ? 'fr' : 'en';
     localStorage.setItem('pawdopt-lang', lang);
+    document.dispatchEvent(new CustomEvent('pawdopt:langchange', { detail: { lang: lang } }));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -672,6 +971,54 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // ── Notification bell dropdown ────────────────────
+    var notifWrap     = document.getElementById('notifWrap');
+    var notifBtn      = document.getElementById('notifBtn');
+    var notifDropdown = document.getElementById('notifDropdown');
+    if (notifBtn && notifDropdown && notifWrap) {
+        notifBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isOpen = notifWrap.classList.contains('open');
+            notifWrap.classList.toggle('open', !isOpen);
+            notifBtn.setAttribute('aria-expanded', (!isOpen).toString());
+            // Mark notifications read on open (fire-and-forget)
+            if (!isOpen) {
+                notifDropdown.querySelectorAll('.notif-item[data-notif-id]').forEach(function (el) {
+                    if (el.classList.contains('unread')) {
+                        fetch('/Notifications/MarkRead/' + el.dataset.notifId, { method: 'POST' });
+                        el.classList.remove('unread');
+                        var dot = el.querySelector('.notif-dot');
+                        if (dot) dot.remove();
+                    }
+                });
+                var badge = notifBtn.querySelector('.notif-badge');
+                if (badge) badge.remove();
+            }
+        });
+        document.addEventListener('click', function () {
+            notifWrap.classList.remove('open');
+            notifBtn.setAttribute('aria-expanded', 'false');
+        });
+        notifDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+    }
+
+    // ── User menu dropdown ────────────────────────────
+    var navUserBtn = document.getElementById('navUserBtn');
+    var navUserDropdown = document.getElementById('navUserDropdown');
+    if (navUserBtn && navUserDropdown) {
+        navUserBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isOpen = navUserDropdown.classList.contains('open');
+            navUserDropdown.classList.toggle('open', !isOpen);
+            navUserBtn.setAttribute('aria-expanded', (!isOpen).toString());
+        });
+        document.addEventListener('click', function () {
+            navUserDropdown.classList.remove('open');
+            navUserBtn.setAttribute('aria-expanded', 'false');
+        });
+        navUserDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+    }
+
     // ── FAQ accordion ─────────────────────────────────
     document.querySelectorAll('.faq-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -688,5 +1035,53 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    // ── Scroll reveal ─────────────────────────────────
+    (function () {
+        if (!('IntersectionObserver' in window)) return;
+
+        var srStyle = document.createElement('style');
+        srStyle.textContent =
+            '.sr{opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease}' +
+            '.sr.sr-in{opacity:1;transform:translateY(0)}' +
+            '@media(prefers-reduced-motion:reduce){.sr,.sr.sr-in{opacity:1!important;transform:none!important;transition:none!important}}';
+        document.head.appendChild(srStyle);
+
+        var selectors = [
+            '.section-header', '.rl-sec-head',
+            '.about-value-card', '.about-story-card', '.about-note-card',
+            '.about-commitment-card', '.about-feature-item',
+            '.rl-how-step', '.rl-why-card', '.rl-adv-card',
+            '.cg-intro-card', '.cg-tip-card', '.cg-section',
+            '.adopt-pet-card',
+            '.about-impact-grid > div', '.about-impact-grid > aside'
+        ].join(',');
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('sr-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+
+        document.querySelectorAll(selectors).forEach(function (el) {
+            el.classList.add('sr');
+            observer.observe(el);
+        });
+
+        // Stagger siblings inside grid/list containers
+        var staggerParents = [
+            '.about-values-grid', '.about-story-grid',
+            '.rl-how-steps', '.rl-why-grid', '.rl-adv-grid',
+            '.about-feature-list'
+        ].join(',');
+        document.querySelectorAll(staggerParents).forEach(function (grid) {
+            Array.from(grid.children).forEach(function (child, i) {
+                child.style.transitionDelay = (i * 0.12) + 's';
+            });
+        });
+    })();
 
 });

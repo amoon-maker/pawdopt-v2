@@ -1,0 +1,111 @@
+@{
+    var id = ViewData["AdvisorId"]?.ToString() ?? "sophie-martin";
+
+    string advName, advInitials, advRole, advLocation, advWhen, advAvatarCss, advBio;
+    string[] advTags;
+
+    switch (id) {
+        case "marc-tremblay":
+            advName = "Marc Tremblay"; advInitials = "MT";
+            advRole = "Rehomed Mochi & Luna, two tabby cats"; advLocation = "Toronto, ON"; advWhen = "About a year ago";
+            advAvatarCss = "background:linear-gradient(135deg,#2d7dd2,#1a5fa8)";
+            advBio = "I got a job offer in Berlin and had 6 weeks to figure everything out. Taking the cats overseas was too stressful for them and too complicated logistically. I posted separate listings for each of them on Pawdopt.\n\nMochi found a home in 4 days. Luna took about 3 weeks, but her new owner absolutely adores her. My advice: don't rush. Take a few days to write a thoughtful listing and post clear, honest photos of your pet.";
+            advTags = new[] { "Two cats", "International relocation", "Separate listings", "Both found homes" };
+            break;
+        case "aisha-johnson":
+            advName = "Aisha Johnson"; advInitials = "AJ";
+            advRole = "Rehomed Rex, a rescue mix"; advLocation = "Vancouver, BC"; advWhen = "8 months ago";
+            advAvatarCss = "background:linear-gradient(135deg,#7c3aed,#5b21b6)";
+            advBio = "I was going through a separation and moving into a smaller apartment that didn't allow dogs. Rex had been my companion through some really tough years, so letting go was painful.\n\nWhat helped me most was taking my time with the screening process. I met three families before choosing one. Pawdopt made it easy to communicate and ask questions before committing. Rex is now thriving with a young family who takes him hiking every weekend.";
+            advTags = new[] { "Rescue mix", "Apartment move", "Careful screening", "Happy ending" };
+            break;
+        case "carlos-rivera":
+            advName = "Carlos Rivera"; advInitials = "CR";
+            advRole = "Rehomed Coco, a senior cat"; advLocation = "Calgary, AB"; advWhen = "3 months ago";
+            advAvatarCss = "background:linear-gradient(135deg,#d97706,#b45309)";
+            advBio = "I had an unexpected health issue and was hospitalized for several weeks. There was nobody who could care for Coco long-term. I needed to act fast, but I didn't want to hand her to just anyone.\n\nEven with only a few days to act, I still read adopter profiles carefully. Senior cats can find wonderful homes. Coco is now with a quiet retired woman who spoils her. Don't assume age is a barrier, highlight your pet's gentle side.";
+            advTags = new[] { "Senior cat", "Urgent timeline", "Health emergency", "Found home in 5 days" };
+            break;
+        default: // sophie-martin
+            advName = "Sophie Martin"; advInitials = "SM";
+            advRole = "Rehomed Bailey, a Golden Retriever"; advLocation = "Montréal, QC"; advWhen = "6 months ago";
+            advAvatarCss = "background:linear-gradient(135deg,#1D8FA3,#176d7e)";
+            advBio = "I had just had my first baby and realized I couldn't give Bailey the attention and exercise he needed. It was one of the hardest decisions I've ever made, but I knew it was the right one for him.\n\nThrough Pawdopt, I found a retired couple with a big yard who adore him. They still send me updates sometimes. Being honest about Bailey's energy level in my listing made all the difference, filtering out people who weren't ready for an active dog.";
+            advTags = new[] { "Golden Retriever", "New baby", "High-energy breed", "Found match in 10 days" };
+            break;
+    }
+
+    var firstName = advName.Split(' ')[0];
+    ViewData["Title"] = advName + " | Pawdopt Community";
+}
+
+<div class="radv-page">
+
+    <!-- ── Profile hero ──────────────────────────────────────────── -->
+    <div class="radv-hero">
+        <div class="adopt-pg-container radv-hero-container">
+            <a href="/Rehome/List#rl-advisors" class="radv-back-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Back to community
+            </a>
+            <div class="radv-hero-card">
+                <div class="radv-avatar-xl" style="@advAvatarCss">@advInitials</div>
+                <div class="radv-hero-info">
+                    <h1 class="radv-name">@advName</h1>
+                    <p class="radv-role-chip">@advRole</p>
+                    <p class="radv-loc">📍 @advLocation</p>
+                    <span class="radv-stat-pill">⏱ Rehomed @advWhen</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Body ──────────────────────────────────────────────────── -->
+    <div class="adopt-pg-container">
+        <div class="radv-body">
+            <div class="radv-grid">
+
+                <!-- Left: Story + Key takeaways -->
+                <div>
+                    <div class="radv-section">
+                        <p class="radv-sec-label">Their story</p>
+                        <p class="radv-bio">@advBio</p>
+                    </div>
+                    <div class="radv-section">
+                        <p class="radv-sec-label">Key takeaways</p>
+                        <div class="radv-tags">
+                            @foreach (var tag in advTags) {
+                                <span class="radv-tag">@tag</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Contact card -->
+                <div>
+                    <div class="radv-contact-card">
+                        <p class="radv-contact-title">Connect with @firstName</p>
+                        <p class="radv-contact-sub">Ask about their experience or share what you're going through.</p>
+
+                        <a href="#" class="radv-cta-btn primary" onclick="return false;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>Send @firstName a message</span>
+                        </a>
+                        <a href="#" class="radv-cta-btn outline" onclick="return false;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span>Request a quick chat</span>
+                        </a>
+
+                        <div class="radv-divider"></div>
+                        <div class="radv-avail">
+                            <span class="radv-avail-dot"></span>
+                            Open to messages · Free
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

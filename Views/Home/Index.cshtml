@@ -27,9 +27,14 @@
                         <span data-i18n="hero-btn-adopt">Adopt Now</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                     </a>
-                    <a href="#" class="btn btn-hero-secondary">
+                    <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary">
                         <span data-i18n="hero-btn-rehome">Rehome a Pet</span>
                     </a>
+                </div>
+                <div class="rl-paw-pills" aria-hidden="true">
+                    <span class="rl-paw-pill">🐾 <span data-i18n="rl-paw1">Always free</span></span>
+                    <span class="rl-paw-pill">🐾 <span data-i18n="rl-paw2">Verified adopters</span></span>
+                    <span class="rl-paw-pill">🐾 <span data-i18n="rl-paw4">Safe &amp; private</span></span>
                 </div>
             </div>
 
@@ -269,6 +274,10 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="text-center mt-5">
+            <a asp-controller="Home" asp-action="CareGuide" class="btn btn-see-all" data-i18n="care-see-all">View all care guides →</a>
         </div>
     </div>
 </section>

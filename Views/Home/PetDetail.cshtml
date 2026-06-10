@@ -112,11 +112,11 @@
                         💬 <span data-i18n="pd-message">Message Owner</span>
                     </button>
 
-                    <!-- Guest gate (shown when apply clicked without auth) -->
+                    <!-- Guest gate (shown when apply/save clicked without auth) -->
                     <div class="pd-login-note" id="pdLoginNote" style="display:none">
-                        🔒 <span data-i18n="pd-login-note">You need an account to apply.</span>
+                        🔒 <span data-i18n="pd-login-note">You need an account to apply or save pets.</span>
                         <br>
-                        <a asp-controller="Home" asp-action="AdopterProfile" data-i18n="pd-login-link">Login or Register →</a>
+                        <a asp-controller="Account" asp-action="Login" data-i18n="pd-login-link">Login or Register →</a>
                     </div>
 
                     <!-- Mini how-it-works -->
@@ -151,9 +151,11 @@
 @section Scripts {
 <script>
 (function () {
-    var PET_ID  = @petId;
-    var PETS    = window.PAWDOPT_PETS || [];
-    var pet     = null;
+    var PET_ID       = @petId;
+    var IS_LOGGED_IN = @(User.Identity?.IsAuthenticated == true ? "true" : "false");
+    var LOGIN_URL    = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search);
+    var PETS         = window.PAWDOPT_PETS || [];
+    var pet          = null;
     for (var i = 0; i < PETS.length; i++) { if (PETS[i].id === PET_ID) { pet = PETS[i]; break; } }
 
     var favs = new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'));
@@ -199,19 +201,29 @@
     updateFavUI();
 
     document.getElementById('pdFavBtn').addEventListener('click', function () {
+        if (!IS_LOGGED_IN) { window.location.href = LOGIN_URL; return; }
         if (favs.has(pet.id)) favs.delete(pet.id); else favs.add(pet.id);
         saveFavs(); updateFavUI();
     });
     document.getElementById('pdSaveBtn').addEventListener('click', function () {
+        if (!IS_LOGGED_IN) { window.location.href = LOGIN_URL; return; }
         if (favs.has(pet.id)) favs.delete(pet.id); else favs.add(pet.id);
         saveFavs(); updateFavUI();
     });
 
     // ── Apply button → wizard ─────────────────────────────
     document.getElementById('pdApplyBtn').addEventListener('click', function () {
+        if (!IS_LOGGED_IN) {
+            document.getElementById('pdLoginNote').style.display = '';
+            return;
+        }
         window.location.href = '/Home/AdoptionWizard?petId=' + pet.id;
     });
     document.getElementById('pdMsgBtn').addEventListener('click', function () {
+        if (!IS_LOGGED_IN) {
+            document.getElementById('pdLoginNote').style.display = '';
+            return;
+        }
         var note = document.getElementById('pdLoginNote');
         note.style.display = note.style.display === 'none' ? '' : 'none';
     });
