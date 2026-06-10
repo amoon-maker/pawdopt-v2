@@ -66,7 +66,7 @@ const i18n = {
         'faq-a4': 'Yes! Registered users can send messages directly to pet owners or shelters through our in-platform messaging system before submitting a formal adoption application.',
         'about-hero-eyebrow': 'OUR STORY',
         'about-hero-title': 'Every pet deserves a thoughtful path to their next home.',
-        'about-hero-subtitle': 'Pawdopt was built on the belief that finding a pet a new home should never feel rushed or uncertain. Our platform guides every connection with care, privacy and a genuine commitment to the animal's wellbeing above all else.',
+        'about-hero-subtitle': "Pawdopt was built on the belief that finding a pet a new home should never feel rushed or uncertain. Our platform guides every connection with care, privacy and a genuine commitment to the animal's wellbeing above all else.",
         'about-panel-label': 'What we protect',
         'about-panel-item1': 'Pets should move into homes with more context and less guesswork.',
         'about-panel-item2': 'Owners deserve a respectful alternative to rushed classifieds.',
