@@ -282,6 +282,13 @@
     </div>
 </section>
 
+<!-- Wave into testimonials -->
+<div class="pw-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="pw-wave-fill-alt" d="M0,16 C180,50 440,4 720,26 C1000,48 1260,10 1440,20 L1440,50 L0,50 Z"/>
+    </svg>
+</div>
+
 <!-- Testimonials -->
 <section class="testimonials-section">
     <div class="container">
@@ -398,4 +405,51 @@
         </div>
     </div>
 </section>
+
+<!-- Guest favourite toast -->
+<div class="guest-fav-toast" id="guestFavToast" role="alert" aria-live="polite" aria-atomic="true">
+    <span class="guest-fav-toast-icon">🐾</span>
+    <div class="guest-fav-toast-body">
+        <p class="guest-fav-toast-title" data-i18n="fav-toast-title">Sign in to save favourites</p>
+        <p class="guest-fav-toast-desc" data-i18n="fav-toast-desc">Create a free account to save pets and track your adoption journey.</p>
+        <div class="guest-fav-toast-actions">
+            <a asp-controller="Account" asp-action="Login" class="guest-fav-toast-login" data-i18n="nav-login">Log in</a>
+            <a asp-controller="Account" asp-action="Register" class="guest-fav-toast-register" data-i18n="fav-toast-register">Register free</a>
+        </div>
+    </div>
+    <button class="guest-fav-toast-close" id="guestFavToastClose" aria-label="Close">&times;</button>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    if (document.documentElement.dataset.loggedIn === 'true') return;
+
+    var toast    = document.getElementById('guestFavToast');
+    var closeBtn = document.getElementById('guestFavToastClose');
+    var timer;
+
+    function showToast() {
+        clearTimeout(timer);
+        toast.classList.add('show');
+        timer = setTimeout(hideToast, 5500);
+    }
+
+    function hideToast() {
+        clearTimeout(timer);
+        toast.classList.remove('show');
+    }
+
+    document.querySelectorAll('.pet-fav-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            showToast();
+        });
+    });
+
+    closeBtn.addEventListener('click', hideToast);
+})();
+</script>
+}
 
