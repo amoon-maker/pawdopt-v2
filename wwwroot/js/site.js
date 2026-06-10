@@ -1062,13 +1062,29 @@ document.addEventListener('DOMContentLoaded', function () {
         document.head.appendChild(srStyle);
 
         var selectors = [
+            // General
             '.section-header', '.rl-sec-head',
+            // About page
             '.about-value-card', '.about-story-card', '.about-note-card',
             '.about-commitment-card', '.about-feature-item',
+            '.about-impact-grid > div', '.about-impact-grid > aside',
+            // Rehome pages
             '.rl-how-step', '.rl-why-card', '.rl-adv-card',
+            '.rl-step-row', '.rl-confirm-section',
+            // Care Guide
             '.cg-intro-card', '.cg-tip-card', '.cg-section',
-            '.adopt-pet-card',
-            '.about-impact-grid > div', '.about-impact-grid > aside'
+            // Adopt page
+            '.adopt-pet-card', '.pet-card',
+            // Profile page
+            '.ap-header-card', '.ap-stat-card', '.ap-app-card',
+            '.ap-settings-card', '.ap-completion-wrap',
+            // Home landing
+            '.how-step-card', '.testimonial-card', '.faq-item',
+            '.care-card', '.cta-section',
+            // Messages
+            '.msg-thread-item',
+            // Pet detail
+            '.pd-trait-tag', '.pd-section'
         ].join(',');
 
         var observer = new IntersectionObserver(function (entries) {
@@ -1078,9 +1094,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+        }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
 
         document.querySelectorAll(selectors).forEach(function (el) {
+            var rect = el.getBoundingClientRect();
+            var alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            if (alreadyVisible) return;
             el.classList.add('sr');
             observer.observe(el);
         });
@@ -1089,11 +1108,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var staggerParents = [
             '.about-values-grid', '.about-story-grid',
             '.rl-how-steps', '.rl-why-grid', '.rl-adv-grid',
-            '.about-feature-list'
+            '.about-feature-list',
+            '.ap-stats-row', '.ap-app-list', '.ap-settings-card',
+            '.adopt-grid', '.pet-grid'
         ].join(',');
         document.querySelectorAll(staggerParents).forEach(function (grid) {
             Array.from(grid.children).forEach(function (child, i) {
-                child.style.transitionDelay = (i * 0.12) + 's';
+                child.style.transitionDelay = (i * 0.1) + 's';
             });
         });
     })();

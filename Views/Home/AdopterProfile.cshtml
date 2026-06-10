@@ -6,8 +6,10 @@
     var userType     = ViewData["UserType"]        as string ?? "Adopter";
     var userCity     = ViewData["UserCity"]        as string ?? "";
     var userProvince = ViewData["UserProvince"]    as string ?? "QC";
+    var userPhone    = ViewData["UserPhone"]       as string ?? "";
     var memberSince  = ViewData["MemberSince"]     as string ?? "2026";
     var initial      = ViewData["UserInitial"]     as string ?? "U";
+    var activeTab    = ViewData["ActiveTab"]       as string ?? "";
     var location     = string.IsNullOrEmpty(userCity) ? userProvince : $"{userCity}, {userProvince}";
     var applications = ViewData["Applications"] as List<AdoptionApplication> ?? new();
     var myListings   = ViewData["Listings"]     as List<PetListing>          ?? new();
@@ -223,46 +225,73 @@
         <!-- ── Tab: Settings ─────────────────────────── -->
         <div class="ap-panel" id="tab-settings" role="tabpanel">
 
+            @if (TempData["ProfileSuccess"] != null)
+            {
+                <div style="background:#dcfce7;color:#166534;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["ProfileSuccess"]</div>
+            }
+            @if (TempData["ProfileError"] != null)
+            {
+                <div style="background:#fee2e2;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["ProfileError"]</div>
+            }
+            @if (TempData["PasswordSuccess"] != null)
+            {
+                <div style="background:#dcfce7;color:#166534;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["PasswordSuccess"]</div>
+            }
+            @if (TempData["PasswordError"] != null)
+            {
+                <div style="background:#fee2e2;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["PasswordError"]</div>
+            }
+
             <!-- Personal info -->
             <div class="ap-settings-card">
                 <div class="ap-settings-card-title" data-i18n="ap-settings-personal">Personal Information</div>
-                <div class="ap-form-row">
-                    <label class="ap-form-label">Full name</label>
-                    <input type="text" class="ap-form-input" value="@displayName" />
-                </div>
-                <div class="ap-form-row">
-                    <label class="ap-form-label">Email</label>
-                    <input type="email" class="ap-form-input" value="@userEmail" readonly />
-                </div>
-                <div class="ap-form-row">
-                    <label class="ap-form-label">Phone</label>
-                    <input type="tel" class="ap-form-input" placeholder="+1 (514) 000-0000" />
-                </div>
-                <div class="ap-form-row">
-                    <label class="ap-form-label">City</label>
-                    <input type="text" class="ap-form-input" value="@userCity" />
-                </div>
-                <button class="ap-save-btn">Save Changes</button>
+                <form asp-action="UpdateProfile" asp-controller="Home" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="ap-form-row">
+                        <label class="ap-form-label">Full name</label>
+                        <input type="text" class="ap-form-input" name="displayName" value="@displayName" />
+                    </div>
+                    <div class="ap-form-row">
+                        <label class="ap-form-label">Email</label>
+                        <input type="email" class="ap-form-input" value="@userEmail" readonly />
+                    </div>
+                    <div class="ap-form-row">
+                        <label class="ap-form-label">Phone</label>
+                        <input type="tel" class="ap-form-input" name="phone" value="@userPhone" placeholder="+1 (514) 000-0000" />
+                    </div>
+                    <div class="ap-form-row">
+                        <label class="ap-form-label">City</label>
+                        <input type="text" class="ap-form-input" name="city" value="@userCity" />
+                    </div>
+                    <div class="ap-form-row">
+                        <label class="ap-form-label">Province</label>
+                        <input type="text" class="ap-form-input" name="province" value="@userProvince" />
+                    </div>
+                    <button type="submit" class="ap-save-btn">Save Changes</button>
+                </form>
             </div>
 
             <!-- Password -->
             <div class="ap-settings-card">
                 <div class="ap-settings-card-title" data-i18n="ap-settings-password">Change Password</div>
-                <div class="ap-form-row">
-                    <label class="ap-form-label">Current password</label>
-                    <input type="password" class="ap-form-input" placeholder="••••••••" />
-                </div>
-                <div class="ap-form-row-2">
+                <form asp-action="ChangePassword" asp-controller="Home" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="ap-form-row">
-                        <label class="ap-form-label">New password</label>
-                        <input type="password" class="ap-form-input" placeholder="••••••••" />
+                        <label class="ap-form-label">Current password</label>
+                        <input type="password" class="ap-form-input" name="currentPassword" placeholder="••••••••" />
                     </div>
-                    <div class="ap-form-row">
-                        <label class="ap-form-label">Confirm new password</label>
-                        <input type="password" class="ap-form-input" placeholder="••••••••" />
+                    <div class="ap-form-row-2">
+                        <div class="ap-form-row">
+                            <label class="ap-form-label">New password</label>
+                            <input type="password" class="ap-form-input" name="newPassword" placeholder="••••••••" />
+                        </div>
+                        <div class="ap-form-row">
+                            <label class="ap-form-label">Confirm new password</label>
+                            <input type="password" class="ap-form-input" name="confirmPassword" placeholder="••••••••" />
+                        </div>
                     </div>
-                </div>
-                <button class="ap-save-btn">Update Password</button>
+                    <button type="submit" class="ap-save-btn">Update Password</button>
+                </form>
             </div>
 
             <!-- Notifications -->
@@ -383,6 +412,13 @@
     document.getElementById('apEditBtn').addEventListener('click', function () {
         document.querySelector('.ap-tab[data-tab="settings"]').click();
     });
+
+    // ── Activate tab from server redirect (e.g. after saving settings) ────
+    var serverTab = '@activeTab';
+    if (serverTab) {
+        var targetBtn = document.querySelector('.ap-tab[data-tab="' + serverTab + '"]');
+        if (targetBtn) targetBtn.click();
+    }
 
 })();
 </script>
