@@ -1,7 +1,11 @@
 @model PawdoptApp.Models.PetListing
+@using System.Text.Json
 @{
     ViewData["Title"] = "Confirm & Publish";
     var id = Model.Id;
+    var photoUrls = string.IsNullOrEmpty(Model.PhotoUrlsJson)
+        ? new List<string>()
+        : JsonSerializer.Deserialize<List<string>>(Model.PhotoUrlsJson) ?? new List<string>();
 }
 
 <!-- Teal progress banner -->
@@ -87,7 +91,24 @@
                             <a href="/Rehome/Images/@id" class="confirm-edit-link">Edit</a>
                         </div>
                         <div class="confirm-section-body">
-                            @(Model.HasPhotos ? "✓ Photos uploaded" : "No photos added yet")
+                            @if (photoUrls.Count > 0)
+                            {
+                                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+                                    @foreach (var url in photoUrls)
+                                    {
+                                        <img src="@url" alt="Pet photo"
+                                             style="width:100px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);" />
+                                    }
+                                </div>
+                            }
+                            else if (Model.HasPhotos)
+                            {
+                                <span>✓ Photos uploaded</span>
+                            }
+                            else
+                            {
+                                <span style="color:var(--text-secondary)">No photos added yet</span>
+                            }
                         </div>
                     </div>
 

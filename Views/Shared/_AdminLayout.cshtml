@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — Pawdopt Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        .adm-shell {
+            display: flex;
+            min-height: 100vh;
+            background: #f1f5f9;
+            font-family: 'Inter', 'Nunito', sans-serif;
+        }
+
+        /* ── Sidebar ── */
+        .adm-sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 100;
+        }
+        .adm-sidebar-brand {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .adm-sidebar-brand-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, #1d8fa3, #0e6b7c);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .adm-sidebar-brand-text {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.01em;
+        }
+        .adm-sidebar-brand-text span {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .adm-nav { flex: 1; padding: 16px 10px; }
+        .adm-nav-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            padding: 12px 10px 6px;
+        }
+        .adm-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+            margin-bottom: 2px;
+        }
+        .adm-nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; text-decoration: none; }
+        .adm-nav-item.active { background: rgba(29,143,163,0.18); color: #5eead4; }
+        .adm-nav-item svg { flex-shrink: 0; opacity: 0.8; }
+        .adm-nav-item.active svg { opacity: 1; }
+
+        .adm-sidebar-footer {
+            padding: 16px 10px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        /* ── Main content ── */
+        .adm-main {
+            margin-left: 240px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .adm-topbar {
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 28px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .adm-topbar-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .adm-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.82rem;
+            color: #64748b;
+        }
+        .adm-topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .adm-topbar-avatar {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1d8fa3, #0e6b7c);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .adm-content { padding: 28px; flex: 1; }
+
+        /* ── Page header ── */
+        .adm-page-header {
+            margin-bottom: 24px;
+        }
+        .adm-page-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 4px;
+            font-family: 'Nunito', sans-serif;
+        }
+        .adm-page-sub {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* ── Stat cards ── */
+        .adm-stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .adm-stat {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+        .adm-stat-icon {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        .adm-stat-num {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #0f172a;
+            font-family: 'Nunito', sans-serif;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .adm-stat-lbl {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .adm-stat.warn { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.04); }
+        .adm-stat.warn .adm-stat-num { color: #b45309; }
+
+        /* ── Cards / sections ── */
+        .adm-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .adm-card-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .adm-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+        }
+        .adm-card-count {
+            font-size: 0.75rem;
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* ── Table ── */
+        .adm-table-wrap { overflow-x: auto; }
+        .adm-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .adm-table th {
+            padding: 10px 16px;
+            text-align: left;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid #f1f5f9;
+            background: #f8fafc;
+        }
+        .adm-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+            vertical-align: middle;
+        }
+        .adm-table tr:last-child td { border-bottom: none; }
+        .adm-table tr:hover td { background: #f8fafc; }
+
+        .adm-user-cell { display: flex; align-items: center; gap: 8px; }
+        .adm-avatar {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1d8fa3, #0e6b7c);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .adm-cell-main { font-weight: 600; color: #0f172a; font-size: 0.85rem; }
+        .adm-cell-sub  { font-size: 0.75rem; color: #94a3b8; }
+
+        .adm-badge {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+        .adm-badge.pending  { background: rgba(245,158,11,0.1);  color: #b45309; }
+        .adm-badge.approved { background: rgba(16,185,129,0.1);  color: #047857; }
+        .adm-badge.rejected { background: rgba(239,68,68,0.1);   color: #b91c1c; }
+        .adm-badge.draft    { background: rgba(148,163,184,0.12); color: #64748b; }
+        .adm-badge.adopted  { background: rgba(99,102,241,0.1);  color: #4338ca; }
+        .adm-badge.adopter  { background: rgba(29,143,163,0.1);  color: #0e7490; }
+        .adm-badge.rehomer  { background: rgba(245,158,11,0.1);  color: #b45309; }
+        .adm-badge.admin    { background: rgba(124,58,237,0.1);  color: #7c3aed; }
+
+        .adm-action-row { display: flex; gap: 6px; }
+        .adm-btn {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            cursor: pointer;
+            color: #475569;
+            transition: background 0.15s;
+        }
+        .adm-btn:hover { background: #f1f5f9; }
+        .adm-btn.approve { background: rgba(16,185,129,0.08); color: #047857; border-color: rgba(16,185,129,0.25); }
+        .adm-btn.approve:hover { background: rgba(16,185,129,0.15); }
+        .adm-btn.reject  { background: rgba(239,68,68,0.07);  color: #b91c1c; border-color: rgba(239,68,68,0.2); }
+        .adm-btn.reject:hover  { background: rgba(239,68,68,0.13); }
+
+        .adm-empty { padding: 32px; text-align: center; color: #94a3b8; font-size: 0.85rem; }
+
+        .adm-toast {
+            background: rgba(16,185,129,0.08);
+            border: 1px solid rgba(16,185,129,0.25);
+            color: #047857;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* ── Modal ── */
+        .adm-modal-backdrop {
+            position: fixed; inset: 0;
+            background: rgba(15,23,42,0.55);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999;
+        }
+        .adm-modal {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px;
+            width: 440px;
+            max-width: 90vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .adm-modal-title { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 16px; }
+        .adm-modal-label { font-size: 0.8rem; font-weight: 600; color: #64748b; display: block; margin-bottom: 6px; }
+        .adm-modal-textarea {
+            width: 100%; padding: 10px 12px;
+            border-radius: 8px; border: 1px solid #e2e8f0;
+            font-size: 0.875rem; resize: vertical;
+            margin-bottom: 20px; font-family: inherit; color: #0f172a;
+        }
+        .adm-modal-btns { display: flex; justify-content: flex-end; gap: 10px; }
+
+        @@media (max-width: 900px) {
+            .adm-sidebar { width: 200px; }
+            .adm-main { margin-left: 200px; }
+            .adm-stats { grid-template-columns: repeat(3, 1fr); }
+        }
+        @@media (max-width: 640px) {
+            .adm-sidebar { display: none; }
+            .adm-main { margin-left: 0; }
+            .adm-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="adm-shell">
+
+    <!-- Sidebar -->
+    <aside class="adm-sidebar">
+        <div class="adm-sidebar-brand">
+            <div class="adm-sidebar-brand-icon">🐾</div>
+            <div class="adm-sidebar-brand-text">
+                Pawdopt
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="adm-nav">
+            <div class="adm-nav-label">Overview</div>
+            <a href="/Admin/Index" class="adm-nav-item active">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a>
+
+            <div class="adm-nav-label" style="margin-top:8px">Manage</div>
+            <a href="#listings" class="adm-nav-item" onclick="scrollTo('adm-listings')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Listings
+            </a>
+            <a href="#users" class="adm-nav-item" onclick="scrollTo('adm-users')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Users
+            </a>
+        </nav>
+
+        <div class="adm-sidebar-footer">
+            <a href="/" class="adm-nav-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Back to site
+            </a>
+            <form asp-controller="Account" asp-action="Logout" method="post" style="margin:0">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="adm-nav-item" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;color:rgba(255,255,255,0.45);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Log out
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="adm-main">
+        <div class="adm-topbar">
+            <span class="adm-topbar-title">@(ViewData["Title"] ?? "Admin Dashboard")</span>
+            <div class="adm-topbar-right">
+                <span>@System.DateTime.Now.ToString("MMMM d, yyyy")</span>
+                <div class="adm-topbar-user">
+                    <div class="adm-topbar-avatar">A</div>
+                    <span>Admin</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="adm-content">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function scrollTo(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>

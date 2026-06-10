@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace PawdoptApp.Models;
 
 public class PetListing
@@ -36,9 +38,13 @@ public class PetListing
     public string? PickupNotes { get; set; }
     public string? Story       { get; set; }
 
+    // Step 2 — Photos
+    public bool HasPhotos { get; set; }
+    [NotMapped]
+    public string? PhotoUrlsJson { get; set; }
+
     // Step 7 — Documents
     public string? DocumentsJson { get; set; }  // JSON array of doc type keys
-    public bool HasPhotos        { get; set; }
 
     // Lifecycle
     public string    Status          { get; set; } = "Draft";  // Draft | Pending | Approved | Rejected | Adopted

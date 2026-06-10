@@ -106,9 +106,10 @@
                 <div class="rehome-divider"></div>
 
                 <!-- Navigation buttons -->
-                <form method="post" asp-controller="Rehome" asp-action="SaveStep2" asp-route-id="@listingId" style="display:contents">
+                <form method="post" asp-controller="Rehome" asp-action="SaveStep2" asp-route-id="@listingId" enctype="multipart/form-data" style="display:contents">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@listingId" />
+                <input type="file" id="photosSubmit" name="photos" accept="image/jpeg,image/png,image/webp" multiple hidden />
                 <div class="rehome-nav-btns">
                     <a href="/Rehome/NewListing" class="rehome-btn-back">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -129,12 +130,13 @@
 @section Scripts {
 <script>
 (function () {
-    const zone     = document.getElementById('uploadZone');
-    const input    = document.getElementById('photoInput');
-    const grid     = document.getElementById('photoGrid');
-    const counter  = document.getElementById('photoCounter');
-    const MAX      = 3;
-    let photos     = [];
+    const zone        = document.getElementById('uploadZone');
+    const input       = document.getElementById('photoInput');
+    const submitInput = document.getElementById('photosSubmit');
+    const grid        = document.getElementById('photoGrid');
+    const counter     = document.getElementById('photoCounter');
+    const MAX         = 3;
+    let photos        = [];
 
     if (!zone) return;
 
@@ -206,6 +208,17 @@
     }
 
     renderGrid();
+
+    // Before submit, copy files into the form's file input
+    const form = submitInput ? submitInput.closest('form') : null;
+    if (form) {
+        form.addEventListener('submit', function () {
+            if (photos.length === 0) return;
+            const dt = new DataTransfer();
+            photos.forEach(function (p) { dt.items.add(p.file); });
+            submitInput.files = dt.files;
+        });
+    }
 })();
 </script>
 }
