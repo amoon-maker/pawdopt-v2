@@ -132,7 +132,7 @@
                     <h6 class="footer-heading" data-i18n="footer-company">Company</h6>
                     <ul class="footer-links">
                         <li><a asp-controller="Home" asp-action="About" data-i18n="nav-about">About Us</a></li>
-                        <li><a href="javascript:void(0)" id="footerContactTrigger" data-i18n="footer-contact">Contact</a></li>
+                        <li><button type="button" id="footerContactTrigger" class="footer-contact-btn" data-i18n="footer-contact">Contact</button></li>
                     </ul>
                 </div>
             </div>
@@ -282,45 +282,47 @@
 </div>
 <script>
 (function () {
-    var trigger   = document.getElementById('footerContactTrigger');
-    var ownCard   = document.getElementById('footerContactCard');
-    var ownClose  = document.getElementById('footerContactClose');
+    var trigger  = document.getElementById('footerContactTrigger');
+    var ownCard  = document.getElementById('footerContactCard');
+    var ownClose = document.getElementById('footerContactClose');
     if (!trigger) return;
 
-    // On About Us, the bubble card already exists — reuse it so nothing overlaps
-    var aboutCard   = document.getElementById('contactCard');
     var aboutBubble = document.getElementById('contactBubble');
-    var activeCard  = aboutCard || ownCard;
-
-    function openCard()  {
-        activeCard.classList.add('open');
-        activeCard.setAttribute('aria-hidden', 'false');
-        if (aboutBubble) aboutBubble.classList.add('active');
-    }
-    function closeCard() {
-        activeCard.classList.remove('open');
-        activeCard.setAttribute('aria-hidden', 'true');
-        if (aboutBubble) aboutBubble.classList.remove('active');
-    }
-    function isOpen() { return activeCard.classList.contains('open'); }
+    var aboutCard   = document.getElementById('contactCard');
 
     trigger.addEventListener('click', function (e) {
-        e.preventDefault();
         e.stopPropagation();
-        isOpen() ? closeCard() : openCard();
+        if (aboutBubble) {
+            aboutBubble.click();
+        } else {
+            var isOpen = ownCard.classList.toggle('open');
+            ownCard.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+        }
     });
 
     if (ownClose) {
-        ownClose.addEventListener('click', function (e) { e.stopPropagation(); closeCard(); });
+        ownClose.addEventListener('click', function (e) {
+            e.stopPropagation();
+            ownCard.classList.remove('open');
+            ownCard.setAttribute('aria-hidden', 'true');
+        });
     }
 
     document.addEventListener('click', function (e) {
-        if (!activeCard.contains(e.target) &&
-            !trigger.contains(e.target) &&
-            !(aboutBubble && aboutBubble.contains(e.target))) {
-            closeCard();
+        if (ownCard.classList.contains('open') &&
+            !ownCard.contains(e.target) &&
+            !trigger.contains(e.target)) {
+            ownCard.classList.remove('open');
+            ownCard.setAttribute('aria-hidden', 'true');
         }
     });
+
+    // Sync bubble active glow with contactCard open state (any trigger)
+    if (aboutBubble && aboutCard && 'MutationObserver' in window) {
+        new MutationObserver(function () {
+            aboutBubble.classList.toggle('active', aboutCard.classList.contains('open'));
+        }).observe(aboutCard, { attributes: true, attributeFilter: ['class'] });
+    }
 })();
 </script>
 </body>

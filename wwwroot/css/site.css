@@ -1724,6 +1724,8 @@ body {
 .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
 .footer-links a { font-size: 0.88rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
 .footer-links a:hover { color: var(--teal); }
+.footer-contact-btn { background: none; border: none; padding: 0; margin: 0; font-size: 0.88rem; color: rgba(255,255,255,0.7); cursor: pointer; transition: color 0.2s; font-family: inherit; text-align: left; }
+.footer-contact-btn:hover { color: var(--teal); }
 
 .footer-bottom {
     padding-top: 1.5rem;
