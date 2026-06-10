@@ -42,8 +42,10 @@ public class HomeController : Controller
         ViewData["UserType"]        = user?.UserType ?? "Adopter";
         ViewData["UserCity"]        = user?.City ?? "";
         ViewData["UserProvince"]    = user?.Province ?? "QC";
+        ViewData["UserPhone"]       = user?.PhoneNumber ?? "";
         ViewData["MemberSince"]     = user?.CreatedAt.ToString("MMMM yyyy") ?? "2026";
         ViewData["UserInitial"]     = (user?.DisplayName ?? "U").Substring(0, 1).ToUpper();
+        ViewData["ActiveTab"]       = Request.Query["tab"].ToString();
 
         // Real applications for this user
         var userId = _userManager.GetUserId(User);
@@ -143,6 +145,47 @@ public class HomeController : Controller
 
         await _context.SaveChangesAsync();
         return Json(new { success = true, applicationId = app.Id });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken, Authorize]
+    public async Task<IActionResult> UpdateProfile(string displayName, string city, string province, string phone)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return NotFound();
+
+        user.DisplayName = displayName?.Trim() ?? user.DisplayName;
+        user.City        = city?.Trim();
+        user.Province    = province?.Trim() ?? user.Province;
+        user.PhoneNumber = phone?.Trim();
+
+        var result = await _userManager.UpdateAsync(user);
+        if (result.Succeeded)
+            TempData["ProfileSuccess"] = "Profile updated successfully.";
+        else
+            TempData["ProfileError"] = string.Join(" ", result.Errors.Select(e => e.Description));
+
+        return RedirectToAction("AdopterProfile", new { tab = "settings" });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken, Authorize]
+    public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword, string confirmPassword)
+    {
+        if (newPassword != confirmPassword)
+        {
+            TempData["PasswordError"] = "New passwords do not match.";
+            return RedirectToAction("AdopterProfile", new { tab = "settings" });
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return NotFound();
+
+        var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        if (result.Succeeded)
+            TempData["PasswordSuccess"] = "Password changed successfully.";
+        else
+            TempData["PasswordError"] = string.Join(" ", result.Errors.Select(e => e.Description));
+
+        return RedirectToAction("AdopterProfile", new { tab = "settings" });
     }
 
     [HttpPost, ValidateAntiForgeryToken, Authorize]
