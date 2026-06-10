@@ -5044,11 +5044,7 @@ body {
 .cg-small-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 .cg-small-card-header {
     padding: 1.5rem 1.5rem 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
 }
-.cg-small-card-emoji { font-size: 2.5rem; line-height: 1; }
 .cg-small-card-title {
     font-size: 1.1rem;
     font-weight: 800;
