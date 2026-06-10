@@ -158,7 +158,7 @@
     var pet          = null;
     for (var i = 0; i < PETS.length; i++) { if (PETS[i].id === PET_ID) { pet = PETS[i]; break; } }
 
-    var favs = new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'));
+    var favs = IS_LOGGED_IN ? new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]')) : new Set();
 
     function saveFavs() { localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(favs))); }
     function capFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
@@ -202,12 +202,12 @@
     updateFavUI();
 
     document.getElementById('pdFavBtn').addEventListener('click', function () {
-        if (!IS_LOGGED_IN) { window.location.href = LOGIN_URL; return; }
+        if (!IS_LOGGED_IN) { showGuestToast(); return; }
         if (favs.has(pet.id)) favs.delete(pet.id); else favs.add(pet.id);
         saveFavs(); updateFavUI();
     });
     document.getElementById('pdSaveBtn').addEventListener('click', function () {
-        if (!IS_LOGGED_IN) { window.location.href = LOGIN_URL; return; }
+        if (!IS_LOGGED_IN) { showGuestToast(); return; }
         if (favs.has(pet.id)) favs.delete(pet.id); else favs.add(pet.id);
         saveFavs(); updateFavUI();
     });
@@ -308,5 +308,34 @@
     }
 
 })();
+
+// ── Guest favourite toast ──────────────────────────────
+var _pdToastTimer;
+function showGuestToast() {
+    var toast = document.getElementById('pdGuestFavToast');
+    toast.classList.add('show');
+    clearTimeout(_pdToastTimer);
+    _pdToastTimer = setTimeout(function () { toast.classList.remove('show'); }, 5500);
+}
+document.addEventListener('DOMContentLoaded', function () {
+    var closeBtn = document.getElementById('pdGuestFavToastClose');
+    if (closeBtn) closeBtn.addEventListener('click', function () {
+        document.getElementById('pdGuestFavToast').classList.remove('show');
+        clearTimeout(_pdToastTimer);
+    });
+});
 </script>
+
+<div class="guest-fav-toast" id="pdGuestFavToast" role="alert" aria-live="polite" aria-atomic="true">
+    <span class="guest-fav-toast-icon">🐾</span>
+    <div class="guest-fav-toast-body">
+        <p class="guest-fav-toast-title" data-i18n="fav-toast-title">Sign in to save favourites</p>
+        <p class="guest-fav-toast-desc" data-i18n="fav-toast-desc">Create a free account to save pets and track your adoption journey.</p>
+        <div class="guest-fav-toast-actions">
+            <a asp-controller="Account" asp-action="Login" class="guest-fav-toast-login" data-i18n="nav-login">Log in</a>
+            <a asp-controller="Account" asp-action="Register" class="guest-fav-toast-register" data-i18n="fav-toast-register">Register free</a>
+        </div>
+    </div>
+    <button class="guest-fav-toast-close" id="pdGuestFavToastClose" aria-label="Close">&times;</button>
+</div>
 }
