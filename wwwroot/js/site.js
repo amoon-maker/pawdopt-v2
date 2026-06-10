@@ -128,7 +128,6 @@ const i18n = {
         'pd-apply':       'Apply to Adopt',
         'pd-save':        'Save to Favourites',
         'pd-message':     'Message Owner',
-        'pd-login-note':  'You need an account to apply.',
         'pd-login-link':  'Login or Register →',
         'pd-how-title':   'How adoption works',
         'pd-how-1':       'Create your profile and submit a short application',
@@ -434,6 +433,31 @@ const i18n = {
         'adopt-chip-breed-suffix': '(breed)',
         'adopt-fav-save': 'Save to favourites',
         'adopt-fav-remove': 'Remove from favourites',
+        // Auth pages
+        'auth-login-title': 'Welcome back',
+        'auth-login-sub': 'Sign in to your Pawdopt account',
+        'auth-email': 'Email address',
+        'auth-password': 'Password',
+        'auth-confirm-pwd': 'Confirm password',
+        'auth-remember': 'Remember me',
+        'auth-forgot': 'Forgot password?',
+        'auth-forgot-msg': 'Password reset is not available in the demo. Please contact <strong>support@pawdopt.ca</strong>.',
+        'auth-btn-login': 'Sign in',
+        'auth-no-account': "Don't have an account?",
+        'auth-register-link': 'Register →',
+        'auth-reg-title': 'Create your account',
+        'auth-reg-sub': 'Join Pawdopt and start your adoption journey',
+        'auth-fullname': 'Full name',
+        'auth-city': 'City (optional)',
+        'auth-role-title': 'I am a:',
+        'auth-role-adopter': 'Adopter',
+        'auth-role-adopter-desc': 'I want to find a pet to adopt',
+        'auth-role-rehomer': 'Rehomer',
+        'auth-role-rehomer-desc': 'I need to find a new home for my pet',
+        'auth-btn-register': 'Create account',
+        'auth-has-account': 'Already have an account?',
+        'auth-login-link': 'Sign in →',
+        'pd-login-note': 'You need an account to apply or save pets.',
     },
     fr: {
         'nav-home': 'Accueil',
@@ -547,7 +571,7 @@ const i18n = {
         'pd-apply':       "Demander l'adoption",
         'pd-save':        'Sauvegarder',
         'pd-message':     'Contacter le propriétaire',
-        'pd-login-note':  'Vous devez avoir un compte pour postuler.',
+        'pd-login-note':  'Vous devez avoir un compte pour postuler ou sauvegarder des animaux.',
         'pd-login-link':  'Connexion ou inscription →',
         'pd-how-title':   "Comment fonctionne l'adoption",
         'pd-how-1':       'Créez votre profil et soumettez une courte demande',
@@ -853,6 +877,30 @@ const i18n = {
         'adopt-chip-breed-suffix': '(race)',
         'adopt-fav-save': 'Sauvegarder dans les favoris',
         'adopt-fav-remove': 'Retirer des favoris',
+        // Auth pages
+        'auth-login-title': 'Bienvenue',
+        'auth-login-sub': 'Connectez-vous à votre compte Pawdopt',
+        'auth-email': 'Adresse courriel',
+        'auth-password': 'Mot de passe',
+        'auth-confirm-pwd': 'Confirmer le mot de passe',
+        'auth-remember': 'Se souvenir de moi',
+        'auth-forgot': 'Mot de passe oublié ?',
+        'auth-forgot-msg': "La réinitialisation n'est pas disponible dans la démo. Contactez <strong>support@pawdopt.ca</strong>.",
+        'auth-btn-login': 'Se connecter',
+        'auth-no-account': "Vous n'avez pas de compte ?",
+        'auth-register-link': "S'inscrire →",
+        'auth-reg-title': 'Créez votre compte',
+        'auth-reg-sub': "Rejoignez Pawdopt et commencez votre parcours d'adoption",
+        'auth-fullname': 'Nom complet',
+        'auth-city': 'Ville (optionnel)',
+        'auth-role-title': 'Je suis un(e) :',
+        'auth-role-adopter': 'Adoptant(e)',
+        'auth-role-adopter-desc': 'Je veux trouver un animal à adopter',
+        'auth-role-rehomer': 'Confiant(e)',
+        'auth-role-rehomer-desc': 'Je dois trouver un nouveau foyer pour mon animal',
+        'auth-btn-register': 'Créer un compte',
+        'auth-has-account': 'Vous avez déjà un compte ?',
+        'auth-login-link': 'Se connecter →',
     }
 };
 
@@ -921,6 +969,23 @@ document.addEventListener('DOMContentLoaded', function () {
             applyLang(currentLang);
             langBtn.textContent = currentLang === 'en' ? 'FR' : 'EN';
         });
+    }
+
+    // ── User menu dropdown ────────────────────────────
+    var navUserBtn = document.getElementById('navUserBtn');
+    var navUserDropdown = document.getElementById('navUserDropdown');
+    if (navUserBtn && navUserDropdown) {
+        navUserBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isOpen = navUserDropdown.classList.contains('open');
+            navUserDropdown.classList.toggle('open', !isOpen);
+            navUserBtn.setAttribute('aria-expanded', (!isOpen).toString());
+        });
+        document.addEventListener('click', function () {
+            navUserDropdown.classList.remove('open');
+            navUserBtn.setAttribute('aria-expanded', 'false');
+        });
+        navUserDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
     }
 
     // ── FAQ accordion ─────────────────────────────────

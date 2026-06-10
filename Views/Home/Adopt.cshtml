@@ -193,6 +193,9 @@
         return (dict && dict[lang] && dict[lang][key] !== undefined) ? dict[lang][key] : key;
     }
 
+    // ── Auth state (from server) ──────────────────────────
+    var IS_LOGGED_IN = @(User.Identity?.IsAuthenticated == true ? "true" : "false");
+
     // ── Pet data (shared via pawdopt-data.js) ─────────────
     var PETS = window.PAWDOPT_PETS || [];
 
@@ -359,6 +362,10 @@
             grid.querySelectorAll('.pet-fav-btn').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
                     e.preventDefault();
+                    if (!IS_LOGGED_IN) {
+                        window.location.href = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname);
+                        return;
+                    }
                     var id = parseInt(this.dataset.favId, 10);
                     if (state.favorites.has(id)) state.favorites.delete(id);
                     else state.favorites.add(id);

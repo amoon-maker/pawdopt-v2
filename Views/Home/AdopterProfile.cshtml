@@ -1,32 +1,30 @@
 @{
     ViewData["Title"] = "My Profile";
+    var displayName  = ViewData["UserDisplayName"] as string ?? "User";
+    var userEmail    = ViewData["UserEmail"]       as string ?? "";
+    var userType     = ViewData["UserType"]        as string ?? "Adopter";
+    var userCity     = ViewData["UserCity"]        as string ?? "";
+    var userProvince = ViewData["UserProvince"]    as string ?? "QC";
+    var memberSince  = ViewData["MemberSince"]     as string ?? "2026";
+    var initial      = ViewData["UserInitial"]     as string ?? "U";
+    var location     = string.IsNullOrEmpty(userCity) ? userProvince : $"{userCity}, {userProvince}";
 }
 
 <div class="ap-page-wrap">
     <div class="adopt-pg-container">
 
-        <!-- Demo banner -->
-        <div class="ap-demo-banner">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-            <span data-i18n="ap-demo-note">You are viewing a demo profile. <strong><a asp-controller="Home" asp-action="AdopterProfile" style="color:inherit">Login or Register</a></strong> to see your own profile and applications.</span>
-        </div>
-
         <!-- Profile header card -->
         <div class="ap-header-card">
             <div class="ap-header-top">
-                <div class="ap-avatar">A</div>
+                <div class="ap-avatar">@initial</div>
                 <div class="ap-header-info">
-                    <div class="ap-name">Amina A.</div>
+                    <div class="ap-name">@displayName</div>
                     <div class="ap-meta">
-                        <span class="ap-meta-item">📍 Montreal, QC</span>
-                        <span class="ap-meta-item">🗓 Member since January 2026</span>
-                        <span class="ap-meta-item">✉️ amina@example.com</span>
+                        <span class="ap-meta-item">📍 @location</span>
+                        <span class="ap-meta-item">🗓 Member since @memberSince</span>
+                        <span class="ap-meta-item">✉️ @userEmail</span>
                     </div>
-                    <div class="ap-role-badge">Adopter</div>
+                    <div class="ap-role-badge">@userType</div>
                 </div>
                 <button class="ap-edit-btn" id="apEditBtn">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -180,27 +178,21 @@
             <!-- Personal info -->
             <div class="ap-settings-card">
                 <div class="ap-settings-card-title" data-i18n="ap-settings-personal">Personal Information</div>
-                <div class="ap-form-row-2">
-                    <div class="ap-form-row">
-                        <label class="ap-form-label">First name</label>
-                        <input type="text" class="ap-form-input" value="Amina" />
-                    </div>
-                    <div class="ap-form-row">
-                        <label class="ap-form-label">Last name</label>
-                        <input type="text" class="ap-form-input" value="A." />
-                    </div>
+                <div class="ap-form-row">
+                    <label class="ap-form-label">Full name</label>
+                    <input type="text" class="ap-form-input" value="@displayName" />
                 </div>
                 <div class="ap-form-row">
                     <label class="ap-form-label">Email</label>
-                    <input type="email" class="ap-form-input" value="amina@example.com" />
+                    <input type="email" class="ap-form-input" value="@userEmail" readonly />
                 </div>
                 <div class="ap-form-row">
                     <label class="ap-form-label">Phone</label>
                     <input type="tel" class="ap-form-input" placeholder="+1 (514) 000-0000" />
                 </div>
                 <div class="ap-form-row">
-                    <label class="ap-form-label">City / Province</label>
-                    <input type="text" class="ap-form-input" value="Montreal, QC" />
+                    <label class="ap-form-label">City</label>
+                    <input type="text" class="ap-form-input" value="@userCity" />
                 </div>
                 <button class="ap-save-btn">Save Changes</button>
             </div>

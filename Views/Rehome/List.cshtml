@@ -153,17 +153,6 @@
     </div>
 </section>
 
-<!-- ── Auth modal ─────────────────────────────────────────── -->
-<div class="rl-auth-overlay" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
-    <div class="rl-auth-card">
-        <button class="rl-auth-close" id="authModalClose" aria-label="Close">&times;</button>
-        <div class="rl-auth-icon">🐾</div>
-        <h2 class="rl-auth-title" id="authModalTitle" data-i18n="rl-auth-title">You need an account</h2>
-        <p class="rl-auth-sub" data-i18n="rl-auth-sub">Create a free account or sign in to start your listing. It only takes a minute.</p>
-        <a href="#" class="rl-auth-btn primary" id="authSignup" data-i18n="rl-auth-signup">Create a free account →</a>
-        <a href="#" class="rl-auth-btn outline" id="authLogin" data-i18n="rl-auth-login">I already have an account →</a>
-    </div>
-</div>
 
 <div class="rl-wave-sep rl-wave-sep-main-alt" aria-hidden="true">
     <svg viewBox="0 0 1440 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -195,45 +184,3 @@
     </div>
 </section>
 
-@section Scripts {
-<script>
-(function () {
-    var btn = document.getElementById('startListingBtn');
-    var modal = document.getElementById('authModal');
-    var closeBtn = document.getElementById('authModalClose');
-    var signupBtn = document.getElementById('authSignup');
-    var loginBtn = document.getElementById('authLogin');
-
-    function isLoggedIn() {
-        return localStorage.getItem('pawdopt-logged-in') === '1';
-    }
-
-    function openModal() { modal.classList.add('open'); }
-    function closeModal() { modal.classList.remove('open'); }
-
-    btn.addEventListener('click', function (e) {
-        if (!isLoggedIn()) {
-            e.preventDefault();
-            openModal();
-        }
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeModal();
-    });
-
-    function demoLogin(e) {
-        e.preventDefault();
-        localStorage.setItem('pawdopt-logged-in', '1');
-        window.location.href = '/Rehome/NewListing';
-    }
-
-    signupBtn.addEventListener('click', demoLogin);
-    loginBtn.addEventListener('click', demoLogin);
-})();
-</script>
-}

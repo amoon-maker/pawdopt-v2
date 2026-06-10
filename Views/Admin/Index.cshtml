@@ -1,0 +1,73 @@
+@model IEnumerable<PawdoptApp.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var adopters = Model.Count(u => u.UserType == "Adopter");
+    var rehomers  = Model.Count(u => u.UserType == "Rehomer");
+    var admins    = Model.Count(u => u.UserType == "Admin");
+}
+
+<div class="admin-wrap">
+    <div class="adopt-pg-container">
+
+        <div class="admin-header">
+            <h1 class="admin-title">🐾 Admin Dashboard</h1>
+            <p class="admin-sub">Pawdopt platform overview</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="admin-stats-row">
+            <div class="admin-stat-card">
+                <span class="admin-stat-num">@Model.Count()</span>
+                <span class="admin-stat-lbl">Total Users</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-num">@adopters</span>
+                <span class="admin-stat-lbl">Adopters</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-num">@rehomers</span>
+                <span class="admin-stat-lbl">Rehomers</span>
+            </div>
+            <div class="admin-stat-card">
+                <span class="admin-stat-num">@admins</span>
+                <span class="admin-stat-lbl">Admins</span>
+            </div>
+        </div>
+
+        <!-- Users table -->
+        <div class="admin-section">
+            <h2 class="admin-section-title">Registered Users</h2>
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>City</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="admin-user-cell">
+                                        <span class="admin-user-avatar">@(user.DisplayName.Length > 0 ? user.DisplayName[0].ToString().ToUpper() : "?")</span>
+                                        <span>@user.DisplayName</span>
+                                    </div>
+                                </td>
+                                <td>@user.Email</td>
+                                <td><span class="admin-role-badge @user.UserType.ToLower()">@user.UserType</span></td>
+                                <td>@(string.IsNullOrEmpty(user.City) ? "—" : $"{user.City}, {user.Province}")</td>
+                                <td>@user.CreatedAt.ToString("MMM d, yyyy")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
