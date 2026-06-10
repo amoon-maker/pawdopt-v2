@@ -1036,4 +1036,52 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // ── Scroll reveal ─────────────────────────────────
+    (function () {
+        if (!('IntersectionObserver' in window)) return;
+
+        var srStyle = document.createElement('style');
+        srStyle.textContent =
+            '.sr{opacity:0;transform:translateY(24px);transition:opacity 0.55s ease,transform 0.55s ease}' +
+            '.sr.sr-in{opacity:1;transform:translateY(0)}' +
+            '@media(prefers-reduced-motion:reduce){.sr,.sr.sr-in{opacity:1!important;transform:none!important;transition:none!important}}';
+        document.head.appendChild(srStyle);
+
+        var selectors = [
+            '.section-header', '.rl-sec-head',
+            '.about-value-card', '.about-story-card', '.about-note-card',
+            '.about-commitment-card', '.about-feature-item',
+            '.rl-how-step', '.rl-why-card', '.rl-adv-card',
+            '.cg-intro-card', '.cg-tip-card', '.cg-section',
+            '.adopt-pet-card',
+            '.about-impact-grid > div', '.about-impact-grid > aside'
+        ].join(',');
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('sr-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+
+        document.querySelectorAll(selectors).forEach(function (el) {
+            el.classList.add('sr');
+            observer.observe(el);
+        });
+
+        // Stagger siblings inside grid/list containers
+        var staggerParents = [
+            '.about-values-grid', '.about-story-grid',
+            '.rl-how-steps', '.rl-why-grid', '.rl-adv-grid',
+            '.about-feature-list'
+        ].join(',');
+        document.querySelectorAll(staggerParents).forEach(function (grid) {
+            Array.from(grid.children).forEach(function (child, i) {
+                child.style.transitionDelay = (i * 0.12) + 's';
+            });
+        });
+    })();
+
 });

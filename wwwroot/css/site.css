@@ -219,6 +219,25 @@ body {
     transition: background 0.25s, border-color 0.25s;
 }
 
+.hero-section .rl-paw-pills {
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+}
+.hero-section .rl-paw-pill {
+    background: rgba(29,143,163,0.1);
+    border: 1.5px solid rgba(29,143,163,0.3);
+    color: var(--teal);
+}
+.hero-section .rl-paw-pill:hover {
+    background: rgba(29,143,163,0.18);
+    transform: translateY(-2px);
+}
+[data-theme="dark"] .hero-section .rl-paw-pill {
+    background: rgba(29,143,163,0.18);
+    border-color: rgba(29,143,163,0.4);
+    color: var(--teal);
+}
+
 .hero-title {
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 800;
@@ -933,10 +952,11 @@ body {
     align-items: flex-end;
     gap: 1.5rem;
 }
+.about-page .rl-hero { padding: 28px 0 32px; }
 .about-rl-copy {
     flex: 1;
     align-items: flex-start !important;
-    padding-top: 1.5rem !important;
+    padding-top: 0 !important;
     padding-bottom: 0 !important;
     text-align: left !important;
 }
@@ -953,7 +973,7 @@ body {
     margin-bottom: -4px;
 }
 .about-dog-img {
-    width: 340px;
+    width: 280px;
     max-width: 100%;
     height: auto;
     filter: drop-shadow(0 14px 30px rgba(0,0,0,0.22));
@@ -2028,6 +2048,7 @@ body {
     .hero-badge { margin-left: auto; margin-right: auto; }
     .hero-subtitle { max-width: 100%; margin-left: auto; margin-right: auto; }
     .hero-actions { justify-content: center; }
+    .hero-section .rl-paw-pills { justify-content: center; }
     .hero-card { max-width: 460px; margin-top: 2rem; }
     .cta-desc { max-width: 100%; }
 }
