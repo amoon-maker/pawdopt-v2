@@ -1,0 +1,76 @@
+@model List<PawdoptApp.Models.Message>
+@{
+    ViewData["Title"] = "Messages";
+    var myId = ViewData["UserId"] as string ?? "";
+}
+
+<div class="msg-page">
+    <div class="adopt-pg-container" style="max-width:780px">
+
+        <div class="msg-header">
+            <h1 class="msg-title">Messages</h1>
+            <p class="msg-subtitle">Your conversations with pet owners and adopters</p>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="msg-empty">
+                <div class="msg-empty-icon">💬</div>
+                <h3 class="msg-empty-title">No messages yet</h3>
+                <p class="msg-empty-desc">When you contact a pet owner or receive a message from an adopter, it will appear here.</p>
+                <a href="/Home/Adopt" class="btn btn-pawdopt-cta">Browse pets</a>
+            </div>
+        }
+        else
+        {
+            <div class="msg-thread-list">
+                @foreach (var msg in Model)
+                {
+                    var partnerId   = msg.SenderId == myId ? msg.ReceiverId : msg.SenderId;
+                    var partnerName = msg.SenderId == myId ? msg.Receiver?.DisplayName : msg.Sender?.DisplayName;
+                    var partnerInit = (partnerName ?? "?").Substring(0, 1).ToUpper();
+                    var isUnread    = msg.ReceiverId == myId && !msg.IsRead;
+                    var preview     = msg.Body.Length > 80 ? msg.Body[..77] + "…" : msg.Body;
+                    var timeAgo     = TimeAgo(msg.SentAt);
+                    var listingCtx  = msg.RelatedListing != null ? msg.RelatedListing.Name : null;
+
+                    <a class="msg-thread-item @(isUnread ? "unread" : "")"
+                       href="/Messages/Conversation?with=@partnerId@(msg.RelatedListingId.HasValue ? "&listingId=" + msg.RelatedListingId : "")">
+                        <div class="msg-thread-avatar">@partnerInit</div>
+                        <div class="msg-thread-body">
+                            <div class="msg-thread-top">
+                                <span class="msg-thread-name">@partnerName</span>
+                                <span class="msg-thread-time">@timeAgo</span>
+                            </div>
+                            @if (listingCtx != null)
+                            {
+                                <div class="msg-thread-context">re: @listingCtx</div>
+                            }
+                            <div class="msg-thread-preview">
+                                @if (msg.SenderId == myId) { <span class="msg-thread-you">You: </span> }
+                                @preview
+                            </div>
+                        </div>
+                        @if (isUnread)
+                        {
+                            <span class="msg-thread-dot"></span>
+                        }
+                    </a>
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+@functions {
+    static string TimeAgo(DateTime dt)
+    {
+        var diff = DateTime.UtcNow - dt;
+        if (diff.TotalMinutes < 1)  return "just now";
+        if (diff.TotalMinutes < 60) return $"{(int)diff.TotalMinutes}m ago";
+        if (diff.TotalHours   < 24) return $"{(int)diff.TotalHours}h ago";
+        if (diff.TotalDays    < 7)  return $"{(int)diff.TotalDays}d ago";
+        return dt.ToString("MMM d");
+    }
+}

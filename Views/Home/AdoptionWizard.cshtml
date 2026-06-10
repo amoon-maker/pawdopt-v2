@@ -660,21 +660,53 @@
 
     // ── Submit ────────────────────────────────────────────
     function submitApplication() {
-        var appId = 'APP-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
-        var apps  = JSON.parse(localStorage.getItem('pawdopt-apps') || '[]');
-        apps.push({ id: appId, petId: PET_ID, petName: pet ? pet.name : '?', date: new Date().toISOString(), status: 'pending' });
-        localStorage.setItem('pawdopt-apps', JSON.stringify(apps));
+        collectFormData();
+        var payload = Object.assign({}, fd, {
+            petId:    PET_ID,
+            petName:  pet ? pet.name : '',
+            childAges: Array.from(document.querySelectorAll('#ogChildAges .wz-opt-btn.active')).map(function(b){ return b.dataset.val; }),
+            prevPets:   activeVal('ogPrevPets'),
+            expLevel:   activeVal('ogExpLevel'),
+            homeType:   activeVal('ogHomeType'),
+            outdoor:    activeVal('ogOutdoor'),
+            ownership:  activeVal('ogOwnership'),
+            landlord:   activeVal('ogLandlord'),
+            children:   activeVal('ogChildren'),
+            otherPets:  activeVal('ogOtherPets'),
+            activity:   activeVal('ogActivity'),
+            breedExp:   activeVal('ogBreedExp'),
+            allOnBoard: activeVal('ogAllOnBoard')
+        });
 
-        document.getElementById('wzConfRef').textContent = 'Reference: ' + appId;
+        var token = document.querySelector('meta[name="__RequestVerificationToken"]');
+        var headers = { 'Content-Type': 'application/json' };
+        if (token) headers['RequestVerificationToken'] = token.content;
 
-        for (var i = 1; i <= TOTAL_STEPS; i++) {
-            var p = document.getElementById('wzStep' + i);
-            if (p) p.style.display = 'none';
-        }
-        document.getElementById('wzProgressBar').style.display = 'none';
-        document.getElementById('wzNavRow').style.display      = 'none';
-        document.getElementById('wzConfirmation').style.display = '';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        fetch('/Home/SubmitApplication', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(payload)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.success) {
+                var appId = 'APP-' + new Date().getFullYear() + '-' + data.applicationId;
+                document.getElementById('wzConfRef').textContent = 'Reference: ' + appId;
+                for (var i = 1; i <= TOTAL_STEPS; i++) {
+                    var p = document.getElementById('wzStep' + i);
+                    if (p) p.style.display = 'none';
+                }
+                document.getElementById('wzProgressBar').style.display = 'none';
+                document.getElementById('wzNavRow').style.display      = 'none';
+                document.getElementById('wzConfirmation').style.display = '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                setErr('errAgreements', data.message || 'Submission failed. Please try again.');
+            }
+        })
+        .catch(function() {
+            setErr('errAgreements', 'Network error. Please check your connection and try again.');
+        });
     }
 
     // ── Navigation ────────────────────────────────────────

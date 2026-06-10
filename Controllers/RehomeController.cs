@@ -1,123 +1,285 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PawdoptApp.Data;
+using PawdoptApp.Models;
 
 namespace PawdoptApp.Controllers;
 
 public class RehomeController : Controller
 {
-    // Public info/landing page
-    public IActionResult List()
+    private readonly ApplicationDbContext    _context;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public RehomeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
     {
-        return View();
+        _context     = context;
+        _userManager = userManager;
     }
 
-    // Community advisor profile — public
+    // ── Public landing page ───────────────────────────────────────────────
+    public IActionResult List() => View();
+
     public IActionResult Advisor(string id)
     {
         ViewData["AdvisorId"] = id ?? "sophie-martin";
         return View();
     }
 
-    // All wizard steps require login
-    [Authorize]
-    public IActionResult NewListing()
+    // ── Helper: fetch user's own Draft listing ────────────────────────────
+    private async Task<PetListing?> GetDraft(int id)
     {
+        var userId = _userManager.GetUserId(User);
+        return await _context.PetListings
+            .FirstOrDefaultAsync(l => l.Id == id && l.RehomerId == userId && l.Status == "Draft");
+    }
+
+    private async Task NotifyAdmins(string type, string title, string body, string link)
+    {
+        var admins = await _userManager.GetUsersInRoleAsync("Admin");
+        foreach (var admin in admins)
+        {
+            _context.Notifications.Add(new Notification
+            {
+                UserId    = admin.Id,
+                Type      = type,
+                Title     = title,
+                Body      = body,
+                LinkUrl   = link,
+                CreatedAt = DateTime.UtcNow
+            });
+        }
+    }
+
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 1 — Basic info
+    // ════════════════════════════════════════════════════════════════════
+
+    [Authorize]
+    public IActionResult NewListing() => View();
+
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep1(
+        string petName, string species, string breed, string age,
+        string gender, string size, string? color, decimal? weight,
+        string? microchipped, string? reason)
+    {
+        var listing = new PetListing
+        {
+            RehomerId    = _userManager.GetUserId(User)!,
+            Name         = petName ?? string.Empty,
+            Species      = species  ?? "dog",
+            Breed        = breed    ?? string.Empty,
+            Age          = age      ?? string.Empty,
+            Gender       = gender   ?? "male",
+            Size         = size     ?? "medium",
+            Color        = color,
+            Weight       = weight,
+            Microchipped = microchipped ?? "unknown",
+            Reason       = reason,
+            Status       = "Draft",
+            CreatedAt    = DateTime.UtcNow
+        };
+        _context.PetListings.Add(listing);
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Images", new { id = listing.Id });
+    }
+
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 2 — Photos
+    // ════════════════════════════════════════════════════════════════════
+
+    [Authorize]
+    public async Task<IActionResult> Images(int id)
+    {
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        ViewData["ListingId"] = id;
         return View();
     }
 
-    [HttpPost, Authorize]
-    public IActionResult SaveStep1()
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep2(int id)
     {
-        return RedirectToAction("Images");
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        listing.HasPhotos = true;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Character", new { id });
     }
+
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 3 — Character & health
+    // ════════════════════════════════════════════════════════════════════
 
     [Authorize]
-    public IActionResult Images()
+    public async Task<IActionResult> Character(int id)
     {
-        return View();
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        ViewData["ListingId"] = id;
+        return View(listing);
     }
 
-    [HttpPost, Authorize]
-    public IActionResult SaveStep2()
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep3(
+        int id, string[]? traits, string? characterNotes, string? vaccinated,
+        string? sterilized, string? activityLevel, string? trainingLevel,
+        string? idealHome, string? healthNotes)
     {
-        return RedirectToAction("Character");
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+
+        listing.TraitsJson     = traits != null && traits.Length > 0
+            ? System.Text.Json.JsonSerializer.Serialize(traits)
+            : null;
+        listing.CharacterNotes = characterNotes;
+        listing.Vaccinated     = vaccinated     ?? listing.Vaccinated;
+        listing.Sterilized     = sterilized     ?? listing.Sterilized;
+        listing.ActivityLevel  = activityLevel  ?? listing.ActivityLevel;
+        listing.TrainingLevel  = trainingLevel  ?? listing.TrainingLevel;
+        listing.IdealHome      = idealHome      ?? listing.IdealHome;
+        listing.HealthNotes    = healthNotes;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Location", new { id });
     }
+
+    // KeyFacts is part of the extended flow — just passes through to Location
+    [Authorize]
+    public async Task<IActionResult> KeyFacts(int id)
+    {
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        ViewData["ListingId"] = id;
+        return View(listing);
+    }
+
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep4(
+        int id, string? vaccinated, string? sterilized, string? activityLevel,
+        string? trainingLevel, string? idealHome, string? healthNotes)
+    {
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        if (!string.IsNullOrEmpty(vaccinated))    listing.Vaccinated    = vaccinated;
+        if (!string.IsNullOrEmpty(sterilized))    listing.Sterilized    = sterilized;
+        if (!string.IsNullOrEmpty(activityLevel)) listing.ActivityLevel = activityLevel;
+        if (!string.IsNullOrEmpty(trainingLevel)) listing.TrainingLevel = trainingLevel;
+        if (!string.IsNullOrEmpty(idealHome))     listing.IdealHome     = idealHome;
+        if (!string.IsNullOrEmpty(healthNotes))   listing.HealthNotes   = healthNotes;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Location", new { id });
+    }
+
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 5 — Location + story
+    // ════════════════════════════════════════════════════════════════════
 
     [Authorize]
-    public IActionResult Character()
+    public async Task<IActionResult> Location(int id)
     {
-        return View();
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        ViewData["ListingId"] = id;
+        return View(listing);
     }
 
-    [HttpPost, Authorize]
-    public IActionResult SaveStep3()
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep5(
+        int id, string? city, string? province, string? postalCode,
+        string? pickupType, string? pickupNotes, string? story)
     {
-        return RedirectToAction("Location");
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        listing.City        = city;
+        listing.Province    = province    ?? "QC";
+        listing.PostalCode  = postalCode;
+        listing.PickupType  = pickupType;
+        listing.PickupNotes = pickupNotes;
+        listing.Story       = story;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Story", new { id });
     }
 
-    [Authorize]
-    public IActionResult KeyFacts()
-    {
-        return View();
-    }
-
-    [HttpPost, Authorize]
-    public IActionResult SaveStep4()
-    {
-        return RedirectToAction("Location");
-    }
-
-    [Authorize]
-    public IActionResult Location()
-    {
-        return View();
-    }
-
-    [HttpPost, Authorize]
-    public IActionResult SaveStep5()
-    {
-        return RedirectToAction("Confirm");
-    }
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 6 — Story (standalone, can also update story field)
+    // ════════════════════════════════════════════════════════════════════
 
     [Authorize]
-    public IActionResult Story()
+    public async Task<IActionResult> Story(int id)
     {
-        return View();
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        ViewData["ListingId"] = id;
+        return View(listing);
     }
 
-    [HttpPost, Authorize]
-    public IActionResult SaveStep6()
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep6(int id, string? story)
     {
-        return RedirectToAction("Documents");
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        if (!string.IsNullOrEmpty(story)) listing.Story = story;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Documents", new { id });
     }
+
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 7 — Documents
+    // ════════════════════════════════════════════════════════════════════
 
     [Authorize]
-    public IActionResult Documents()
+    public async Task<IActionResult> Documents(int id)
     {
-        return View();
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        ViewData["ListingId"] = id;
+        return View(listing);
     }
 
-    [HttpPost, Authorize]
-    public IActionResult SaveStep7()
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveStep7(int id, string? documentsJson)
     {
-        return RedirectToAction("Confirm");
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        listing.DocumentsJson = documentsJson;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Confirm", new { id });
     }
+
+    // ════════════════════════════════════════════════════════════════════
+    // STEP 8 — Confirm & Publish
+    // ════════════════════════════════════════════════════════════════════
 
     [Authorize]
-    public IActionResult Confirm()
+    public async Task<IActionResult> Confirm(int id)
     {
-        return View();
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+        return View(listing);
     }
 
-    [HttpPost, Authorize]
-    public IActionResult Publish()
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Publish(int id)
     {
+        var listing = await GetDraft(id);
+        if (listing == null) return RedirectToAction("NewListing");
+
+        listing.Status      = "Pending";
+        listing.PublishedAt = DateTime.UtcNow;
+
+        await NotifyAdmins(
+            type:  "new_listing",
+            title: $"New listing awaiting approval: {listing.Name}",
+            body:  $"A rehomer has submitted a new listing for {listing.Name} ({listing.Breed}). Please review.",
+            link:  "/Admin"
+        );
+
+        await _context.SaveChangesAsync();
         return RedirectToAction("Success");
     }
 
     [Authorize]
-    public IActionResult Success()
-    {
-        return View();
-    }
+    public IActionResult Success() => View();
 }

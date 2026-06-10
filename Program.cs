@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database + Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -24,19 +24,26 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login";
-    options.LogoutPath = "/Account/Logout";
+    options.LoginPath        = "/Account/Login";
+    options.LogoutPath       = "/Account/Logout";
     options.AccessDeniedPath = "/Account/Login";
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    options.Cookie.HttpOnly  = true;
+    options.ExpireTimeSpan   = TimeSpan.FromDays(14);
     options.SlidingExpiration = true;
 });
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout        = TimeSpan.FromHours(2);
+    options.Cookie.HttpOnly    = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -45,6 +52,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
@@ -74,13 +82,13 @@ using (var scope = app.Services.CreateScope())
     {
         var admin = new ApplicationUser
         {
-            UserName     = adminEmail,
-            Email        = adminEmail,
-            DisplayName  = "Pawdopt Admin",
-            UserType     = "Admin",
-            Province     = "QC",
+            UserName       = adminEmail,
+            Email          = adminEmail,
+            DisplayName    = "Pawdopt Admin",
+            UserType       = "Admin",
+            Province       = "QC",
             EmailConfirmed = true,
-            CreatedAt    = DateTime.UtcNow
+            CreatedAt      = DateTime.UtcNow
         };
         var result = await userMgr.CreateAsync(admin, "Admin@2026!");
         if (result.Succeeded)

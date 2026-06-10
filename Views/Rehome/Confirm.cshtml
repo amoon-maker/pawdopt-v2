@@ -1,5 +1,7 @@
+@model PawdoptApp.Models.PetListing
 @{
     ViewData["Title"] = "Confirm & Publish";
+    var id = Model.Id;
 }
 
 <!-- Teal progress banner -->
@@ -17,7 +19,6 @@
 <div class="rehome-page">
     <div class="rehome-container">
 
-        <!-- Breadcrumb -->
         <nav class="rehome-breadcrumb" aria-label="breadcrumb">
             <a href="/" data-i18n="nav-home">Home</a>
             <span class="bc-sep">›</span>
@@ -26,31 +27,22 @@
             <span class="bc-current" data-i18n="rehome-step8">Confirm</span>
         </nav>
 
-        <!-- Step progress -->
         <div class="rehome-stepper" role="list">
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label">Pet info</span>
-            </div>
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label">Photos</span>
-            </div>
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label">Character</span>
-            </div>
-            <div class="step-item completed" role="listitem">
-                <div class="step-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                <span class="step-label">Location</span>
-            </div>
-            <div class="step-item active" role="listitem">
-                <div class="step-circle">5</div>
-                <span class="step-label">Confirm</span>
-            </div>
+            @foreach (var (label, done) in new[] { ("Pet info",true),("Photos",true),("Character",true),("Location",true),("Confirm",false) })
+            {
+                <div class="step-item @(done ? "completed" : "active")" role="listitem">
+                    <div class="step-circle">
+                        @if (done)
+                        {
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        }
+                        else { <text>5</text> }
+                    </div>
+                    <span class="step-label">@label</span>
+                </div>
+            }
         </div>
 
-        <!-- Form card -->
         <div class="rehome-card">
             <div class="rehome-card-header">
                 <h1 class="rehome-card-title" data-i18n="rehome-confirm-title">Review &amp; publish</h1>
@@ -60,99 +52,128 @@
                 </p>
             </div>
 
-            <form method="post" action="/Rehome/Publish">
+            <form method="post" asp-controller="Rehome" asp-action="Publish" asp-route-id="@id">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@id" />
+
                 <div class="rehome-confirm-body">
 
-                    <!-- Summary sections -->
+                    <!-- Pet info -->
                     <div class="confirm-section">
                         <div class="confirm-section-header">
-                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-info">Pet info</span>
-                            <a href="/Rehome/List" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                            <span class="confirm-section-title">Pet info</span>
+                            <a href="/Rehome/NewListing" class="confirm-edit-link">Edit</a>
                         </div>
-                        <div class="confirm-section-body" id="summary-info">—</div>
+                        <div class="confirm-section-body">
+                            <div class="confirm-data-grid">
+                                <span class="cdata-label">Name</span><span class="cdata-val">@Model.Name</span>
+                                <span class="cdata-label">Species</span><span class="cdata-val">@Model.Species</span>
+                                <span class="cdata-label">Breed</span><span class="cdata-val">@Model.Breed</span>
+                                <span class="cdata-label">Age</span><span class="cdata-val">@Model.Age</span>
+                                <span class="cdata-label">Gender</span><span class="cdata-val">@Model.Gender</span>
+                                <span class="cdata-label">Size</span><span class="cdata-val">@Model.Size</span>
+                                @if (!string.IsNullOrEmpty(Model.Reason))
+                                {
+                                    <span class="cdata-label">Reason</span><span class="cdata-val">@Model.Reason</span>
+                                }
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- Photos -->
                     <div class="confirm-section">
                         <div class="confirm-section-header">
-                            <span class="confirm-section-title" data-i18n="rehome-confirm-section-photos">Photos</span>
-                            <a href="/Rehome/Images" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                            <span class="confirm-section-title">Photos</span>
+                            <a href="/Rehome/Images/@id" class="confirm-edit-link">Edit</a>
                         </div>
-                        <div class="confirm-section-body" id="summary-photos">—</div>
+                        <div class="confirm-section-body">
+                            @(Model.HasPhotos ? "✓ Photos uploaded" : "No photos added yet")
+                        </div>
                     </div>
 
+                    <!-- Character & Health -->
                     <div class="confirm-section">
                         <div class="confirm-section-header">
                             <span class="confirm-section-title">Character &amp; health</span>
-                            <a href="/Rehome/Character" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                            <a href="/Rehome/Character/@id" class="confirm-edit-link">Edit</a>
                         </div>
-                        <div class="confirm-section-body" id="summary-character">—</div>
+                        <div class="confirm-section-body">
+                            <div class="confirm-data-grid">
+                                <span class="cdata-label">Vaccinated</span><span class="cdata-val">@Model.Vaccinated</span>
+                                <span class="cdata-label">Sterilized</span><span class="cdata-val">@Model.Sterilized</span>
+                                <span class="cdata-label">Activity</span><span class="cdata-val">@Model.ActivityLevel</span>
+                                <span class="cdata-label">Training</span><span class="cdata-val">@Model.TrainingLevel</span>
+                                <span class="cdata-label">Ideal home</span><span class="cdata-val">@Model.IdealHome</span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.CharacterNotes))
+                            {
+                                <p style="margin-top:.75rem;font-size:.88rem;color:var(--text-secondary)">@Model.CharacterNotes</p>
+                            }
+                        </div>
                     </div>
 
+                    <!-- Location & Story -->
                     <div class="confirm-section">
                         <div class="confirm-section-header">
                             <span class="confirm-section-title">Location &amp; story</span>
-                            <a href="/Rehome/Location" class="confirm-edit-link" data-i18n="rehome-confirm-edit">Edit</a>
+                            <a href="/Rehome/Location/@id" class="confirm-edit-link">Edit</a>
                         </div>
-                        <div class="confirm-section-body" id="summary-story">—</div>
+                        <div class="confirm-section-body">
+                            <div class="confirm-data-grid">
+                                <span class="cdata-label">City</span><span class="cdata-val">@(Model.City ?? "—"), @Model.Province</span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Story))
+                            {
+                                <p style="margin-top:.75rem;font-size:.88rem;color:var(--text-secondary)">@Model.Story</p>
+                            }
+                        </div>
                     </div>
 
                     <div class="rehome-divider"></div>
 
-                    <!-- Agreement checkboxes -->
+                    <!-- Agreement -->
                     <div class="confirm-agree-block">
                         <label class="confirm-agree-item">
                             <input type="checkbox" name="agreeOwner" id="agreeOwner" required />
-                            <span data-i18n="rehome-confirm-agree">I confirm that all information provided is accurate and that I am the owner of this pet or have the authority to rehome them.</span>
+                            <span data-i18n="rehome-confirm-agree">I confirm that all information is accurate and I have the authority to rehome this pet.</span>
                         </label>
                         <label class="confirm-agree-item">
                             <input type="checkbox" name="agreeTerms" id="agreeTerms" required />
-                            <span data-i18n="rehome-confirm-terms">I agree to the Pawdopt Terms &amp; Conditions and Privacy Policy.</span>
+                            <span data-i18n="rehome-confirm-terms">I agree to the Pawdopt Terms &amp; Conditions.</span>
                         </label>
                     </div>
 
                     <div class="rehome-nav-btns">
-                        <a href="/Rehome/Location" class="rehome-btn-back">
+                        <a href="/Rehome/Documents/@id" class="rehome-btn-back">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                             <span data-i18n="rehome-btn-back">Back</span>
                         </a>
                         <div style="text-align:right">
                             <button type="submit" class="rehome-btn-publish" id="publishBtn" disabled>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                                <span data-i18n="rehome-confirm-publish">Publish listing →</span>
+                                <span data-i18n="rehome-confirm-publish">Submit for review →</span>
                             </button>
-                            <p class="confirm-publish-note" data-i18n="rehome-confirm-note">Your listing will be reviewed and published within a few minutes.</p>
+                            <p class="confirm-publish-note" data-i18n="rehome-confirm-note">Your listing will be reviewed by our team before going live.</p>
                         </div>
                     </div>
 
                 </div>
             </form>
         </div>
-
     </div>
 </div>
 
 @section Scripts {
 <script>
 (function () {
-    const agreeOwner = document.getElementById('agreeOwner');
-    const agreeTerms = document.getElementById('agreeTerms');
-    const publishBtn = document.getElementById('publishBtn');
-
+    var agreeOwner = document.getElementById('agreeOwner');
+    var agreeTerms = document.getElementById('agreeTerms');
+    var publishBtn = document.getElementById('publishBtn');
     function updateBtn() {
         publishBtn.disabled = !(agreeOwner.checked && agreeTerms.checked);
     }
     agreeOwner.addEventListener('change', updateBtn);
     agreeTerms.addEventListener('change', updateBtn);
-
-    // Fill summary placeholders with stored session data if available
-    // For now show a friendly placeholder per section
-    const lang = localStorage.getItem('pawdopt-lang') || 'en';
-    const placeholder = lang === 'fr'
-        ? 'Complété à l\'étape précédente'
-        : 'Completed in a previous step';
-    document.querySelectorAll('.confirm-section-body').forEach(el => {
-        el.textContent = placeholder;
-    });
 })();
 </script>
 }

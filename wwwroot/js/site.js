@@ -971,6 +971,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // ── Notification bell dropdown ────────────────────
+    var notifWrap     = document.getElementById('notifWrap');
+    var notifBtn      = document.getElementById('notifBtn');
+    var notifDropdown = document.getElementById('notifDropdown');
+    if (notifBtn && notifDropdown && notifWrap) {
+        notifBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isOpen = notifWrap.classList.contains('open');
+            notifWrap.classList.toggle('open', !isOpen);
+            notifBtn.setAttribute('aria-expanded', (!isOpen).toString());
+            // Mark notifications read on open (fire-and-forget)
+            if (!isOpen) {
+                notifDropdown.querySelectorAll('.notif-item[data-notif-id]').forEach(function (el) {
+                    if (el.classList.contains('unread')) {
+                        fetch('/Notifications/MarkRead/' + el.dataset.notifId, { method: 'POST' });
+                        el.classList.remove('unread');
+                        var dot = el.querySelector('.notif-dot');
+                        if (dot) dot.remove();
+                    }
+                });
+                var badge = notifBtn.querySelector('.notif-badge');
+                if (badge) badge.remove();
+            }
+        });
+        document.addEventListener('click', function () {
+            notifWrap.classList.remove('open');
+            notifBtn.setAttribute('aria-expanded', 'false');
+        });
+        notifDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+    }
+
     // ── User menu dropdown ────────────────────────────
     var navUserBtn = document.getElementById('navUserBtn');
     var navUserDropdown = document.getElementById('navUserDropdown');

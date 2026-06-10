@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Character & Health";
+    var listingId = (int)(ViewData["ListingId"] ?? 0);
 }
 
 <!-- Teal progress banner -->
@@ -60,7 +61,9 @@
                 </p>
             </div>
 
-            <form method="post" action="/Rehome/SaveStep3">
+            <form method="post" asp-controller="Rehome" asp-action="SaveStep3" asp-route-id="@listingId">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@listingId" />
                 <div class="rehome-char-body">
 
                     <!-- ── Section 1: Personality ──────────────────── -->
