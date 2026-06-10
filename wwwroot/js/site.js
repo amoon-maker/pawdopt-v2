@@ -1094,4 +1094,48 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     })();
 
+    // ── Scroll reveal ─────────────────────────────────────
+    (function () {
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var SELECTORS = [
+            '.section-header',
+            '.how-step',
+            '.pet-card',
+            '.care-card',
+            '.review-card',
+            '.faq-item',
+            '.cg-intro-card',
+            '.cg-checklist-card',
+            '.cg-tip-card',
+            '.cg-small-card'
+        ].join(',');
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
+
+        function observeEl(el) {
+            if (el.dataset.scrollRevealed) return;
+            el.dataset.scrollRevealed = '1';
+            // Skip elements already visible in the viewport on load
+            if (el.getBoundingClientRect().top < window.innerHeight - 20) return;
+            el.classList.add('scroll-reveal');
+            obs.observe(el);
+        }
+
+        document.querySelectorAll(SELECTORS).forEach(observeEl);
+
+        // Exposed for Adopt page to call after dynamic renders
+        window.pawdoptReveal = function () {
+            document.querySelectorAll(SELECTORS).forEach(observeEl);
+        };
+    })();
+
 });

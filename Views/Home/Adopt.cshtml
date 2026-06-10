@@ -378,6 +378,7 @@
             empty.style.display = 'none';
             grid.innerHTML = visible.map(renderCard).join('');
             countEl.textContent = filtered.length;
+            if (window.pawdoptReveal) window.pawdoptReveal();
 
             grid.querySelectorAll('.pet-fav-btn').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {

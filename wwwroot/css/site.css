@@ -4851,6 +4851,19 @@ body {
     .cg-hero-img { max-width: 260px; }
 }
 
+/* ── Scroll reveal ───────────────────────────────────────── */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    will-change: opacity, transform;
+}
+.scroll-reveal.in-view {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+}
+
 /* ── Reusable wave dividers ──────────────────────────────── */
 .pw-wave {
     background: var(--bg-main);
