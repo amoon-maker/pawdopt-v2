@@ -307,12 +307,12 @@
         if (p.microchipped) healthHtml += '<span class="health-badge">' + t('pet-health-chipped') + '</span>';
 
         return '<div class="pet-card adopt-pet-card" role="listitem" data-pet-id="' + p.id + '">' +
-            '<div class="pet-card-img" style="background:' + p.colors + ';">' +
+            '<div class="pet-card-img">' +
+                '<img src="/images/' + p.image + '" alt="' + p.name + '" class="pet-card-photo">' +
                 badgeHtml +
                 '<button class="pet-fav-btn' + (isFav ? ' is-fav' : '') + '" data-fav-id="' + p.id + '" aria-label="' + (isFav ? t('adopt-fav-remove') : t('adopt-fav-save')) + '">' +
                     favSvg +
                 '</button>' +
-                '<span class="pet-emoji">' + p.emoji + '</span>' +
             '</div>' +
             '<div class="pet-card-body">' +
                 '<h5 class="pet-name">' + p.name + '</h5>' +

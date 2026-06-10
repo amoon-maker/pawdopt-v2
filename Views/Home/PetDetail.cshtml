@@ -51,7 +51,7 @@
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </button>
-                        <span class="pd-emoji-xl" id="pdEmoji"></span>
+                        <img id="pdPhoto" class="pd-photo" alt="" src="">
                     </div>
                 </div>
 
@@ -176,8 +176,9 @@
     document.getElementById('pdContent').style.display      = '';
 
     // ── Image card ────────────────────────────────────────
-    document.getElementById('pdImageInner').style.background = pet.colors;
-    document.getElementById('pdEmoji').textContent = pet.emoji;
+    var pdPhoto = document.getElementById('pdPhoto');
+    pdPhoto.src = '/images/' + pet.image;
+    pdPhoto.alt = pet.name;
 
     var badge = document.getElementById('pdBadge');
     if (pet.badge === 'new')    { badge.className = 'pet-badge-new';    badge.textContent = 'New'; }
@@ -292,9 +293,9 @@
                 ? '<span class="pet-tag pet-tag-male">Male</span>'
                 : '<span class="pet-tag pet-tag-female">Female</span>';
             return '<div class="pet-card" role="listitem">' +
-                '<div class="pet-card-img" style="background:' + p.colors + ';">' +
+                '<div class="pet-card-img">' +
+                    '<img src="/images/' + p.image + '" alt="' + p.name + '" class="pet-card-photo">' +
                     (p.badge === 'new' ? '<span class="pet-badge-new">New</span>' : p.badge === 'urgent' ? '<span class="pet-badge-urgent">Urgent</span>' : '') +
-                    '<span class="pet-emoji">' + p.emoji + '</span>' +
                 '</div>' +
                 '<div class="pet-card-body">' +
                     '<h5 class="pet-name">' + p.name + '</h5>' +
