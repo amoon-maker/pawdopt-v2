@@ -1130,6 +1130,7 @@ body {
     transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 .contact-bubble:hover { background: var(--teal-dark); transform: scale(1.1); box-shadow: 0 6px 24px rgba(29,143,163,0.55); }
+.contact-bubble.active { background: var(--teal-dark); box-shadow: 0 0 0 4px rgba(29,143,163,0.28), 0 4px 20px rgba(29,143,163,0.5); }
 
 .contact-bubble-card {
     position: fixed;
@@ -1162,6 +1163,22 @@ body {
     transition: background 0.2s;
 }
 .contact-bubble-email:hover { background: var(--teal-dark); color: #fff; }
+
+/* Footer contact popup */
+.footer-contact-card {
+    position: fixed;
+    bottom: 5.5rem; left: 1.75rem;
+    width: 256px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1.4rem 1.25rem 1.25rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    z-index: 9100;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+.footer-contact-card.open { opacity: 1; visibility: visible; transform: translateY(0); }
 
 .about-hero-shell {
     position: relative;
