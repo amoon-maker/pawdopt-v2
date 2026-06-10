@@ -187,10 +187,30 @@
 (function () {
 
     // ── i18n helper ───────────────────────────────────────
+    var _localFallback = {
+        en: {
+            'pet-badge-new': 'New', 'pet-badge-urgent': 'Urgent',
+            'tag-male': 'Male', 'tag-female': 'Female',
+            'tag-large': 'Large', 'tag-medium': 'Medium', 'tag-small': 'Small',
+            'pet-health-vaccinated': '💉 Vaccinated', 'pet-health-neutered': '✂️ Neutered', 'pet-health-chipped': '📡 Chipped',
+            'btn-more-info': 'More Info', 'adopt-fav-save': 'Save to favourites', 'adopt-fav-remove': 'Remove from favourites',
+            'adopt-chip-breed-suffix': '(breed)'
+        },
+        fr: {
+            'pet-badge-new': 'Nouveau', 'pet-badge-urgent': 'Urgent',
+            'tag-male': 'Mâle', 'tag-female': 'Femelle',
+            'tag-large': 'Grand', 'tag-medium': 'Moyen', 'tag-small': 'Petit',
+            'pet-health-vaccinated': '💉 Vacciné', 'pet-health-neutered': '✂️ Stérilisé', 'pet-health-chipped': '📡 Pucé',
+            'btn-more-info': "Plus d'infos", 'adopt-fav-save': 'Sauvegarder', 'adopt-fav-remove': 'Retirer',
+            'adopt-chip-breed-suffix': '(race)'
+        }
+    };
     function t(key) {
         var lang = localStorage.getItem('pawdopt-lang') || 'en';
         var dict = window.pawdoptI18n;
-        return (dict && dict[lang] && dict[lang][key] !== undefined) ? dict[lang][key] : key;
+        if (dict && dict[lang] && dict[lang][key] !== undefined) return dict[lang][key];
+        var fb = _localFallback[lang] || _localFallback.en;
+        return fb[key] !== undefined ? fb[key] : key;
     }
 
     // ── Auth state (from server) ──────────────────────────
@@ -214,7 +234,7 @@
         microchipped:false,
         sort:        'newest',
         page:        1,
-        favorites:   new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'))
+        favorites:   IS_LOGGED_IN ? new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]')) : new Set()
     };
 
     // ── Helpers ───────────────────────────────────────────
@@ -358,6 +378,7 @@
             empty.style.display = 'none';
             grid.innerHTML = visible.map(renderCard).join('');
             countEl.textContent = filtered.length;
+            if (window.pawdoptReveal) window.pawdoptReveal();
 
             grid.querySelectorAll('.pet-fav-btn').forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
@@ -531,6 +552,33 @@
     syncSbPills('age');
     render();
 
+    // ── Guest favourite toast ─────────────────────────────
+    var _guestToast = document.getElementById('guestFavToast');
+    var _guestTimer;
+    function showGuestToast() {
+        clearTimeout(_guestTimer);
+        _guestToast.classList.add('show');
+        _guestTimer = setTimeout(function () { _guestToast.classList.remove('show'); }, 5500);
+    }
+    document.getElementById('guestFavToastClose').addEventListener('click', function () {
+        clearTimeout(_guestTimer);
+        _guestToast.classList.remove('show');
+    });
+
 })();
 </script>
 }
+
+<!-- Guest favourite toast (shared CSS from site.css) -->
+<div class="guest-fav-toast" id="guestFavToast" role="alert" aria-live="polite" aria-atomic="true">
+    <span class="guest-fav-toast-icon">🐾</span>
+    <div class="guest-fav-toast-body">
+        <p class="guest-fav-toast-title" data-i18n="fav-toast-title">Sign in to save favourites</p>
+        <p class="guest-fav-toast-desc" data-i18n="fav-toast-desc">Create a free account to save pets and track your adoption journey.</p>
+        <div class="guest-fav-toast-actions">
+            <a asp-controller="Account" asp-action="Login" class="guest-fav-toast-login" data-i18n="nav-login">Log in</a>
+            <a asp-controller="Account" asp-action="Register" class="guest-fav-toast-register" data-i18n="fav-toast-register">Register free</a>
+        </div>
+    </div>
+    <button class="guest-fav-toast-close" id="guestFavToastClose" aria-label="Close">&times;</button>
+</div>

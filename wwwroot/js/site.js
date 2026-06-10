@@ -66,7 +66,7 @@ const i18n = {
         'faq-a4': 'Yes! Registered users can send messages directly to pet owners or shelters through our in-platform messaging system before submitting a formal adoption application.',
         'about-hero-eyebrow': 'OUR STORY',
         'about-hero-title': 'Every pet deserves a thoughtful path to their next home.',
-        'about-hero-subtitle': 'Pawdopt was built on the belief that finding a pet a new home should never feel rushed or uncertain. Our platform guides every connection with care, privacy and a genuine commitment to the animal\'s wellbeing above all else.',
+        'about-hero-subtitle': "Pawdopt was built on the belief that finding a pet a new home should never feel rushed or uncertain. Our platform guides every connection with care, privacy and a genuine commitment to the animal's wellbeing above all else.",
         'about-panel-label': 'What we protect',
         'about-panel-item1': 'Pets should move into homes with more context and less guesswork.',
         'about-panel-item2': 'Owners deserve a respectful alternative to rushed classifieds.',
@@ -1113,6 +1113,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 child.style.transitionDelay = (i * 0.1) + 's';
             });
         });
+    })();
+
+    // ── Scroll reveal ─────────────────────────────────────
+    (function () {
+        if (!('IntersectionObserver' in window)) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var SELECTORS = [
+            '.section-header',
+            '.how-step',
+            '.pet-card',
+            '.care-card',
+            '.review-card',
+            '.faq-item',
+            '.cg-intro-card',
+            '.cg-checklist-card',
+            '.cg-tip-card',
+            '.cg-small-card'
+        ].join(',');
+
+        var obs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -28px 0px' });
+
+        function observeEl(el) {
+            if (el.dataset.scrollRevealed) return;
+            el.dataset.scrollRevealed = '1';
+            // Skip elements already visible in the viewport on load
+            if (el.getBoundingClientRect().top < window.innerHeight - 20) return;
+            el.classList.add('scroll-reveal');
+            obs.observe(el);
+        }
+
+        document.querySelectorAll(SELECTORS).forEach(observeEl);
+
+        // Exposed for Adopt page to call after dynamic renders
+        window.pawdoptReveal = function () {
+            document.querySelectorAll(SELECTORS).forEach(observeEl);
+        };
     })();
 
 });
