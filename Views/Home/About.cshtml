@@ -3,55 +3,27 @@
 }
 
 <div class="about-page">
-    <section class="about-hero">
-        <div class="container">
-            <div class="about-hero-shell">
-                <div class="about-hero-grid">
-                    <div class="about-hero-copy">
-                        <span class="about-kicker" data-i18n="about-hero-eyebrow">OUR STORY</span>
-                        <h1 class="about-title" data-i18n="about-hero-title">Built to make pet rehoming feel safer, kinder, and more human.</h1>
-                        <p class="about-subtitle" data-i18n="about-hero-subtitle">
-                            Pawdopt helps adopters and pet owners connect through a process designed around trust, clarity, and the wellbeing of every animal.
-                        </p>
+    <section class="rl-hero">
+        <div class="adopt-pg-container">
+            <div class="about-rl-split">
 
-                        <div class="about-actions">
-                            <a asp-controller="Home" asp-action="Adopt" class="btn btn-hero-primary" data-i18n="about-hero-cta1">Browse pets</a>
-                            <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary" data-i18n="about-hero-cta2">Start rehoming</a>
-                        </div>
+                <div class="rl-hero-owner about-rl-copy">
+                    <div class="rl-hero-text">
+                        <p class="rl-hero-eyebrow" data-i18n="about-hero-eyebrow">🐾 OUR STORY</p>
+                        <h1 class="rl-hero-title" data-i18n="about-hero-title">Pet rehoming that actually feels human.</h1>
+                        <p class="rl-hero-sub" data-i18n="about-hero-subtitle">We started Pawdopt because we saw how broken pet rehoming felt — rushed, unclear, and full of unnecessary stress. We built something better: a platform where every connection is guided, private, and built around the animal's wellbeing.</p>
                     </div>
-
-                    <div class="about-hero-side">
-                        <div class="about-paw-pills">
-                            <span class="about-paw-pill">🐾 <span data-i18n="about-stat1">direct adopter and rehomer connection</span></span>
-                            <span class="about-paw-pill">🐾 <span data-i18n="about-stat2">guided flow for rehoming with less stress</span></span>
-                            <span class="about-paw-pill">🐾 <span data-i18n="about-stat3">profiles, details, and conversations built for clarity</span></span>
-                        </div>
-
-                        <div class="about-panel-card">
-                            <span class="about-panel-label" data-i18n="about-panel-label">What we protect</span>
-                            <ul class="about-panel-list">
-                                <li data-i18n="about-panel-item1">Pets should move into homes with more context and less guesswork.</li>
-                                <li data-i18n="about-panel-item2">Owners deserve a respectful alternative to rushed classifieds.</li>
-                                <li data-i18n="about-panel-item3">Adopters need a clearer, calmer way to take the next step.</li>
-                            </ul>
-                        </div>
+                    <div class="rl-paw-pills" aria-hidden="true">
+                        <span class="rl-paw-pill">🐾 <span data-i18n="about-stat1">Small team, big care</span></span>
+                        <span class="rl-paw-pill">🐾 <span data-i18n="about-stat2">Built in Québec</span></span>
+                        <span class="rl-paw-pill">🐾 <span data-i18n="about-stat3">Pet-first always</span></span>
                     </div>
                 </div>
 
-                <div class="about-stat-grid">
-                    <div class="about-stat-card">
-                        <strong>1:1</strong>
-                        <span data-i18n="about-stat1">direct adopter and rehomer connection</span>
-                    </div>
-                    <div class="about-stat-card">
-                        <strong>3-step</strong>
-                        <span data-i18n="about-stat2">guided flow for rehoming with less stress</span>
-                    </div>
-                    <div class="about-stat-card">
-                        <strong>Trust-first</strong>
-                        <span data-i18n="about-stat3">profiles, details, and conversations built for clarity</span>
-                    </div>
+                <div class="about-rl-img">
+                    <img src="~/images/dog%20and%20cat.png" alt="Happy dog" class="about-dog-img" />
                 </div>
+
             </div>
         </div>
     </section>
@@ -167,23 +139,34 @@
             </div>
         </div>
     </section>
-
-    <div class="about-wave-sep about-wave-main-soft" aria-hidden="true">
-        <svg viewBox="0 0 1440 76" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="about-wave-path" d="M0,36 C208,68 430,72 649,44 C867,16 1066,-2 1263,20 C1338,28 1397,38 1440,46 L1440,76 L0,76 Z"></path>
-        </svg>
-    </div>
-
-    <section class="about-cta">
-        <div class="container">
-            <div class="about-cta-card">
-                <h2 data-i18n="about-cta-title">Ready to meet Pawdopt in action?</h2>
-                <p data-i18n="about-cta-text">Explore available pets or start a rehoming journey with a flow built to feel clear, respectful, and safe.</p>
-                <div class="about-actions about-actions-center">
-                    <a asp-controller="Home" asp-action="Adopt" class="btn btn-hero-primary" data-i18n="about-cta-btn1">Explore pets</a>
-                    <a asp-controller="Rehome" asp-action="List" class="btn btn-hero-secondary" data-i18n="about-cta-btn2">Go to rehome</a>
-                </div>
-            </div>
-        </div>
-    </section>
 </div>
+
+<!-- Contact bubble -->
+<button class="contact-bubble" id="contactBubble" aria-label="Contact us">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+    </svg>
+</button>
+<div class="contact-bubble-card" id="contactCard" role="dialog" aria-label="Contact us">
+    <button class="contact-bubble-card-close" id="contactClose" aria-label="Close">&times;</button>
+    <div class="contact-bubble-icon">🐾</div>
+    <p class="contact-bubble-title">Get in touch</p>
+    <p class="contact-bubble-text">Have a question or feedback? We'd love to hear from you.</p>
+    <a href="mailto:support@pawdopt.ca" class="contact-bubble-email">support@pawdopt.ca</a>
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    var bubble = document.getElementById('contactBubble');
+    var card   = document.getElementById('contactCard');
+    var close  = document.getElementById('contactClose');
+    bubble.addEventListener('click', function () { card.classList.toggle('open'); });
+    close.addEventListener('click', function (e) { e.stopPropagation(); card.classList.remove('open'); });
+    document.addEventListener('click', function (e) {
+        if (!card.contains(e.target) && !bubble.contains(e.target)) card.classList.remove('open');
+    });
+})();
+</script>
+}
