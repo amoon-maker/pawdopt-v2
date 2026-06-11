@@ -1,6 +1,6 @@
 # Pawdopt v2 — Project Summary
 
-**Team:** Isabela Sierra & Amna  
+**Team:** Isabela Sierra & Amina  
 **Tech stack:** ASP.NET Core MVC (.NET 10), Entity Framework Core, ASP.NET Identity, SQL Server (Docker)
 
 ---
@@ -171,14 +171,11 @@ The profile page (`/Home/AdopterProfile`) has five tabs:
 - Profile settings save — **Update Profile** and **Change Password** (POST endpoints + form wiring)
 - README and project documentation
 
-### Amna
+### Amina
 - Initial project setup and architecture
-- UML diagrams and class presentation
-- Authentication (Login and Register)
 - Adopt page (pet grid, filters, favourites)
 - Pet Detail page
 - Adoption Wizard (multi-step form, submission to DB)
 - Care Guide
 - Logo and dark mode assets
-- Language switch (bilingual toggle)
-- Various bug fixes and enhancements
+
