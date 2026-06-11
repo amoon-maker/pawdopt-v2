@@ -3803,7 +3803,21 @@ body {
 
 .pd-btn-outline { width: 100%; background: none; color: var(--text-primary); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px; font-size: 0.875rem; font-weight: 600; cursor: pointer; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; transition: border-color 0.2s, color 0.2s; }
 .pd-btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+.pd-btn-outline.active { border-color: var(--teal); color: var(--teal); background: rgba(29,143,163,0.06); }
 .pd-btn-save.is-fav { color: #ef4444; border-color: #fca5a5; }
+
+/* Message compose panel */
+.pd-msg-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.pd-msg-panel.open { max-height: 200px; }
+.pd-msg-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 0.85rem; font-family: inherit; color: var(--text-primary); background: var(--bg-main); resize: none; height: 90px; margin-top: 8px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
+.pd-msg-textarea:focus { border-color: var(--teal); }
+.pd-msg-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; margin-bottom: 4px; }
+.pd-msg-chars { font-size: 0.75rem; color: var(--text-muted); }
+.pd-msg-send-btn { background: var(--teal); color: #fff; border: none; border-radius: 8px; padding: 7px 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.pd-msg-send-btn:hover { background: var(--teal-dark); }
+.pd-msg-sent { display: none; margin-top: 8px; padding: 10px 14px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; font-size: 0.85rem; color: #166534; }
+.pd-msg-sent.show { display: block; }
+[data-theme="dark"] .pd-msg-sent { background: #052e16; border-color: #166534; color: #86efac; }
 .pd-btn-save.is-fav:hover { border-color: #ef4444; }
 
 .pd-login-note { margin-top: 12px; padding: 12px; background: var(--bg-alt); border-radius: 8px; font-size: 0.8rem; color: var(--text-secondary); text-align: center; line-height: 1.7; }

@@ -112,6 +112,20 @@
                         💬 <span data-i18n="pd-message">Message Owner</span>
                     </button>
 
+                    <!-- Message compose panel (logged-in users only) -->
+                    <div class="pd-msg-panel" id="pdMsgPanel">
+                        <textarea class="pd-msg-textarea" id="pdMsgText" maxlength="500"
+                            placeholder="Write your message…"></textarea>
+                        <div class="pd-msg-footer">
+                            <span class="pd-msg-chars" id="pdMsgChars">0 / 500</span>
+                            <button class="pd-msg-send-btn" id="pdMsgSendBtn" data-i18n="pd-msg-send">Send Message</button>
+                        </div>
+                    </div>
+                    <!-- Sent confirmation -->
+                    <div class="pd-msg-sent" id="pdMsgSent">
+                        ✅ <span id="pdMsgSentTxt">Message sent!</span>
+                    </div>
+
                     <!-- Guest gate (shown when apply/save clicked without auth) -->
                     <div class="pd-login-note" id="pdLoginNote" style="display:none">
                         🔒 <span data-i18n="pd-login-note">You need an account to apply or save pets.</span>
@@ -225,8 +239,26 @@
             document.getElementById('pdLoginNote').style.display = '';
             return;
         }
-        var note = document.getElementById('pdLoginNote');
-        note.style.display = note.style.display === 'none' ? '' : 'none';
+        var panel = document.getElementById('pdMsgPanel');
+        var isOpen = panel.classList.toggle('open');
+        this.classList.toggle('active', isOpen);
+        if (isOpen) document.getElementById('pdMsgText').focus();
+    });
+
+    document.getElementById('pdMsgText').addEventListener('input', function () {
+        document.getElementById('pdMsgChars').textContent = this.value.length + ' / 500';
+    });
+
+    document.getElementById('pdMsgSendBtn').addEventListener('click', function () {
+        var text = document.getElementById('pdMsgText').value.trim();
+        if (!text) return;
+        document.getElementById('pdMsgPanel').classList.remove('open');
+        document.getElementById('pdMsgBtn').classList.remove('active');
+        document.getElementById('pdMsgBtn').style.display = 'none';
+        var sentDiv = document.getElementById('pdMsgSent');
+        document.getElementById('pdMsgSentTxt').textContent =
+            'Message sent to ' + (pet.rehomer ? pet.rehomer.name : 'the owner') + '! They\'ll be in touch soon.';
+        sentDiv.classList.add('show');
     });
 
     // ── Action card ───────────────────────────────────────
