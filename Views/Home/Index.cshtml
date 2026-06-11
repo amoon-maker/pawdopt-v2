@@ -113,7 +113,7 @@
                     <div class="pet-card-img">
                         <img src="/images/Pitter.png" alt="Pitter" class="pet-card-photo">
                         <span class="pet-badge-new" data-i18n="pet-badge-new">New</span>
-                        <button class="pet-fav-btn" aria-label="Favorite">
+                        <button class="pet-fav-btn" data-fav-id="1" aria-label="Favorite">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </button>
                     </div>
@@ -137,7 +137,7 @@
                 <div class="pet-card">
                     <div class="pet-card-img">
                         <img src="/images/Hero.png" alt="Hero" class="pet-card-photo">
-                        <button class="pet-fav-btn" aria-label="Favorite">
+                        <button class="pet-fav-btn" data-fav-id="2" aria-label="Favorite">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </button>
                     </div>
@@ -161,7 +161,7 @@
                 <div class="pet-card">
                     <div class="pet-card-img">
                         <img src="/images/Magie.png" alt="Magie" class="pet-card-photo">
-                        <button class="pet-fav-btn" aria-label="Favorite">
+                        <button class="pet-fav-btn" data-fav-id="3" aria-label="Favorite">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </button>
                     </div>
@@ -185,7 +185,7 @@
                 <div class="pet-card">
                     <div class="pet-card-img">
                         <img src="/images/Felix.png" alt="Felix" class="pet-card-photo">
-                        <button class="pet-fav-btn" aria-label="Favorite">
+                        <button class="pet-fav-btn" data-fav-id="4" aria-label="Favorite">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                         </button>
                     </div>
@@ -451,32 +451,49 @@
 @section Scripts {
 <script>
 (function () {
-    if (document.documentElement.dataset.loggedIn === 'true') return;
-
+    var IS_LOGGED_IN = document.documentElement.dataset.loggedIn === 'true';
     var toast    = document.getElementById('guestFavToast');
     var closeBtn = document.getElementById('guestFavToastClose');
     var timer;
+
+    var favs = IS_LOGGED_IN
+        ? new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'))
+        : new Set();
+
+    var HEART_FILLED = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+    var HEART_EMPTY  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+
+    function updateBtn(btn, isFav) {
+        btn.innerHTML = isFav ? HEART_FILLED : HEART_EMPTY;
+        btn.classList.toggle('is-fav', isFav);
+    }
 
     function showToast() {
         clearTimeout(timer);
         toast.classList.add('show');
         timer = setTimeout(hideToast, 5500);
     }
-
     function hideToast() {
         clearTimeout(timer);
         toast.classList.remove('show');
     }
 
-    document.querySelectorAll('.pet-fav-btn').forEach(function (btn) {
+    // Init heart state from localStorage
+    document.querySelectorAll('.pet-fav-btn[data-fav-id]').forEach(function (btn) {
+        var id = parseInt(btn.dataset.favId);
+        updateBtn(btn, favs.has(id));
+
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            showToast();
+            if (!IS_LOGGED_IN) { showToast(); return; }
+            if (favs.has(id)) favs.delete(id); else favs.add(id);
+            localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(favs)));
+            updateBtn(btn, favs.has(id));
         });
     });
 
-    closeBtn.addEventListener('click', hideToast);
+    if (closeBtn) closeBtn.addEventListener('click', hideToast);
 })();
 </script>
 }
