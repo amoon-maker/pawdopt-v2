@@ -25,3 +25,9 @@ Thumbs.db
 appsettings.Development.json
 appsettings.*.json
 !appsettings.json
+
+## Claude Code memory
+memory/
+
+## Archives
+*.zip
