@@ -87,14 +87,18 @@
                         <p class="radv-contact-title">Connect with @firstName</p>
                         <p class="radv-contact-sub">Ask about their experience or share what you're going through.</p>
 
-                        <a href="#" class="radv-cta-btn primary" onclick="return false;">
+                        <button type="button" class="radv-cta-btn primary" onclick="document.getElementById('advisorDemoMsg').style.display='block'">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             <span>Send @firstName a message</span>
-                        </a>
-                        <a href="#" class="radv-cta-btn outline" onclick="return false;">
+                        </button>
+                        <button type="button" class="radv-cta-btn outline" onclick="document.getElementById('advisorDemoMsg').style.display='block'">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             <span>Request a quick chat</span>
-                        </a>
+                        </button>
+
+                        <div id="advisorDemoMsg" class="radv-avail" style="display:none;margin-top:10px">
+                            ℹ️ @firstName is an example community story for this demo — direct messaging isn't available for these profiles.
+                        </div>
 
                         <div class="radv-divider"></div>
                         <div class="radv-avail">

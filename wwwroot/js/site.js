@@ -992,6 +992,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var notifBtn      = document.getElementById('notifBtn');
     var notifDropdown = document.getElementById('notifDropdown');
     if (notifBtn && notifDropdown && notifWrap) {
+        var notifToken = function () {
+            var input = notifDropdown.querySelector('input[name="__RequestVerificationToken"]');
+            return input ? input.value : '';
+        };
+
         notifBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             var isOpen = notifWrap.classList.contains('open');
@@ -1001,7 +1006,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!isOpen) {
                 notifDropdown.querySelectorAll('.notif-item[data-notif-id]').forEach(function (el) {
                     if (el.classList.contains('unread')) {
-                        fetch('/Notifications/MarkRead/' + el.dataset.notifId, { method: 'POST' });
+                        fetch('/Notifications/MarkRead/' + el.dataset.notifId, {
+                            method: 'POST',
+                            headers: { 'RequestVerificationToken': notifToken() }
+                        });
                         el.classList.remove('unread');
                         var dot = el.querySelector('.notif-dot');
                         if (dot) dot.remove();
@@ -1016,6 +1024,27 @@ document.addEventListener('DOMContentLoaded', function () {
             notifBtn.setAttribute('aria-expanded', 'false');
         });
         notifDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+
+        // ── Mark all read — handled via fetch so it never navigates away ──
+        var markAllForm = notifDropdown.querySelector('.notif-mark-all-form');
+        if (markAllForm) {
+            markAllForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                fetch('/Notifications/MarkAllRead', {
+                    method: 'POST',
+                    headers: { 'RequestVerificationToken': notifToken() }
+                }).then(function () {
+                    notifDropdown.querySelectorAll('.notif-item.unread').forEach(function (el) {
+                        el.classList.remove('unread');
+                        var dot = el.querySelector('.notif-dot');
+                        if (dot) dot.remove();
+                    });
+                    var badge = notifBtn.querySelector('.notif-badge');
+                    if (badge) badge.remove();
+                    markAllForm.style.display = 'none';
+                });
+            });
+        }
     }
 
     // ── User menu dropdown ────────────────────────────

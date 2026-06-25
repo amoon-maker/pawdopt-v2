@@ -139,11 +139,15 @@
                     <th>Role</th>
                     <th>City</th>
                     <th>Joined</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var user in users)
                 {
+                    var isLocked = user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow;
+                    var isSelf   = user.Id == ViewData["CurrentUserId"]?.ToString();
                     <tr>
                         <td>
                             <div class="adm-user-cell">
@@ -152,9 +156,47 @@
                             </div>
                         </td>
                         <td style="color:#475569;font-size:0.83rem;">@user.Email</td>
-                        <td><span class="adm-badge @user.UserType.ToLower()">@user.UserType</span></td>
+                        <td>
+                            @if (isSelf)
+                            {
+                                <span class="adm-badge @user.UserType.ToLower()">@user.UserType</span>
+                            }
+                            else
+                            {
+                                <form method="post" asp-controller="Admin" asp-action="UpdateUserRole" style="display:inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <select name="role" class="adm-role-select" onchange="this.form.submit()">
+                                        @foreach (var r in new[] { "Adopter", "Rehomer", "Admin" })
+                                        {
+                                            <option value="@r" selected="@(user.UserType == r)">@r</option>
+                                        }
+                                    </select>
+                                </form>
+                            }
+                        </td>
                         <td style="color:#94a3b8;font-size:0.82rem;">@(string.IsNullOrEmpty(user.City) ? "—" : $"{user.City}, {user.Province}")</td>
                         <td style="color:#94a3b8;font-size:0.82rem;">@user.CreatedAt.ToString("MMM d, yyyy")</td>
+                        <td>
+                            @if (isLocked)
+                            {
+                                <span class="adm-badge rejected">Deactivated</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge approved">Active</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!isSelf)
+                            {
+                                <form method="post" asp-controller="Admin" asp-action="ToggleUserActive" style="display:inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <button type="submit" class="adm-btn @(isLocked ? "approve" : "reject")">@(isLocked ? "Reactivate" : "Deactivate")</button>
+                                </form>
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>

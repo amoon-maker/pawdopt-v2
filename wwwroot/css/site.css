@@ -534,7 +534,7 @@ body {
 }
 .pet-card-photo {
     width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
+    object-fit: cover; object-position: center center;
     display: block;
 }
 
@@ -3767,7 +3767,7 @@ body {
 
 .pd-image-card { border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px; }
 .pd-image-inner { height: 300px; position: relative; overflow: hidden; background: var(--bg-alt); }
-.pd-photo { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+.pd-photo { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
 .pd-emoji-xl { font-size: 7rem; filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12)); animation: dogFloat 3s ease-in-out infinite; }
 .pd-fav-btn  { position: absolute; top: 14px; right: 14px; }
 

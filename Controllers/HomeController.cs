@@ -103,6 +103,7 @@ public class HomeController : Controller
             traits,
             rehomer = new
             {
+                id     = l.RehomerId,
                 name   = l.Rehomer.DisplayName,
                 city   = string.IsNullOrEmpty(l.City) ? l.Province : $"{l.City}, {l.Province}",
                 since  = l.Rehomer.CreatedAt.ToString("MMMM yyyy"),
@@ -146,6 +147,7 @@ public class HomeController : Controller
         ViewData["Applications"] = apps;
 
         // Real listings + incoming applications if rehomer
+        var hasListings = false;
         if (user?.UserType == "Rehomer" || user?.UserType == "Admin")
         {
             var listings = await _context.PetListings
@@ -153,6 +155,7 @@ public class HomeController : Controller
                 .OrderByDescending(l => l.CreatedAt)
                 .ToListAsync();
             ViewData["Listings"] = listings;
+            hasListings = listings.Count > 0;
 
             var listingIds = listings.Select(l => l.Id).ToList();
             var incomingApps = await _context.AdoptionApplications
@@ -163,6 +166,17 @@ public class HomeController : Controller
                 .ToListAsync();
             ViewData["IncomingApplications"] = incomingApps;
         }
+
+        // Profile completion: name + city + phone are optional fields the user can fill in,
+        // plus credit for actually using the platform (an application or a listing).
+        var completionChecks = new[]
+        {
+            !string.IsNullOrWhiteSpace(user?.DisplayName),
+            !string.IsNullOrWhiteSpace(user?.City),
+            !string.IsNullOrWhiteSpace(user?.PhoneNumber),
+            apps.Count > 0 || hasListings
+        };
+        ViewData["ProfileCompletion"] = (int)Math.Round(100.0 * completionChecks.Count(c => c) / completionChecks.Length);
 
         return View();
     }
@@ -242,6 +256,18 @@ public class HomeController : Controller
             Type      = "app_submitted",
             Title     = $"Application submitted for {listing.Name}",
             Body      = "Your application is under review. We'll notify you when there's an update.",
+            LinkUrl   = "/Applications",
+            CreatedAt = DateTime.UtcNow
+        });
+
+        // Notify the rehomer — someone wants to adopt their pet
+        var adopter = await _userManager.GetUserAsync(User);
+        _context.Notifications.Add(new Notification
+        {
+            UserId    = listing.RehomerId,
+            Type      = "new_application",
+            Title     = $"New application for {listing.Name}",
+            Body      = $"{adopter?.DisplayName ?? "An adopter"} applied to adopt {listing.Name}. Review their application now.",
             LinkUrl   = "/Applications",
             CreatedAt = DateTime.UtcNow
         });

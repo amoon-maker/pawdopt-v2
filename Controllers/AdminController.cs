@@ -30,8 +30,9 @@ public class AdminController : Controller
             .OrderByDescending(l => l.CreatedAt)
             .ToListAsync();
 
-        ViewData["Users"]    = users;
-        ViewData["Listings"] = listings;
+        ViewData["Users"]         = users;
+        ViewData["Listings"]      = listings;
+        ViewData["CurrentUserId"] = _userManager.GetUserId(User);
         return View();
     }
 
@@ -87,6 +88,57 @@ public class AdminController : Controller
 
         await _context.SaveChangesAsync();
         TempData["AdminMsg"] = $"{listing.Name}'s listing rejected.";
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdateUserRole(string userId, string role)
+    {
+        if (userId == _userManager.GetUserId(User))
+        {
+            TempData["AdminMsg"] = "You can't change your own role.";
+            return RedirectToAction("Index");
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null) return NotFound();
+
+        var currentRoles = await _userManager.GetRolesAsync(user);
+        await _userManager.RemoveFromRolesAsync(user, currentRoles);
+        await _userManager.AddToRoleAsync(user, role);
+
+        user.UserType = role;
+        await _userManager.UpdateAsync(user);
+
+        TempData["AdminMsg"] = $"{user.DisplayName}'s role changed to {role}.";
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ToggleUserActive(string userId)
+    {
+        if (userId == _userManager.GetUserId(User))
+        {
+            TempData["AdminMsg"] = "You can't deactivate your own account.";
+            return RedirectToAction("Index");
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null) return NotFound();
+
+        var isCurrentlyLocked = user.LockoutEnd.HasValue && user.LockoutEnd > DateTimeOffset.UtcNow;
+        if (isCurrentlyLocked)
+        {
+            user.LockoutEnd = null;
+            TempData["AdminMsg"] = $"{user.DisplayName}'s account was reactivated.";
+        }
+        else
+        {
+            user.LockoutEnabled = true;
+            user.LockoutEnd     = DateTimeOffset.MaxValue;
+            TempData["AdminMsg"] = $"{user.DisplayName}'s account was deactivated.";
+        }
+        await _userManager.UpdateAsync(user);
         return RedirectToAction("Index");
     }
 

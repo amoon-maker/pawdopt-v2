@@ -39,6 +39,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+// Lets fetch() calls send the anti-forgery token as a header instead of a form field
+builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 

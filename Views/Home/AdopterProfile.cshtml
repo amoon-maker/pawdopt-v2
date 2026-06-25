@@ -15,6 +15,7 @@
     var myListings       = ViewData["Listings"]             as List<PetListing>          ?? new();
     var incomingApps     = ViewData["IncomingApplications"] as List<AdoptionApplication> ?? new();
     var isRehomer        = userType == "Rehomer" || userType == "Admin";
+    var completion       = ViewData["ProfileCompletion"] as int? ?? 0;
 }
 
 <div class="ap-page-wrap">
@@ -45,12 +46,14 @@
             <div class="ap-completion-wrap">
                 <div class="ap-completion-label">
                     <span data-i18n="ap-completion">Profile completion</span>
-                    <span class="ap-completion-pct">75%</span>
+                    <span class="ap-completion-pct">@completion%</span>
                 </div>
                 <div class="ap-completion-bar">
-                    <div class="ap-completion-fill" style="width:75%"></div>
+                    <div class="ap-completion-fill" style="width:@(completion)%"></div>
                 </div>
-                <div class="ap-completion-hint">Add your home photos to reach 100%</div>
+                <div class="ap-completion-hint">
+                    @(completion >= 100 ? "Your profile is complete!" : "Add your city and phone number, and use the platform, to reach 100%")
+                </div>
             </div>
         </div>
 
@@ -82,7 +85,7 @@
                     <span class="ap-stat-lbl" data-i18n="ap-stat-saved">Pets saved</span>
                 </div>
                 <div class="ap-stat-card">
-                    <span class="ap-stat-num">75%</span>
+                    <span class="ap-stat-num">@completion%</span>
                     <span class="ap-stat-lbl" data-i18n="ap-stat-profile">Profile complete</span>
                 </div>
             </div>

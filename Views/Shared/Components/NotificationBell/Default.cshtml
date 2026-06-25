@@ -24,7 +24,7 @@
             <span class="notif-dropdown-title">Notifications</span>
             @if (hasUnread)
             {
-                <form asp-controller="Notifications" asp-action="MarkAllRead" method="post" style="margin:0">
+                <form asp-controller="Notifications" asp-action="MarkAllRead" method="post" class="notif-mark-all-form" style="margin:0">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="notif-mark-all">Mark all read</button>
                 </form>

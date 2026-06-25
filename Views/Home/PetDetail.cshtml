@@ -111,6 +111,7 @@
                     <button class="pd-btn-outline" id="pdMsgBtn">
                         💬 <span data-i18n="pd-message">Message Owner</span>
                     </button>
+                    @Html.AntiForgeryToken()
 
                     <!-- Message compose panel (logged-in users only) -->
                     <div class="pd-msg-panel" id="pdMsgPanel">
@@ -221,9 +222,12 @@
     updateFavUI();
 
     // Demo pets (from pawdopt-data.js) have no backing database row, so
-    // there's nothing for the wizard to apply to — hide the button for those.
+    // there's nothing for the wizard to apply to, and no real owner to message.
     if (!pet.realId) {
         document.getElementById('pdApplyBtn').style.display = 'none';
+    }
+    if (!pet.rehomer || !pet.rehomer.id) {
+        document.getElementById('pdMsgBtn').style.display = 'none';
     }
 
     document.getElementById('pdFavBtn').addEventListener('click', function () {
@@ -262,14 +266,35 @@
 
     document.getElementById('pdMsgSendBtn').addEventListener('click', function () {
         var text = document.getElementById('pdMsgText').value.trim();
-        if (!text) return;
-        document.getElementById('pdMsgPanel').classList.remove('open');
-        document.getElementById('pdMsgBtn').classList.remove('active');
-        document.getElementById('pdMsgBtn').style.display = 'none';
-        var sentDiv = document.getElementById('pdMsgSent');
-        document.getElementById('pdMsgSentTxt').textContent =
-            'Message sent to ' + (pet.rehomer ? pet.rehomer.name : 'the owner') + '! They\'ll be in touch soon.';
-        sentDiv.classList.add('show');
+        if (!text || !pet.rehomer || !pet.rehomer.id) return;
+
+        var token = document.querySelector('input[name="__RequestVerificationToken"]');
+        var body = new URLSearchParams({
+            receiverId: pet.rehomer.id,
+            body: text,
+            listingId: pet.realId
+        });
+
+        fetch('/Messages/Send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'RequestVerificationToken': token ? token.value : ''
+            },
+            body: body
+        }).then(function (res) {
+            if (!res.ok) throw new Error('send failed');
+            document.getElementById('pdMsgPanel').classList.remove('open');
+            document.getElementById('pdMsgBtn').classList.remove('active');
+            document.getElementById('pdMsgBtn').style.display = 'none';
+            document.getElementById('pdMsgText').value = '';
+            var sentDiv = document.getElementById('pdMsgSent');
+            document.getElementById('pdMsgSentTxt').textContent =
+                'Message sent to ' + pet.rehomer.name + '! They\'ll be in touch soon.';
+            sentDiv.classList.add('show');
+        }).catch(function () {
+            alert('Could not send your message. Please try again.');
+        });
     });
 
     // ── Action card ───────────────────────────────────────
