@@ -1,0 +1,242 @@
+@using PawdoptApp.Models
+@model AdoptionApplication
+@{
+    ViewData["Title"] = $"Application — {Model.PetName}";
+    var userRole   = ViewData["UserRole"]?.ToString() ?? "Adopter";
+    var isReviewer = userRole == "Rehomer" || userRole == "Admin";
+    var isAdopter  = userRole == "Adopter";
+    var canWithdraw = isAdopter && (Model.Status == "Pending" || Model.Status == "UnderReview");
+    var canReview   = isReviewer && (Model.Status == "Pending" || Model.Status == "UnderReview");
+
+    string Val(string? v) => string.IsNullOrWhiteSpace(v) ? "—" : v;
+    string YesNo(string? v) => v?.ToLower() switch { "yes" => "Yes", "no" => "No", _ => Val(v) };
+    string HoursLabel(string? v) => v switch {
+        "lt2"  => "Less than 2 hours", "2to4" => "2–4 hours", "4to6" => "4–6 hours",
+        "6to8" => "6–8 hours", "gt8"  => "More than 8 hours", _ => Val(v)
+    };
+    string ActivityLabel(string? v) => v switch {
+        "sedentary" => "Sedentary", "light" => "Lightly active",
+        "moderate"  => "Moderately active", "active" => "Very active", _ => Val(v)
+    };
+    string HomeLabel(string? v) => v switch {
+        "house" => "House", "apartment" => "Apartment", "condo" => "Condo", "other" => "Other", _ => Val(v)
+    };
+    string OutdoorLabel(string? v) => v switch {
+        "fenced" => "Fenced yard", "patio" => "Patio/balcony", "none" => "None", _ => Val(v)
+    };
+    string ExpLabel(string? v) => v switch {
+        "first" => "First-time owner", "some" => "Some experience", "experienced" => "Experienced owner", _ => Val(v)
+    };
+}
+
+<div class="apps-shell">
+
+    @if (TempData["AppSuccess"] != null)
+    {
+        <div class="apps-alert apps-alert-success">@TempData["AppSuccess"]</div>
+    }
+    @if (TempData["AppError"] != null)
+    {
+        <div class="apps-alert apps-alert-error">@TempData["AppError"]</div>
+    }
+
+    <!-- Header -->
+    <div class="apps-detail-header">
+        <div>
+            <h1 class="apps-detail-title">Application for @Model.PetName</h1>
+            <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+                <span class="@Model.Status.BadgeCss()">@Model.Status.Label()</span>
+                <span style="font-size:0.8rem;color:var(--text-secondary);">
+                    Submitted @Model.SubmittedAt.ToString("MMMM d, yyyy 'at' h:mm tt")
+                </span>
+                @if (Model.ReviewedAt.HasValue)
+                {
+                    <span style="font-size:0.8rem;color:var(--text-secondary);">
+                        &middot; Reviewed @Model.ReviewedAt.Value.ToString("MMM d, yyyy")
+                    </span>
+                }
+            </div>
+        </div>
+        <div class="apps-detail-actions">
+            <a href="/Applications" class="apps-btn apps-btn-outline">Back</a>
+            @if (canReview)
+            {
+                <a href="/Applications/UpdateStatus/@Model.Id" class="apps-btn apps-btn-primary">Review Application</a>
+            }
+            @if (canWithdraw)
+            {
+                <form method="post" asp-controller="Applications" asp-action="Withdraw"
+                      asp-route-id="@Model.Id"
+                      onsubmit="return confirm('Withdraw this application? This cannot be undone.')">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="apps-btn apps-btn-danger">Withdraw</button>
+                </form>
+            }
+        </div>
+    </div>
+
+    <!-- Review notes (shown when present) -->
+    @if (!string.IsNullOrWhiteSpace(Model.ReviewNotes))
+    {
+        <div class="apps-section" style="border-color:var(--teal);background:var(--teal-light);">
+            <div class="apps-section-title">Reviewer Notes</div>
+            <div class="apps-notes-box" style="background:rgba(255,255,255,0.7);">@Model.ReviewNotes</div>
+        </div>
+    }
+
+    <!-- Applicant info -->
+    <div class="apps-section">
+        <div class="apps-section-title">Applicant Information</div>
+        <div class="apps-grid">
+            <div>
+                <div class="apps-field-label">Full Name</div>
+                <div class="apps-field-value">@Val($"{Model.FirstName} {Model.LastName}".Trim())</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Email</div>
+                <div class="apps-field-value">@Val(Model.Email)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Phone</div>
+                <div class="apps-field-value">@Val(Model.Phone)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">City</div>
+                <div class="apps-field-value">@Val(Model.City)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Previous Pets?</div>
+                <div class="apps-field-value">@YesNo(Model.PrevPets)</div>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.PrevPetTypes))
+            {
+                <div>
+                    <div class="apps-field-label">Previous Pet Types</div>
+                    <div class="apps-field-value">@Model.PrevPetTypes</div>
+                </div>
+            }
+            <div>
+                <div class="apps-field-label">Experience Level</div>
+                <div class="apps-field-value">@ExpLabel(Model.ExpLevel)</div>
+            </div>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.WhyAdopt))
+        {
+            <div style="margin-top:1rem;">
+                <div class="apps-field-label">Why do you want to adopt?</div>
+                <div class="apps-notes-box">@Model.WhyAdopt</div>
+            </div>
+        }
+    </div>
+
+    <!-- Home environment -->
+    <div class="apps-section">
+        <div class="apps-section-title">Home Environment</div>
+        <div class="apps-grid">
+            <div>
+                <div class="apps-field-label">Home Type</div>
+                <div class="apps-field-value">@HomeLabel(Model.HomeType)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Outdoor Space</div>
+                <div class="apps-field-value">@OutdoorLabel(Model.Outdoor)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Ownership</div>
+                <div class="apps-field-value">@(Model.Ownership == "rent" ? "Renting" : Model.Ownership == "own" ? "Owns home" : Val(Model.Ownership))</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Landlord Permission</div>
+                <div class="apps-field-value">
+                    @(Model.LandlordPermission switch {
+                        "yes" => "Yes", "no" => "No", "na" => "N/A (owns home)", _ => Val(Model.LandlordPermission)
+                    })
+                </div>
+            </div>
+            <div>
+                <div class="apps-field-label">Household Size</div>
+                <div class="apps-field-value">@Val(Model.Household) people</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Children in Home?</div>
+                <div class="apps-field-value">@YesNo(Model.Children)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lifestyle -->
+    <div class="apps-section">
+        <div class="apps-section-title">Lifestyle &amp; Pet Care</div>
+        <div class="apps-grid">
+            <div>
+                <div class="apps-field-label">Other Pets?</div>
+                <div class="apps-field-value">@YesNo(Model.OtherPets)</div>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.OtherPetDetails))
+            {
+                <div>
+                    <div class="apps-field-label">Other Pet Details</div>
+                    <div class="apps-field-value">@Model.OtherPetDetails</div>
+                </div>
+            }
+            <div>
+                <div class="apps-field-label">Hours Alone Per Day</div>
+                <div class="apps-field-value">@HoursLabel(Model.HoursAlone)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Activity Level</div>
+                <div class="apps-field-value">@ActivityLabel(Model.Activity)</div>
+            </div>
+            <div>
+                <div class="apps-field-label">Breed Experience?</div>
+                <div class="apps-field-value">
+                    @(Model.BreedExp switch {
+                        "yes" => "Yes", "no" => "No", "research" => "Willing to research", _ => Val(Model.BreedExp)
+                    })
+                </div>
+            </div>
+            <div>
+                <div class="apps-field-label">Household on Board?</div>
+                <div class="apps-field-value">
+                    @(Model.AllOnBoard switch {
+                        "yes" => "Everyone agrees", "mostly" => "Mostly", "not-yet" => "Not yet", _ => Val(Model.AllOnBoard)
+                    })
+                </div>
+            </div>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            <div style="margin-top:1rem;">
+                <div class="apps-field-label">Additional Notes</div>
+                <div class="apps-notes-box">@Model.Notes</div>
+            </div>
+        }
+    </div>
+
+    @if (isReviewer)
+    {
+        <!-- Submitter account info (visible to reviewer only) -->
+        <div class="apps-section" style="border-style:dashed;">
+            <div class="apps-section-title">Adopter Account</div>
+            <div class="apps-grid">
+                <div>
+                    <div class="apps-field-label">Account Name</div>
+                    <div class="apps-field-value">@Val(Model.Adopter?.DisplayName)</div>
+                </div>
+                <div>
+                    <div class="apps-field-label">Account Email</div>
+                    <div class="apps-field-value">@Val(Model.Adopter?.Email)</div>
+                </div>
+                <div>
+                    <div class="apps-field-label">Member Since</div>
+                    <div class="apps-field-value">@(Model.Adopter?.CreatedAt.ToString("MMMM yyyy") ?? "—")</div>
+                </div>
+                <div>
+                    <div class="apps-field-label">Application ID</div>
+                    <div class="apps-field-value" style="font-family:monospace;font-size:0.8rem;">#@Model.Id</div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

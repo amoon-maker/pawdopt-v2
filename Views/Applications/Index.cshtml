@@ -1,0 +1,128 @@
+@using PawdoptApp.Models
+@model List<AdoptionApplication>
+@{
+    ViewData["Title"] = "My Applications";
+    var statusFilter = ViewData["StatusFilter"]?.ToString() ?? "";
+    var sort         = ViewData["Sort"]?.ToString() ?? "newest";
+    var userRole     = ViewData["UserRole"]?.ToString() ?? "Adopter";
+    var isReviewer   = userRole == "Rehomer" || userRole == "Admin";
+
+    var statuses = new[] { "Pending", "UnderReview", "Approved", "Rejected", "Withdrawn", "Cancelled" };
+}
+
+<div class="apps-shell">
+
+    @if (TempData["AppSuccess"] != null)
+    {
+        <div class="apps-alert apps-alert-success">@TempData["AppSuccess"]</div>
+    }
+    @if (TempData["AppError"] != null)
+    {
+        <div class="apps-alert apps-alert-error">@TempData["AppError"]</div>
+    }
+
+    <div class="apps-page-header">
+        <div>
+            <h1 class="apps-page-title">
+                @(isReviewer ? "Incoming Applications" : "My Applications")
+            </h1>
+            <p class="apps-page-sub">
+                @if (isReviewer)
+                {
+                    @($"{Model.Count} application{(Model.Count == 1 ? "" : "s")} for your pets")
+                }
+                else
+                {
+                    @($"{Model.Count} application{(Model.Count == 1 ? "" : "s")} submitted")
+                }
+            </p>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+            <label style="font-size:0.78rem;color:var(--text-secondary);font-weight:600;">Sort:</label>
+            <select class="apps-select" style="width:auto;padding:0.35rem 0.7rem;"
+                    onchange="window.location.href='/Applications?status=@statusFilter&sort='+this.value">
+                @if (sort == "newest") { <option value="newest" selected>Newest first</option> }
+                else { <option value="newest">Newest first</option> }
+                @if (sort == "oldest") { <option value="oldest" selected>Oldest first</option> }
+                else { <option value="oldest">Oldest first</option> }
+                @if (sort == "status") { <option value="status" selected>By status</option> }
+                else { <option value="status">By status</option> }
+            </select>
+        </div>
+    </div>
+
+    <!-- Status filter tabs -->
+    <div class="apps-filters">
+        <a href="/Applications?sort=@sort" class="apps-filter-btn @(statusFilter==""?"active":"")">All</a>
+        @foreach (var s in statuses)
+        {
+            <a href="/Applications?status=@s&sort=@sort" class="apps-filter-btn @(statusFilter==s?"active":"")">
+                @s.Label()
+            </a>
+        }
+    </div>
+
+    <!-- Application list -->
+    @if (!Model.Any())
+    {
+        <div class="apps-empty">
+            <div class="apps-empty-icon">📋</div>
+            <div>
+                @if (!string.IsNullOrEmpty(statusFilter))
+                {
+                    @($"No {statusFilter.Label()} applications found.")
+                }
+                else if (isReviewer)
+                {
+                    @("No applications have been submitted for your pets yet.")
+                }
+                else
+                {
+                    @("You haven't submitted any applications yet.")
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="apps-list">
+            @foreach (var app in Model)
+            {
+                <div class="apps-card">
+                    <div>
+                        <div class="apps-card-pet">@app.PetName</div>
+                        <div class="apps-card-meta">
+                            @if (isReviewer)
+                            {
+                                <span>From: <strong>@app.FirstName @app.LastName</strong> &middot; @app.Email</span>
+                            }
+                            else
+                            {
+                                @if (app.PetListing != null)
+                                {
+                                    <span>Listed pet</span>
+                                }
+                                else
+                                {
+                                    <span>Pet ID #@app.HardcodedPetId</span>
+                                }
+                            }
+                            <span style="margin-left:0.75rem;color:var(--text-secondary);">
+                                Submitted @app.SubmittedAt.ToString("MMM d, yyyy")
+                            </span>
+                        </div>
+                    </div>
+                    <div class="apps-card-actions">
+                        <span class="@app.Status.BadgeCss()">@app.Status.Label()</span>
+                        <a href="/Applications/Details/@app.Id" class="apps-btn apps-btn-outline">View</a>
+                        @if (isReviewer && (app.Status == "Pending" || app.Status == "UnderReview"))
+                        {
+                            <a href="/Applications/UpdateStatus/@app.Id" class="apps-btn apps-btn-primary">Review</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>

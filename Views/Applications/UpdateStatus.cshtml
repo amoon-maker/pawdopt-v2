@@ -1,0 +1,185 @@
+@using PawdoptApp.Models
+@model AdoptionApplication
+@{
+    ViewData["Title"] = $"Review — {Model.PetName}";
+
+    // Build the list of valid next statuses for this application
+    var allTargets = new[]
+    {
+        nameof(ApplicationStatus.UnderReview),
+        nameof(ApplicationStatus.Approved),
+        nameof(ApplicationStatus.Rejected),
+    };
+    var validTargets = allTargets.Where(s => Model.Status.CanTransitionTo(s)).ToList();
+}
+
+<div class="apps-shell">
+
+    @if (TempData["AppError"] != null)
+    {
+        <div class="apps-alert apps-alert-error">@TempData["AppError"]</div>
+    }
+
+    <!-- Breadcrumb -->
+    <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1.25rem;">
+        <a href="/Applications" style="color:var(--teal);text-decoration:none;">Applications</a>
+        &rsaquo;
+        <a href="/Applications/Details/@Model.Id" style="color:var(--teal);text-decoration:none;">@Model.PetName</a>
+        &rsaquo; Review
+    </div>
+
+    <div class="apps-page-header" style="margin-bottom:1.5rem;">
+        <div>
+            <h1 class="apps-page-title">Review Application</h1>
+            <p class="apps-page-sub">
+                From <strong>@Model.FirstName @Model.LastName</strong>
+                for <strong>@Model.PetName</strong>
+            </p>
+        </div>
+        <span class="@Model.Status.BadgeCss()">@Model.Status.Label()</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start;">
+
+        <!-- Summary of key applicant details (quick glance) -->
+        <div>
+            <div class="apps-section" style="margin-bottom:0;">
+                <div class="apps-section-title">Quick Summary</div>
+                <div class="apps-grid" style="grid-template-columns:repeat(2,1fr);">
+                    <div>
+                        <div class="apps-field-label">Name</div>
+                        <div class="apps-field-value">@Model.FirstName @Model.LastName</div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">Email</div>
+                        <div class="apps-field-value" style="font-size:0.82rem;">@Model.Email</div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">City</div>
+                        <div class="apps-field-value">@(string.IsNullOrWhiteSpace(Model.City) ? "—" : Model.City)</div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">Experience</div>
+                        <div class="apps-field-value">
+                            @(Model.ExpLevel switch {
+                                "first" => "First-time", "some" => "Some exp.", "experienced" => "Experienced", _ => "—"
+                            })
+                        </div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">Home</div>
+                        <div class="apps-field-value">
+                            @(Model.HomeType switch {
+                                "house" => "House", "apartment" => "Apartment", "condo" => "Condo", _ => "—"
+                            })
+                            @(Model.Ownership == "rent" ? "(renting)" : "")
+                        </div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">Hours Alone</div>
+                        <div class="apps-field-value">
+                            @(Model.HoursAlone switch {
+                                "lt2" => "<2 hrs", "2to4" => "2–4 hrs", "4to6" => "4–6 hrs",
+                                "6to8" => "6–8 hrs", "gt8" => ">8 hrs", _ => "—"
+                            })
+                        </div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">Other Pets</div>
+                        <div class="apps-field-value">@(Model.OtherPets == "yes" ? "Yes" : Model.OtherPets == "no" ? "No" : "—")</div>
+                    </div>
+                    <div>
+                        <div class="apps-field-label">Children</div>
+                        <div class="apps-field-value">@(Model.Children == "yes" ? "Yes" : Model.Children == "no" ? "No" : "—")</div>
+                    </div>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.WhyAdopt))
+                {
+                    <div style="margin-top:1rem;">
+                        <div class="apps-field-label">Why they want to adopt</div>
+                        <div class="apps-notes-box">@Model.WhyAdopt</div>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                {
+                    <div style="margin-top:0.75rem;">
+                        <div class="apps-field-label">Additional Notes</div>
+                        <div class="apps-notes-box">@Model.Notes</div>
+                    </div>
+                }
+                <div style="margin-top:1rem;">
+                    <a href="/Applications/Details/@Model.Id" style="font-size:0.82rem;color:var(--teal);">
+                        View full application &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status update form -->
+        <div>
+            <div class="apps-update-card">
+                <div class="apps-update-title">Update Status</div>
+
+                @if (!validTargets.Any())
+                {
+                    <div class="apps-alert apps-alert-error" style="margin-bottom:0;">
+                        This application has reached a final state (@Model.Status.Label()) and cannot be updated further.
+                    </div>
+                }
+                else
+                {
+                    <form method="post"
+                          asp-controller="Applications"
+                          asp-action="UpdateStatus"
+                          asp-route-id="@Model.Id">
+                        @Html.AntiForgeryToken()
+
+                        <div class="apps-form-group">
+                            <label class="apps-label" for="newStatus">New Status</label>
+                            <select class="apps-select" id="newStatus" name="newStatus" required
+                                    onchange="toggleWarning(this.value)">
+                                <option value="" disabled selected>— choose —</option>
+                                @foreach (var s in validTargets)
+                                {
+                                    <option value="@s">@s.Label()</option>
+                                }
+                            </select>
+
+                            @if (validTargets.Contains(nameof(ApplicationStatus.Approved)) && Model.PetListingId.HasValue)
+                            {
+                                <div class="apps-warning" id="approveWarning" style="display:none;margin-top:0.5rem;">
+                                    Approving this application will automatically
+                                    <strong>cancel all other pending applications</strong>
+                                    for @Model.PetName and notify each applicant.
+                                </div>
+                            }
+                        </div>
+
+                        <div class="apps-form-group">
+                            <label class="apps-label" for="reviewNotes">Notes to Applicant <span style="font-weight:400;color:var(--text-secondary);">(optional)</span></label>
+                            <textarea class="apps-textarea" id="reviewNotes" name="reviewNotes"
+                                      placeholder="E.g. We loved your application! We'll be in touch by Friday…"
+                                      maxlength="1000">@Model.ReviewNotes</textarea>
+                        </div>
+
+                        <div style="display:flex;gap:0.6rem;">
+                            <a href="/Applications/Details/@Model.Id" class="apps-btn apps-btn-outline">Cancel</a>
+                            <button type="submit" class="apps-btn apps-btn-primary">Save Decision</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+<script>
+function toggleWarning(val) {
+    var w = document.getElementById('approveWarning');
+    if (w) w.style.display = (val === 'Approved') ? 'block' : 'none';
+}
+</script>
+}

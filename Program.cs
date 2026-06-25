@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database + Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -69,7 +69,7 @@ using (var scope = app.Services.CreateScope())
     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 
     foreach (var role in new[] { "Admin", "Adopter", "Rehomer" })
     {
