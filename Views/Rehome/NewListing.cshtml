@@ -1,3 +1,4 @@
+@model PawdoptApp.Models.PetListing?
 @{
     ViewData["Title"] = "List a Pet";
 }
@@ -60,26 +61,27 @@
                 </p>
             </div>
 
-            <form method="post" asp-controller="Rehome" asp-action="SaveStep1">
+            <form id="step1Form" method="post" asp-controller="Rehome" asp-action="SaveStep1" asp-route-id="@Model?.Id">
                 @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model?.Id" />
 
                 <!-- Row 1: Pet Name | Species | Breed -->
                 <div class="row g-3 mb-3">
                     <div class="col-md-5">
                         <label class="rehome-label" data-i18n="rehome-label-name">Pet Name</label>
-                        <input type="text" class="rehome-input" name="petName" placeholder="Magie" required />
+                        <input type="text" class="rehome-input" name="petName" value="@Model?.Name" placeholder="Magie" required />
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-species">Species</label>
                         <select class="rehome-select" name="species" required>
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="dog" data-i18n="rehome-opt-dog">Dog</option>
-                            <option value="cat" data-i18n="rehome-opt-cat">Cat</option>
+                            <option value="" disabled selected="@(Model == null)" data-i18n="rehome-select-default">Select...</option>
+                            <option value="dog" selected="@(Model?.Species == "dog")" data-i18n="rehome-opt-dog">Dog</option>
+                            <option value="cat" selected="@(Model?.Species == "cat")" data-i18n="rehome-opt-cat">Cat</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class="rehome-label" data-i18n="rehome-label-breed">Breed</label>
-                        <input type="text" class="rehome-input" name="breed" placeholder="Shiba Inu" />
+                        <input type="text" class="rehome-input" name="breed" value="@Model?.Breed" placeholder="Shiba Inu" />
                     </div>
                 </div>
 
@@ -87,23 +89,23 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-age">Age</label>
-                        <input type="text" class="rehome-input" name="age" placeholder="14 months" />
+                        <input type="text" class="rehome-input" name="age" value="@Model?.Age" placeholder="14 months" />
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-gender">Gender</label>
                         <select class="rehome-select" name="gender" required>
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="male" data-i18n="tag-male">Male</option>
-                            <option value="female" data-i18n="tag-female">Female</option>
+                            <option value="" disabled selected="@(Model == null)" data-i18n="rehome-select-default">Select...</option>
+                            <option value="male" selected="@(Model?.Gender == "male")" data-i18n="tag-male">Male</option>
+                            <option value="female" selected="@(Model?.Gender == "female")" data-i18n="tag-female">Female</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-size">Size</label>
                         <select class="rehome-select" name="size" required>
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="small" data-i18n="tag-small">Small</option>
-                            <option value="medium" data-i18n="tag-medium">Medium</option>
-                            <option value="large" data-i18n="tag-large">Large</option>
+                            <option value="" disabled selected="@(Model == null)" data-i18n="rehome-select-default">Select...</option>
+                            <option value="small" selected="@(Model?.Size == "small")" data-i18n="tag-small">Small</option>
+                            <option value="medium" selected="@(Model?.Size == "medium")" data-i18n="tag-medium">Medium</option>
+                            <option value="large" selected="@(Model?.Size == "large")" data-i18n="tag-large">Large</option>
                         </select>
                     </div>
                 </div>
@@ -112,19 +114,19 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-color">Color</label>
-                        <input type="text" class="rehome-input" name="color" placeholder="Brown / White" />
+                        <input type="text" class="rehome-input" name="color" value="@Model?.Color" placeholder="Brown / White" />
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-weight">Weight (kg)</label>
-                        <input type="number" class="rehome-input" name="weight" placeholder="12" min="0" step="0.1" />
+                        <input type="number" class="rehome-input" name="weight" value="@Model?.Weight" placeholder="12" min="0" step="0.1" />
                     </div>
                     <div class="col-md-4">
                         <label class="rehome-label" data-i18n="rehome-label-microchip">Microchipped?</label>
                         <select class="rehome-select" name="microchipped">
-                            <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                            <option value="yes" data-i18n="rehome-opt-yes">Yes</option>
-                            <option value="no" data-i18n="rehome-opt-no">No</option>
-                            <option value="unknown" data-i18n="rehome-opt-unknown">Unknown</option>
+                            <option value="" disabled selected="@(Model == null)" data-i18n="rehome-select-default">Select...</option>
+                            <option value="yes" selected="@(Model?.Microchipped == "yes")" data-i18n="rehome-opt-yes">Yes</option>
+                            <option value="no" selected="@(Model?.Microchipped == "no")" data-i18n="rehome-opt-no">No</option>
+                            <option value="unknown" selected="@(Model?.Microchipped == "unknown")" data-i18n="rehome-opt-unknown">Unknown</option>
                         </select>
                     </div>
                 </div>
@@ -133,7 +135,7 @@
                 <div class="mb-0">
                     <label class="rehome-label" data-i18n="rehome-label-reason">Reason for Rehoming</label>
                     <textarea class="rehome-textarea" name="reason" data-i18n-placeholder="rehome-placeholder-reason"
-                        placeholder="Moving to a smaller apartment that does not allow pets..." required minlength="20"></textarea>
+                        placeholder="Moving to a smaller apartment that does not allow pets..." required minlength="20">@Model?.Reason</textarea>
                 </div>
 
                 <div class="rehome-divider"></div>
@@ -157,7 +159,7 @@
 @section Scripts {
 <script>
 (function () {
-    var form = document.querySelector('form[action="/Rehome/SaveStep1"]');
+    var form = document.getElementById('step1Form');
     var errorBanner = null;
 
     function showError(msg) {

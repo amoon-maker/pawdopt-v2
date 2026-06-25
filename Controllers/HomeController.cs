@@ -14,23 +14,111 @@ public class HomeController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ApplicationDbContext         _context;
+    private readonly IWebHostEnvironment          _env;
 
-    public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+    // Real PetListing ids are offset in the client-side pet grid so they never
+    // collide with the hardcoded demo pet ids (1-12) from pawdopt-data.js.
+    private const int RealPetIdOffset = 10000;
+
+    public HomeController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IWebHostEnvironment env)
     {
         _userManager = userManager;
         _context     = context;
+        _env         = env;
     }
 
     public IActionResult Index()   => View();
-    public IActionResult Adopt()   => View();
+
+    public async Task<IActionResult> Adopt()
+    {
+        ViewData["RealPets"] = await GetApprovedPetDtosAsync();
+        return View();
+    }
+
     public IActionResult Privacy() => View();
-    public IActionResult About()   => View();
+    public IActionResult About() => View();
     public IActionResult CareGuide() => View();
 
-    public IActionResult PetDetail(int id = 1)
+    public async Task<IActionResult> PetDetail(int id = 1)
     {
-        ViewData["PetId"] = id;
+        ViewData["PetId"]    = id;
+        ViewData["RealPets"] = await GetApprovedPetDtosAsync();
         return View();
+    }
+
+    // ── Real, admin-approved listings shaped to match window.PAWDOPT_PETS ──
+    private async Task<List<object>> GetApprovedPetDtosAsync()
+    {
+        var approved = await _context.PetListings
+            .Include(l => l.Rehomer)
+            .Where(l => l.Status == "Approved")
+            .OrderByDescending(l => l.ApprovedAt)
+            .ToListAsync();
+
+        return approved.Select(BuildPetDto).ToList();
+    }
+
+    private object BuildPetDto(PetListing l)
+    {
+        var (ageNum, ageUnit) = ParseAge(l.Age);
+
+        var photos = new List<string>();
+        var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "listings", l.Id.ToString());
+        if (Directory.Exists(uploadDir))
+        {
+            photos = Directory.GetFiles(uploadDir)
+                .Select(f => $"/uploads/listings/{l.Id}/{Path.GetFileName(f)}")
+                .ToList();
+        }
+
+        var traits = new List<string>();
+        if (!string.IsNullOrEmpty(l.TraitsJson))
+        {
+            try { traits = JsonSerializer.Deserialize<List<string>>(l.TraitsJson) ?? new(); }
+            catch (JsonException) { }
+        }
+
+        return new
+        {
+            id           = l.Id + RealPetIdOffset,
+            realId       = l.Id,
+            name         = l.Name,
+            species      = l.Species,
+            breed        = string.IsNullOrEmpty(l.Breed) ? "Mixed" : l.Breed,
+            size         = l.Size,
+            ageNum,
+            ageUnit,
+            gender       = l.Gender,
+            province     = l.Province,
+            city         = l.City ?? "",
+            image        = photos.FirstOrDefault(),
+            emoji        = l.Species == "cat" ? "🐱" : "🐶",
+            badge        = l.ApprovedAt.HasValue && l.ApprovedAt > DateTime.UtcNow.AddDays(-14) ? "new" : "",
+            vaccinated   = l.Vaccinated == "yes",
+            neutered     = l.Sterilized == "yes",
+            microchipped = l.Microchipped == "yes",
+            colors       = "linear-gradient(135deg,#e8f0e8 0%,#d8eef5 100%)",
+            desc         = !string.IsNullOrEmpty(l.CharacterNotes) ? l.CharacterNotes : (l.Story ?? ""),
+            story        = l.Story ?? "",
+            traits,
+            rehomer = new
+            {
+                name   = l.Rehomer.DisplayName,
+                city   = string.IsNullOrEmpty(l.City) ? l.Province : $"{l.City}, {l.Province}",
+                since  = l.Rehomer.CreatedAt.ToString("MMMM yyyy"),
+                avatar = string.IsNullOrEmpty(l.Rehomer.DisplayName) ? "?" : l.Rehomer.DisplayName.Substring(0, 1).ToUpper()
+            }
+        };
+    }
+
+    private static (int num, string unit) ParseAge(string? age)
+    {
+        var unit = !string.IsNullOrEmpty(age) && age.Contains("mo", StringComparison.OrdinalIgnoreCase) ? "mo" : "yr";
+        if (string.IsNullOrWhiteSpace(age)) return (0, unit);
+
+        var digits = new string(age.TakeWhile(char.IsDigit).ToArray());
+        int.TryParse(digits, out var num);
+        return (num, unit);
     }
 
     [Authorize]
@@ -46,6 +134,7 @@ public class HomeController : Controller
         ViewData["MemberSince"]     = user?.CreatedAt.ToString("MMMM yyyy") ?? "2026";
         ViewData["UserInitial"]     = (user?.DisplayName ?? "U").Substring(0, 1).ToUpper();
         ViewData["ActiveTab"]       = Request.Query["tab"].ToString();
+        ViewData["RealPets"]        = await GetApprovedPetDtosAsync();
 
         // Real applications for this user
         var userId = _userManager.GetUserId(User);

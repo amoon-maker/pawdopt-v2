@@ -30,12 +30,13 @@ public class RehomeController : Controller
         return View();
     }
 
-    // ── Helper: fetch user's own Draft listing ────────────────────────────
+    // ── Helper: fetch user's own listing if it's still editable ───────────
+    // Draft = never published. Rejected = sent back by an admin and can be fixed & resubmitted.
     private async Task<PetListing?> GetDraft(int id)
     {
         var userId = _userManager.GetUserId(User);
         return await _context.PetListings
-            .FirstOrDefaultAsync(l => l.Id == id && l.RehomerId == userId && l.Status == "Draft");
+            .FirstOrDefaultAsync(l => l.Id == id && l.RehomerId == userId && (l.Status == "Draft" || l.Status == "Rejected"));
     }
 
     private async Task NotifyAdmins(string type, string title, string body, string link)
@@ -60,31 +61,47 @@ public class RehomeController : Controller
     // ════════════════════════════════════════════════════════════════════
 
     [Authorize]
-    public IActionResult NewListing() => View();
+    public async Task<IActionResult> NewListing(int? id)
+    {
+        var listing = id.HasValue ? await GetDraft(id.Value) : null;
+        return View(listing);
+    }
 
     [HttpPost, Authorize, ValidateAntiForgeryToken]
     public async Task<IActionResult> SaveStep1(
-        string petName, string species, string breed, string age,
+        int? id, string petName, string species, string breed, string age,
         string gender, string size, string? color, decimal? weight,
         string? microchipped, string? reason)
     {
-        var listing = new PetListing
+        PetListing listing;
+        if (id.HasValue)
         {
-            RehomerId    = _userManager.GetUserId(User)!,
-            Name         = petName ?? string.Empty,
-            Species      = species  ?? "dog",
-            Breed        = breed    ?? string.Empty,
-            Age          = age      ?? string.Empty,
-            Gender       = gender   ?? "male",
-            Size         = size     ?? "medium",
-            Color        = color,
-            Weight       = weight,
-            Microchipped = microchipped ?? "unknown",
-            Reason       = reason,
-            Status       = "Draft",
-            CreatedAt    = DateTime.UtcNow
-        };
-        _context.PetListings.Add(listing);
+            var existing = await GetDraft(id.Value);
+            if (existing == null) return RedirectToAction("NewListing");
+            listing = existing;
+        }
+        else
+        {
+            listing = new PetListing
+            {
+                RehomerId = _userManager.GetUserId(User)!,
+                Status    = "Draft",
+                CreatedAt = DateTime.UtcNow
+            };
+            _context.PetListings.Add(listing);
+        }
+
+        listing.Name         = petName ?? string.Empty;
+        listing.Species      = species  ?? "dog";
+        listing.Breed        = breed    ?? string.Empty;
+        listing.Age          = age      ?? string.Empty;
+        listing.Gender       = gender   ?? "male";
+        listing.Size         = size     ?? "medium";
+        listing.Color        = color;
+        listing.Weight       = weight;
+        listing.Microchipped = microchipped ?? "unknown";
+        listing.Reason       = reason;
+
         await _context.SaveChangesAsync();
         return RedirectToAction("Images", new { id = listing.Id });
     }
@@ -300,8 +317,10 @@ public class RehomeController : Controller
         var listing = await GetDraft(id);
         if (listing == null) return RedirectToAction("NewListing");
 
-        listing.Status      = "Pending";
-        listing.PublishedAt = DateTime.UtcNow;
+        listing.Status          = "Pending";
+        listing.PublishedAt      = DateTime.UtcNow;
+        listing.RejectionReason  = null;
+        listing.AdminNote        = null;
 
         await NotifyAdmins(
             type:  "new_listing",
@@ -316,4 +335,33 @@ public class RehomeController : Controller
 
     [Authorize]
     public IActionResult Success() => View();
+
+    // ════════════════════════════════════════════════════════════════════
+    // DELETE — owner only, blocked while a real application is in progress
+    // ════════════════════════════════════════════════════════════════════
+
+    [HttpPost, Authorize, ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteListing(int id)
+    {
+        var userId = _userManager.GetUserId(User);
+        var listing = await _context.PetListings
+            .FirstOrDefaultAsync(l => l.Id == id && l.RehomerId == userId);
+        if (listing == null) return NotFound();
+
+        var hasActiveApplications = await _context.AdoptionApplications
+            .AnyAsync(a => a.PetListingId == id && a.Status != "Withdrawn" && a.Status != "Rejected");
+        if (hasActiveApplications)
+        {
+            TempData["ListingError"] = $"Can't delete \"{listing.Name}\" — it has active adoption applications.";
+            return RedirectToAction("AdopterProfile", "Home", new { tab = "listings" });
+        }
+
+        var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "listings", id.ToString());
+        if (Directory.Exists(uploadDir)) Directory.Delete(uploadDir, recursive: true);
+
+        _context.PetListings.Remove(listing);
+        await _context.SaveChangesAsync();
+        TempData["ListingMsg"] = $"\"{listing.Name}\" was deleted.";
+        return RedirectToAction("AdopterProfile", "Home", new { tab = "listings" });
+    }
 }

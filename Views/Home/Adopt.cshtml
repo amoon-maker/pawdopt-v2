@@ -216,8 +216,9 @@
     // ── Auth state (from server) ──────────────────────────
     var IS_LOGGED_IN = @(User.Identity?.IsAuthenticated == true ? "true" : "false");
 
-    // ── Pet data (shared via pawdopt-data.js) ─────────────
-    var PETS = window.PAWDOPT_PETS || [];
+    // ── Pet data (demo pets + real, admin-approved listings) ──
+    var REAL_PETS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["RealPets"]));
+    var PETS = (window.PAWDOPT_PETS || []).concat(REAL_PETS);
 
     var PAGE_SIZE = 6;
 
@@ -306,9 +307,13 @@
         if (p.neutered)     healthHtml += '<span class="health-badge">' + t('pet-health-neutered') + '</span>';
         if (p.microchipped) healthHtml += '<span class="health-badge">' + t('pet-health-chipped') + '</span>';
 
+        var photoHtml = p.image
+            ? '<img src="' + (p.image.charAt(0) === '/' ? p.image : '/images/' + p.image) + '" alt="' + p.name + '" class="pet-card-photo">'
+            : '<div class="pet-card-photo" style="background:' + (p.colors || '#e8eef5') + ';display:flex;align-items:center;justify-content:center;font-size:2.75rem">' + (p.emoji || '🐾') + '</div>';
+
         return '<div class="pet-card adopt-pet-card" role="listitem" data-pet-id="' + p.id + '">' +
             '<div class="pet-card-img">' +
-                '<img src="/images/' + p.image + '" alt="' + p.name + '" class="pet-card-photo">' +
+                photoHtml +
                 badgeHtml +
                 '<button class="pet-fav-btn' + (isFav ? ' is-fav' : '') + '" data-fav-id="' + p.id + '" aria-label="' + (isFav ? t('adopt-fav-remove') : t('adopt-fav-save')) + '">' +
                     favSvg +

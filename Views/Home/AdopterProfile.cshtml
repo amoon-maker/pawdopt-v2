@@ -210,6 +210,14 @@
         <!-- ── Tab: My Listings ───────────────────────── -->
         <div class="ap-panel" id="tab-listings" role="tabpanel">
             <div class="ap-section-title">My pet listings</div>
+            @if (TempData["ListingMsg"] != null)
+            {
+                <div style="background:#dcfce7;color:#166534;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["ListingMsg"]</div>
+            }
+            @if (TempData["ListingError"] != null)
+            {
+                <div style="background:#fee2e2;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["ListingError"]</div>
+            }
             <div class="ap-app-list">
                 @if (!myListings.Any())
                 {
@@ -232,16 +240,24 @@
                             <div class="ap-app-name">@listing.Name</div>
                             <div class="ap-app-breed">@listing.Breed · @(string.IsNullOrEmpty(listing.City) ? listing.Province : $"{listing.City}, {listing.Province}")</div>
                             <div class="ap-app-date">Created: @listing.CreatedAt.ToString("MMMM d, yyyy")</div>
-                            @if (listing.Status == "Draft")
-                            {
-                                <div class="ap-app-actions">
-                                    <a href="/Rehome/Confirm/@listing.Id" class="ap-app-btn">Continue →</a>
-                                </div>
-                            }
                             @if (!string.IsNullOrEmpty(listing.RejectionReason))
                             {
                                 <div class="ap-app-breed" style="color:#dc2626;margin-top:4px">@listing.RejectionReason</div>
                             }
+                            <div class="ap-app-actions">
+                                @if (listing.Status == "Draft")
+                                {
+                                    <a href="/Rehome/Confirm/@listing.Id" class="ap-app-btn">Continue →</a>
+                                }
+                                @if (listing.Status == "Rejected")
+                                {
+                                    <a href="/Rehome/NewListing/@listing.Id" class="ap-app-btn">Edit &amp; resubmit →</a>
+                                }
+                                <form method="post" asp-controller="Rehome" asp-action="DeleteListing" asp-route-id="@listing.Id" style="display:inline" onsubmit="return confirm('Delete this listing? This cannot be undone.');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="ap-app-btn" style="color:#dc2626;border-color:#dc2626">Delete</button>
+                                </form>
+                            </div>
                         </div>
                         <span class="ap-app-status @lstClass">@listing.Status</span>
                     </div>
@@ -384,7 +400,8 @@
 @section Scripts {
 <script>
 (function () {
-    var PETS = window.PAWDOPT_PETS || [];
+    var REAL_PETS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["RealPets"]));
+    var PETS = (window.PAWDOPT_PETS || []).concat(REAL_PETS);
 
     // ── Tab switching ────────────────────────────────────
     document.querySelectorAll('.ap-tab').forEach(function (tab) {
@@ -418,9 +435,12 @@
             var genderTag = p.gender === 'male'
                 ? '<span class="pet-tag pet-tag-male">Male</span>'
                 : '<span class="pet-tag pet-tag-female">Female</span>';
+            var savedPhotoHtml = p.image
+                ? '<img src="' + (p.image.charAt(0) === '/' ? p.image : '/images/' + p.image) + '" alt="' + p.name + '" class="pet-card-photo">'
+                : '<div class="pet-card-photo" style="background:' + (p.colors || '#e8eef5') + ';display:flex;align-items:center;justify-content:center;font-size:2.75rem">' + (p.emoji || '🐾') + '</div>';
             return '<div class="pet-card">' +
                 '<div class="pet-card-img">' +
-                    '<img src="/images/' + p.image + '" alt="' + p.name + '" class="pet-card-photo">' +
+                    savedPhotoHtml +
                     (p.badge === 'new' ? '<span class="pet-badge-new">New</span>' : p.badge === 'urgent' ? '<span class="pet-badge-urgent">Urgent</span>' : '') +
                     '<button class="pet-fav-btn is-fav" data-rem-id="' + p.id + '" aria-label="Remove from saved">' +
                         '<svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
