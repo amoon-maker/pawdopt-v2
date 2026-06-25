@@ -1,6 +1,8 @@
+@using PawdoptApp.Models
 @{
     ViewData["Title"] = "Apply to Adopt";
-    var petId = ViewData["PetId"] is int pid ? pid : 1;
+    var listing = ViewData["Listing"] as PetListing;
+    var speciesEmoji = listing?.Species switch { "cat" => "🐱", "rabbit" => "🐰", _ => "🐶" };
 }
 
 <!-- Breadcrumb -->
@@ -430,12 +432,12 @@
             <aside class="wz-pet-sidebar">
                 <div class="wz-pet-card" id="wzPetCard">
                     <div class="wz-pet-img" id="wzPetImg">
-                        <span id="wzPetEmoji" class="wz-pet-emoji">🐾</span>
+                        <span id="wzPetEmoji" class="wz-pet-emoji">@speciesEmoji</span>
                     </div>
                     <div class="wz-pet-info">
-                        <div class="wz-pet-name" id="wzPetName">Loading…</div>
-                        <div class="wz-pet-breed" id="wzPetBreed"></div>
-                        <div class="wz-pet-loc" id="wzPetLoc"></div>
+                        <div class="wz-pet-name" id="wzPetName">@listing?.Name</div>
+                        <div class="wz-pet-breed" id="wzPetBreed">@listing?.Breed &middot; @listing?.Age</div>
+                        <div class="wz-pet-loc" id="wzPetLoc">📍 @listing?.City, @listing?.Province</div>
                     </div>
                 </div>
 
@@ -452,25 +454,18 @@
 @section Scripts {
 <script>
 (function () {
-    var PET_ID = @petId;
-    var PETS   = window.PAWDOPT_PETS || [];
-    var pet    = null;
-    for (var i = 0; i < PETS.length; i++) { if (PETS[i].id === PET_ID) { pet = PETS[i]; break; } }
+    var LISTING_ID   = @(listing?.Id ?? 0);
+    var LISTING_NAME = @Json.Serialize(listing?.Name ?? "");
 
     function isEmail(s) { var at = s.indexOf('\x40'); return at > 0 && s.indexOf('.', at) > at + 1; }
 
-    // ── Render pet sidebar ────────────────────────────────
-    if (pet) {
-        document.title = 'Apply for ' + pet.name + ' — Pawdopt';
-        document.getElementById('wzPageTitle').textContent  = 'Applying for ' + pet.name;
-        document.getElementById('wzBcPet').textContent      = pet.name;
-        document.getElementById('wzBcPet').href             = '/Home/PetDetail?id=' + pet.id;
-        document.getElementById('wzCancelLink').href        = '/Home/PetDetail?id=' + pet.id;
-        document.getElementById('wzPetEmoji').textContent   = pet.emoji;
-        document.getElementById('wzPetImg').style.background = pet.colors;
-        document.getElementById('wzPetName').textContent   = pet.name;
-        document.getElementById('wzPetBreed').textContent  = pet.breed + ' · ' + pet.ageNum + ' ' + pet.ageUnit;
-        document.getElementById('wzPetLoc').textContent    = '📍 ' + pet.city + ', ' + pet.province;
+    // ── Initialise page title from server-rendered listing ────────────────
+    if (LISTING_NAME) {
+        document.title = 'Apply for ' + LISTING_NAME + ' — Pawdopt';
+        document.getElementById('wzPageTitle').textContent = 'Applying for ' + LISTING_NAME;
+        document.getElementById('wzBcPet').textContent     = LISTING_NAME;
+        document.getElementById('wzBcPet').href            = '/Rehome/Details/' + LISTING_ID;
+        document.getElementById('wzCancelLink').href       = '/Rehome/Details/' + LISTING_ID;
     }
 
     // ── State ─────────────────────────────────────────────
@@ -662,8 +657,7 @@
     function submitApplication() {
         collectFormData();
         var payload = Object.assign({}, fd, {
-            petId:    PET_ID,
-            petName:  pet ? pet.name : '',
+            petListingId: LISTING_ID,
             childAges: Array.from(document.querySelectorAll('#ogChildAges .wz-opt-btn.active')).map(function(b){ return b.dataset.val; }),
             prevPets:   activeVal('ogPrevPets'),
             expLevel:   activeVal('ogExpLevel'),

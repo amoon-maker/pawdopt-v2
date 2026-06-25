@@ -32,12 +32,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(a => a.AdopterId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // AdoptionApplication → PetListing (cascade so listing deletion removes applications)
+        // AdoptionApplication → PetListing (required; cascade so listing deletion removes applications)
         builder.Entity<AdoptionApplication>()
             .HasOne(a => a.PetListing)
             .WithMany(l => l.Applications)
             .HasForeignKey(a => a.PetListingId)
-            .IsRequired(false)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
         // Message → Sender (restrict to prevent cascade cycles)

@@ -50,6 +50,7 @@ public class HomeController : Controller
         // Real applications for this user
         var userId = _userManager.GetUserId(User);
         var apps = await _context.AdoptionApplications
+            .Include(a => a.PetListing)
             .Where(a => a.AdopterId == userId)
             .OrderByDescending(a => a.SubmittedAt)
             .ToListAsync();
@@ -67,7 +68,8 @@ public class HomeController : Controller
             var listingIds = listings.Select(l => l.Id).ToList();
             var incomingApps = await _context.AdoptionApplications
                 .Include(a => a.PetListing)
-                .Where(a => a.PetListingId != null && listingIds.Contains(a.PetListingId.Value))
+                .Include(a => a.Adopter)
+                .Where(a => listingIds.Contains(a.PetListingId))
                 .OrderByDescending(a => a.SubmittedAt)
                 .ToListAsync();
             ViewData["IncomingApplications"] = incomingApps;
@@ -77,9 +79,13 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult AdoptionWizard(int petId = 1)
+    public async Task<IActionResult> AdoptionWizard(int petListingId)
     {
-        ViewData["PetId"] = petId;
+        var listing = await _context.PetListings
+            .Include(l => l.Rehomer)
+            .FirstOrDefaultAsync(l => l.Id == petListingId && l.Status == "Approved");
+        if (listing == null) return NotFound();
+        ViewData["Listing"] = listing;
         return View();
     }
 
@@ -93,12 +99,14 @@ public class HomeController : Controller
         string Get(string key) => body.TryGetProperty(key, out var v) ? v.GetString() ?? "" : "";
         int GetInt(string key) => body.TryGetProperty(key, out var v) && v.TryGetInt32(out var i) ? i : 0;
 
-        var petId   = GetInt("petId");
-        var petName = Get("petName");
+        var petListingId = GetInt("petListingId");
+        var listing = await _context.PetListings.FindAsync(petListingId);
+        if (listing == null)
+            return Json(new { success = false, message = "Pet listing not found." });
 
-        // Prevent duplicate submissions
+        // Prevent duplicate submissions for the same listing
         var duplicate = await _context.AdoptionApplications
-            .AnyAsync(a => a.AdopterId == userId && a.HardcodedPetId == petId && a.Status != "Withdrawn");
+            .AnyAsync(a => a.AdopterId == userId && a.PetListingId == petListingId && a.Status != "Withdrawn");
         if (duplicate)
             return Json(new { success = false, message = "You have already applied for this pet." });
 
@@ -109,45 +117,43 @@ public class HomeController : Controller
 
         var app = new AdoptionApplication
         {
-            AdopterId        = userId,
-            HardcodedPetId   = petId > 0 ? petId : null,
-            PetName          = petName,
-            FirstName        = Get("firstName"),
-            LastName         = Get("lastName"),
-            Email            = Get("email"),
-            Phone            = Get("phone"),
-            City             = Get("city"),
-            PrevPets         = Get("prevPets"),
-            PrevPetTypes     = Get("prevPetTypes"),
-            ExpLevel         = Get("expLevel"),
-            WhyAdopt         = Get("whyAdopt"),
-            HomeType         = Get("homeType"),
-            Outdoor          = Get("outdoor"),
-            Ownership        = Get("ownership"),
+            AdopterId          = userId,
+            PetListingId       = petListingId,
+            LastName           = Get("lastName"),
+            Email              = Get("email"),
+            Phone              = Get("phone"),
+            City               = Get("city"),
+            PrevPets           = Get("prevPets"),
+            PrevPetTypes       = Get("prevPetTypes"),
+            ExpLevel           = Get("expLevel"),
+            WhyAdopt           = Get("whyAdopt"),
+            HomeType           = Get("homeType"),
+            Outdoor            = Get("outdoor"),
+            Ownership          = Get("ownership"),
             LandlordPermission = Get("landlord"),
-            Household        = Get("household"),
-            Children         = Get("children"),
-            ChildAgesJson    = childAgesJson,
-            OtherPets        = Get("otherPets"),
-            OtherPetDetails  = Get("otherPetDetails"),
-            HoursAlone       = Get("hoursAlone"),
-            Activity         = Get("activity"),
-            BreedExp         = Get("breedExp"),
-            AllOnBoard       = Get("allOnBoard"),
-            Notes            = Get("notes"),
-            Status           = "Pending",
-            SubmittedAt      = DateTime.UtcNow
+            Household          = Get("household"),
+            Children           = Get("children"),
+            ChildAgesJson      = childAgesJson,
+            OtherPets          = Get("otherPets"),
+            OtherPetDetails    = Get("otherPetDetails"),
+            HoursAlone         = Get("hoursAlone"),
+            Activity           = Get("activity"),
+            BreedExp           = Get("breedExp"),
+            AllOnBoard         = Get("allOnBoard"),
+            Notes              = Get("notes"),
+            Status             = "Pending",
+            SubmittedAt        = DateTime.UtcNow
         };
         _context.AdoptionApplications.Add(app);
 
-        // Notify adopter
+        // Notify adopter — pet name comes from the real listing
         _context.Notifications.Add(new Notification
         {
             UserId    = userId,
             Type      = "app_submitted",
-            Title     = $"Application submitted for {petName}",
+            Title     = $"Application submitted for {listing.Name}",
             Body      = "Your application is under review. We'll notify you when there's an update.",
-            LinkUrl   = "/Home/AdopterProfile",
+            LinkUrl   = "/Applications",
             CreatedAt = DateTime.UtcNow
         });
 

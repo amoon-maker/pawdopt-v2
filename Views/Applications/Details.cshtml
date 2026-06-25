@@ -1,7 +1,7 @@
 @using PawdoptApp.Models
 @model AdoptionApplication
 @{
-    ViewData["Title"] = $"Application — {Model.PetName}";
+    ViewData["Title"] = $"Application — {Model.PetListing.Name}";
     var userRole   = ViewData["UserRole"]?.ToString() ?? "Adopter";
     var isReviewer = userRole == "Rehomer" || userRole == "Admin";
     var isAdopter  = userRole == "Adopter";
@@ -43,7 +43,7 @@
     <!-- Header -->
     <div class="apps-detail-header">
         <div>
-            <h1 class="apps-detail-title">Application for @Model.PetName</h1>
+            <h1 class="apps-detail-title">Application for @Model.PetListing.Name</h1>
             <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
                 <span class="@Model.Status.BadgeCss()">@Model.Status.Label()</span>
                 <span style="font-size:0.8rem;color:var(--text-secondary);">
@@ -90,7 +90,7 @@
         <div class="apps-grid">
             <div>
                 <div class="apps-field-label">Full Name</div>
-                <div class="apps-field-value">@Val($"{Model.FirstName} {Model.LastName}".Trim())</div>
+                <div class="apps-field-value">@Val(Model.Adopter?.DisplayName)</div>
             </div>
             <div>
                 <div class="apps-field-label">Email</div>

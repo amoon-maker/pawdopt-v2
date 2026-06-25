@@ -42,7 +42,7 @@ public class ApplicationsController : Controller
                 .Where(l => l.RehomerId == userId)
                 .Select(l => l.Id)
                 .ToListAsync();
-            query = query.Where(a => a.PetListingId != null && listingIds.Contains(a.PetListingId.Value));
+            query = query.Where(a => listingIds.Contains(a.PetListingId));
         }
         else
         {
@@ -128,7 +128,9 @@ public class ApplicationsController : Controller
             return RedirectToAction(nameof(UpdateStatus), new { id });
         }
 
-        if (newStatus == nameof(ApplicationStatus.Approved) && app.PetListingId.HasValue)
+        var petName = app.PetListing.Name;
+
+        if (newStatus == nameof(ApplicationStatus.Approved))
         {
             // Business rule: accepting one application cancels all competing apps in a single transaction.
             await using var tx = await _context.Database.BeginTransactionAsync();
@@ -139,6 +141,7 @@ public class ApplicationsController : Controller
                 app.ReviewNotes = reviewNotes;
 
                 var competing = await _context.AdoptionApplications
+                    .Include(a => a.PetListing)
                     .Where(a => a.PetListingId == app.PetListingId &&
                                 a.Id != id &&
                                 (a.Status == "Pending" || a.Status == "UnderReview"))
@@ -151,7 +154,7 @@ public class ApplicationsController : Controller
                     {
                         UserId    = other.AdopterId,
                         Type      = "app_cancelled",
-                        Title     = $"Update on your application for {other.PetName}",
+                        Title     = $"Update on your application for {other.PetListing.Name}",
                         Body      = "Another adopter was selected for this pet. Thank you for your interest!",
                         LinkUrl   = "/Applications",
                         CreatedAt = DateTime.UtcNow
@@ -162,7 +165,7 @@ public class ApplicationsController : Controller
                 {
                     UserId    = app.AdopterId,
                     Type      = "app_approved",
-                    Title     = $"Your application for {app.PetName} was approved!",
+                    Title     = $"Your application for {petName} was approved!",
                     Body      = string.IsNullOrWhiteSpace(reviewNotes)
                                     ? "Congratulations! The rehomer has selected you. They will be in touch soon."
                                     : reviewNotes,
@@ -196,7 +199,7 @@ public class ApplicationsController : Controller
             {
                 UserId    = app.AdopterId,
                 Type      = "app_status_change",
-                Title     = $"Update on your application for {app.PetName}",
+                Title     = $"Update on your application for {petName}",
                 Body      = notifBody,
                 LinkUrl   = "/Applications",
                 CreatedAt = DateTime.UtcNow
@@ -220,7 +223,6 @@ public class ApplicationsController : Controller
 
         if (app == null) return NotFound();
 
-        // Only the owning adopter (or admin) may withdraw
         if (!User.IsInRole("Admin") && app.AdopterId != userId)
             return Forbid();
 
@@ -247,7 +249,6 @@ public class ApplicationsController : Controller
 
     private async Task<bool> RehomerOwnsAppAsync(AdoptionApplication app, string? userId)
     {
-        if (app.PetListingId == null) return false;
         var listing = await _context.PetListings
             .AsNoTracking()
             .FirstOrDefaultAsync(l => l.Id == app.PetListingId);

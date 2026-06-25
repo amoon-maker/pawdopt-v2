@@ -95,6 +95,7 @@ public class AdminController : Controller
     {
         var app = await _context.AdoptionApplications
             .Include(a => a.Adopter)
+            .Include(a => a.PetListing)
             .FirstOrDefaultAsync(a => a.Id == id);
 
         if (app == null) return NotFound();
@@ -106,9 +107,9 @@ public class AdminController : Controller
         {
             UserId    = app.AdopterId,
             Type      = "app_status_change",
-            Title     = $"Application update for {app.PetName}",
+            Title     = $"Application update for {app.PetListing.Name}",
             Body      = $"Your application status has changed to: {status}.",
-            LinkUrl   = "/Home/AdopterProfile",
+            LinkUrl   = "/Applications",
             CreatedAt = DateTime.UtcNow
         });
 

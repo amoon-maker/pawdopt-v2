@@ -103,7 +103,7 @@
                     <div class="ap-activity-item">
                         <span class="ap-activity-icon">📝</span>
                         <div>
-                            <div class="ap-activity-text">Applied to adopt <strong>@app.PetName</strong></div>
+                            <div class="ap-activity-text">Applied to adopt <strong>@app.PetListing?.Name</strong></div>
                             <div class="ap-activity-sub">Status: @app.Status</div>
                         </div>
                         <span class="ap-activity-time">@timeStr</span>
@@ -150,8 +150,8 @@
                         <div class="ap-app-card">
                             <div class="ap-app-emoji">🐾</div>
                             <div class="ap-app-info">
-                                <div class="ap-app-name">@app.PetName</div>
-                                <div class="ap-app-meta" style="font-size:0.8rem;color:var(--text-secondary)">For: @(app.PetListing?.Name ?? app.PetName)</div>
+                                <div class="ap-app-name">@app.PetListing?.Name</div>
+                                <div class="ap-app-meta" style="font-size:0.8rem;color:var(--text-secondary)">@(app.PetListing?.Breed) &middot; @(app.PetListing?.Age)</div>
                                 <div class="ap-app-date">Received: @app.SubmittedAt.ToString("MMMM d, yyyy")</div>
                             </div>
                             <span class="ap-app-status @statusClass">@statusLabel</span>
@@ -184,7 +184,7 @@
                         <div class="ap-app-card">
                             <div class="ap-app-emoji">🐾</div>
                             <div class="ap-app-info">
-                                <div class="ap-app-name">@app.PetName</div>
+                                <div class="ap-app-name">@app.PetListing?.Name</div>
                                 <div class="ap-app-date">Applied: @app.SubmittedAt.ToString("MMMM d, yyyy")</div>
                                 @if (app.Status == "Pending" || app.Status == "UnderReview")
                                 {

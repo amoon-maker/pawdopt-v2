@@ -90,22 +90,15 @@
             {
                 <div class="apps-card">
                     <div>
-                        <div class="apps-card-pet">@app.PetName</div>
+                        <div class="apps-card-pet">@app.PetListing.Name</div>
                         <div class="apps-card-meta">
                             @if (isReviewer)
                             {
-                                <span>From: <strong>@app.FirstName @app.LastName</strong> &middot; @app.Email</span>
+                                <span>From: <strong>@app.Adopter?.DisplayName</strong> &middot; @app.Email</span>
                             }
                             else
                             {
-                                @if (app.PetListing != null)
-                                {
-                                    <span>Listed pet</span>
-                                }
-                                else
-                                {
-                                    <span>Pet ID #@app.HardcodedPetId</span>
-                                }
+                                <span>@app.PetListing.Breed &middot; @app.PetListing.Age</span>
                             }
                             <span style="margin-left:0.75rem;color:var(--text-secondary);">
                                 Submitted @app.SubmittedAt.ToString("MMM d, yyyy")

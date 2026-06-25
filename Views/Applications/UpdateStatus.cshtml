@@ -1,7 +1,7 @@
 @using PawdoptApp.Models
 @model AdoptionApplication
 @{
-    ViewData["Title"] = $"Review — {Model.PetName}";
+    ViewData["Title"] = $"Review — {Model.PetListing.Name}";
 
     // Build the list of valid next statuses for this application
     var allTargets = new[]
@@ -24,7 +24,7 @@
     <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1.25rem;">
         <a href="/Applications" style="color:var(--teal);text-decoration:none;">Applications</a>
         &rsaquo;
-        <a href="/Applications/Details/@Model.Id" style="color:var(--teal);text-decoration:none;">@Model.PetName</a>
+        <a href="/Applications/Details/@Model.Id" style="color:var(--teal);text-decoration:none;">@Model.PetListing.Name</a>
         &rsaquo; Review
     </div>
 
@@ -32,8 +32,8 @@
         <div>
             <h1 class="apps-page-title">Review Application</h1>
             <p class="apps-page-sub">
-                From <strong>@Model.FirstName @Model.LastName</strong>
-                for <strong>@Model.PetName</strong>
+                From <strong>@Model.Adopter?.DisplayName</strong>
+                for <strong>@Model.PetListing.Name</strong>
             </p>
         </div>
         <span class="@Model.Status.BadgeCss()">@Model.Status.Label()</span>
@@ -48,7 +48,7 @@
                 <div class="apps-grid" style="grid-template-columns:repeat(2,1fr);">
                     <div>
                         <div class="apps-field-label">Name</div>
-                        <div class="apps-field-value">@Model.FirstName @Model.LastName</div>
+                        <div class="apps-field-value">@Model.Adopter?.DisplayName</div>
                     </div>
                     <div>
                         <div class="apps-field-label">Email</div>
@@ -145,12 +145,12 @@
                                 }
                             </select>
 
-                            @if (validTargets.Contains(nameof(ApplicationStatus.Approved)) && Model.PetListingId.HasValue)
+                            @if (validTargets.Contains(nameof(ApplicationStatus.Approved)))
                             {
                                 <div class="apps-warning" id="approveWarning" style="display:none;margin-top:0.5rem;">
                                     Approving this application will automatically
                                     <strong>cancel all other pending applications</strong>
-                                    for @Model.PetName and notify each applicant.
+                                    for @Model.PetListing.Name and notify each applicant.
                                 </div>
                             }
                         </div>
