@@ -125,7 +125,7 @@
                         <span class="ap-activity-icon">🏠</span>
                         <div>
                             <div class="ap-activity-text">Listed <strong>@listing.Name</strong> for rehoming</div>
-                            <div class="ap-activity-sub">@listing.Breed · Status: @listing.Status</div>
+                            <div class="ap-activity-sub">@listing.Breed · Status: @(listing.Status switch { "Approved" => "Live", "Pending" => "Awaiting Review", "Rejected" => "Rejected", _ => listing.Status })</div>
                         </div>
                         <span class="ap-activity-time">@listing.CreatedAt.ToString("MMM d")</span>
                     </div>
@@ -244,17 +244,39 @@
                         "Rejected" => "not-selected",
                         _          => "reviewing"
                     };
+                    var lstLabel = listing.Status switch {
+                        "Approved" => "Live",
+                        "Pending"  => "Awaiting Review",
+                        "Rejected" => "Rejected",
+                        "Draft"    => "Draft",
+                        _          => listing.Status
+                    };
+                    var lstDate = listing.Status switch {
+                        "Approved" => listing.ApprovedAt.HasValue  ? $"Approved {listing.ApprovedAt.Value.ToString("MMMM d, yyyy")}"  : null,
+                        "Pending"  => listing.PublishedAt.HasValue ? $"Submitted {listing.PublishedAt.Value.ToString("MMMM d, yyyy")}" : null,
+                        "Rejected" => listing.PublishedAt.HasValue ? $"Submitted {listing.PublishedAt.Value.ToString("MMMM d, yyyy")}" : null,
+                        _          => null
+                    } ?? $"Created {listing.CreatedAt.ToString("MMMM d, yyyy")}";
+                    var lstAppCount = incomingApps.Count(a => a.PetListingId == listing.Id);
                     <div class="ap-app-card">
                         <div class="ap-app-emoji">@(listing.Species == "cat" ? "🐱" : listing.Species == "rabbit" ? "🐰" : "🐶")</div>
                         <div class="ap-app-info">
                             <div class="ap-app-name">@listing.Name</div>
                             <div class="ap-app-breed">@listing.Breed · @(string.IsNullOrEmpty(listing.City) ? listing.Province : $"{listing.City}, {listing.Province}")</div>
-                            <div class="ap-app-date">Created: @listing.CreatedAt.ToString("MMMM d, yyyy")</div>
+                            <div class="ap-app-date">@lstDate</div>
+                            @if (lstAppCount > 0)
+                            {
+                                <div class="ap-app-date" style="margin-top:3px;color:var(--teal)">@lstAppCount application@(lstAppCount == 1 ? "" : "s") received</div>
+                            }
                             @if (!string.IsNullOrEmpty(listing.RejectionReason))
                             {
                                 <div class="ap-app-breed" style="color:#dc2626;margin-top:4px">@listing.RejectionReason</div>
                             }
                             <div class="ap-app-actions">
+                                @if (listing.Status == "Approved")
+                                {
+                                    <a href="/Home/PetDetail?id=@(listing.Id + 10000)" class="ap-app-btn" data-i18n="ap-listing-view">View listing →</a>
+                                }
                                 @if (listing.Status == "Draft")
                                 {
                                     <a href="/Rehome/Confirm/@listing.Id" class="ap-app-btn" data-i18n="ap-listing-continue">Continue →</a>
@@ -269,7 +291,7 @@
                                 </form>
                             </div>
                         </div>
-                        <span class="ap-app-status @lstClass">@listing.Status</span>
+                        <span class="ap-app-status @lstClass">@lstLabel</span>
                     </div>
                 }
             </div>
