@@ -36,8 +36,11 @@
     }
 
     var firstName = advName.Split(' ')[0];
+    var advisorUserId = ViewData["AdvisorUserId"]?.ToString();
+    var isLoggedIn = User.Identity?.IsAuthenticated == true;
     ViewData["Title"] = advName + " | Pawdopt Community";
 }
+@Html.AntiForgeryToken()
 
 <div class="radv-page">
 
@@ -87,18 +90,40 @@
                         <p class="radv-contact-title">Connect with @firstName</p>
                         <p class="radv-contact-sub">Ask about their experience or share what you're going through.</p>
 
-                        <button type="button" class="radv-cta-btn primary" onclick="document.getElementById('advisorDemoMsg').style.display='block'">
+                        <button type="button" class="radv-cta-btn primary" id="advSendBtn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                             <span>Send @firstName a message</span>
                         </button>
-                        <button type="button" class="radv-cta-btn outline" onclick="document.getElementById('advisorDemoMsg').style.display='block'">
+                        <button type="button" class="radv-cta-btn outline" id="advChatBtn">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                             <span>Request a quick chat</span>
                         </button>
 
-                        <div id="advisorDemoMsg" class="radv-avail" style="display:none;margin-top:10px">
-                            ℹ️ @firstName is an example community story for this demo — direct messaging isn't available for these profiles.
-                        </div>
+                        @if (string.IsNullOrEmpty(advisorUserId))
+                        {
+                            <div class="radv-avail" style="margin-top:10px">
+                                ℹ️ @firstName isn't available to message right now.
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="pd-msg-panel" id="advMsgPanel">
+                                <textarea class="pd-msg-textarea" id="advMsgText" maxlength="500" placeholder="Write your message…"></textarea>
+                                <div class="pd-msg-footer">
+                                    <span class="pd-msg-chars" id="advMsgChars">0 / 500</span>
+                                    <button class="pd-msg-send-btn" id="advMsgSendBtn">Send Message</button>
+                                </div>
+                            </div>
+                            <div class="radv-avail" id="advMsgSent" style="display:none;margin-top:10px">
+                                ✅ Message sent to @firstName!
+                            </div>
+                            @if (!isLoggedIn)
+                            {
+                                <div class="radv-avail" id="advLoginNote" style="display:none;margin-top:10px">
+                                    🔒 You need an account to message @firstName. <a asp-controller="Account" asp-action="Login">Login or Register →</a>
+                                </div>
+                            }
+                        }
 
                         <div class="radv-divider"></div>
                         <div class="radv-avail">
@@ -113,3 +138,66 @@
     </div>
 
 </div>
+
+@section Scripts {
+<script>
+(function () {
+    var HAS_ADVISOR  = @(!string.IsNullOrEmpty(advisorUserId) ? "true" : "false");
+    if (!HAS_ADVISOR) return;
+
+    var IS_LOGGED_IN = @(isLoggedIn ? "true" : "false");
+    var ADVISOR_ID   = "@advisorUserId";
+    var ADVISOR_NAME = "@firstName";
+
+    function token() { return document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''; }
+
+    var panel    = document.getElementById('advMsgPanel');
+    var textArea = document.getElementById('advMsgText');
+    var charsEl  = document.getElementById('advMsgChars');
+
+        function openPanel(prefill) {
+            if (!IS_LOGGED_IN) {
+                document.getElementById('advLoginNote').style.display = '';
+                return;
+            }
+            panel.classList.add('open');
+            if (prefill && !textArea.value) {
+                textArea.value = prefill;
+                charsEl.textContent = textArea.value.length + ' / 500';
+            }
+            textArea.focus();
+        }
+
+        document.getElementById('advSendBtn').addEventListener('click', function () { openPanel(''); });
+        document.getElementById('advChatBtn').addEventListener('click', function () {
+            openPanel('Hi ' + ADVISOR_NAME + ', could we set up a quick chat about your experience rehoming your pet?');
+        });
+
+        textArea.addEventListener('input', function () {
+            charsEl.textContent = this.value.length + ' / 500';
+        });
+
+        document.getElementById('advMsgSendBtn').addEventListener('click', function () {
+            var text = textArea.value.trim();
+            if (!text) return;
+
+            fetch('/Messages/Send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token()
+                },
+                body: new URLSearchParams({ receiverId: ADVISOR_ID, body: text })
+            }).then(function (res) {
+                if (!res.ok) throw new Error('send failed');
+                panel.classList.remove('open');
+                textArea.value = '';
+                charsEl.textContent = '0 / 500';
+                document.getElementById('advMsgSent').style.display = '';
+            }).catch(function () {
+                alert('Could not send your message. Please try again.');
+            });
+        });
+})();
+</script>
+}

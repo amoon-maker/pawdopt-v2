@@ -108,6 +108,42 @@ using (var scope = app.Services.CreateScope())
             });
         }
     }
+
+    // Seed the 4 community "Advisor" profiles as real accounts so visitors can
+    // actually message them, instead of the page just disclosing it's a demo.
+    var advisors = new[]
+    {
+        new { Email = "sophie.martin@pawdopt-community.ca",  Name = "Sophie Martin",  City = "Montréal", Province = "QC" },
+        new { Email = "marc.tremblay@pawdopt-community.ca",  Name = "Marc Tremblay",  City = "Toronto",  Province = "ON" },
+        new { Email = "aisha.johnson@pawdopt-community.ca",  Name = "Aisha Johnson",  City = "Vancouver",Province = "BC" },
+        new { Email = "carlos.rivera@pawdopt-community.ca",  Name = "Carlos Rivera",  City = "Calgary",  Province = "AB" }
+    };
+    foreach (var a in advisors)
+    {
+        if (await userMgr.FindByEmailAsync(a.Email) != null) continue;
+
+        var advisor = new ApplicationUser
+        {
+            UserName       = a.Email,
+            Email          = a.Email,
+            DisplayName    = a.Name,
+            UserType       = "Rehomer",
+            City           = a.City,
+            Province       = a.Province,
+            EmailConfirmed = true,
+            CreatedAt      = DateTime.UtcNow
+        };
+        var advResult = await userMgr.CreateAsync(advisor, "Advisor@2026!");
+        if (advResult.Succeeded)
+        {
+            await userMgr.AddToRoleAsync(advisor, "Rehomer");
+            await userMgr.AddClaimsAsync(advisor, new[]
+            {
+                new Claim("DisplayName", advisor.DisplayName),
+                new Claim("UserType",    advisor.UserType)
+            });
+        }
+    }
 }
 
 app.Run();
