@@ -14,4 +14,9 @@ public class Message
     public string Body   { get; set; } = string.Empty;
     public bool   IsRead { get; set; }
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
+
+    // "Delete conversation" only hides messages for the side that deleted them —
+    // the other participant's inbox is unaffected.
+    public bool DeletedForSender   { get; set; }
+    public bool DeletedForReceiver { get; set; }
 }

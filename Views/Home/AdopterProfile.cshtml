@@ -52,7 +52,14 @@
                     <div class="ap-completion-fill" style="width:@(completion)%"></div>
                 </div>
                 <div class="ap-completion-hint">
-                    @(completion >= 100 ? "Your profile is complete!" : "Add your city and phone number, and use the platform, to reach 100%")
+                    @if (completion >= 100)
+                    {
+                        <span data-i18n="ap-completion-complete">Your profile is complete!</span>
+                    }
+                    else
+                    {
+                        <span data-i18n="ap-completion-incomplete">Add your city and phone number, and use the platform, to reach 100%</span>
+                    }
                 </div>
             </div>
         </div>
@@ -65,7 +72,7 @@
             </button>
             @if (isRehomer)
             {
-                <button class="ap-tab" data-tab="listings" role="tab" aria-selected="false">My Listings</button>
+                <button class="ap-tab" data-tab="listings" role="tab" aria-selected="false" data-i18n="ap-tab-listings">My Listings</button>
             }
             <button class="ap-tab" data-tab="saved" role="tab" aria-selected="false" data-i18n="ap-tab-saved">Saved Pets</button>
             <button class="ap-tab" data-tab="settings" role="tab" aria-selected="false" data-i18n="ap-tab-settings">Settings</button>
@@ -212,7 +219,7 @@
         {
         <!-- ── Tab: My Listings ───────────────────────── -->
         <div class="ap-panel" id="tab-listings" role="tabpanel">
-            <div class="ap-section-title">My pet listings</div>
+            <div class="ap-section-title" data-i18n="ap-my-listings-title">My pet listings</div>
             @if (TempData["ListingMsg"] != null)
             {
                 <div style="background:#dcfce7;color:#166534;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["ListingMsg"]</div>
@@ -225,8 +232,8 @@
                 @if (!myListings.Any())
                 {
                     <div class="ap-app-empty">
-                        <p>No listings yet.</p>
-                        <a href="/Rehome/NewListing" class="btn btn-pawdopt-cta" style="margin-top:12px">List a pet</a>
+                        <p data-i18n="ap-no-listings">No listings yet.</p>
+                        <a href="/Rehome/NewListing" class="btn btn-pawdopt-cta" style="margin-top:12px" data-i18n="ap-list-a-pet">List a pet</a>
                     </div>
                 }
                 @foreach (var listing in myListings)
@@ -250,15 +257,15 @@
                             <div class="ap-app-actions">
                                 @if (listing.Status == "Draft")
                                 {
-                                    <a href="/Rehome/Confirm/@listing.Id" class="ap-app-btn">Continue →</a>
+                                    <a href="/Rehome/Confirm/@listing.Id" class="ap-app-btn" data-i18n="ap-listing-continue">Continue →</a>
                                 }
                                 @if (listing.Status == "Rejected")
                                 {
-                                    <a href="/Rehome/NewListing/@listing.Id" class="ap-app-btn">Edit &amp; resubmit →</a>
+                                    <a href="/Rehome/NewListing/@listing.Id" class="ap-app-btn" data-i18n="ap-listing-edit-resubmit">Edit &amp; resubmit →</a>
                                 }
                                 <form method="post" asp-controller="Rehome" asp-action="DeleteListing" asp-route-id="@listing.Id" style="display:inline" onsubmit="return confirm('Delete this listing? This cannot be undone.');">
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="ap-app-btn" style="color:#dc2626;border-color:#dc2626">Delete</button>
+                                    <button type="submit" class="ap-app-btn" style="color:#dc2626;border-color:#dc2626" data-i18n="ap-listing-delete">Delete</button>
                                 </form>
                             </div>
                         </div>

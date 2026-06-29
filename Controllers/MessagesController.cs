@@ -29,7 +29,8 @@ public class MessagesController : Controller
             .Include(m => m.Sender)
             .Include(m => m.Receiver)
             .Include(m => m.RelatedListing)
-            .Where(m => m.SenderId == userId || m.ReceiverId == userId)
+            .Where(m => (m.SenderId == userId   && !m.DeletedForSender)
+                     || (m.ReceiverId == userId && !m.DeletedForReceiver))
             .OrderByDescending(m => m.SentAt)
             .ToListAsync();
 
@@ -57,8 +58,8 @@ public class MessagesController : Controller
             .Include(m => m.Sender)
             .Include(m => m.Receiver)
             .Include(m => m.RelatedListing)
-            .Where(m => (m.SenderId == userId && m.ReceiverId == with)
-                     || (m.SenderId == with   && m.ReceiverId == userId))
+            .Where(m => (m.SenderId == userId && m.ReceiverId == with   && !m.DeletedForSender)
+                     || (m.SenderId == with   && m.ReceiverId == userId && !m.DeletedForReceiver))
             .OrderBy(m => m.SentAt)
             .ToListAsync();
 
@@ -107,5 +108,27 @@ public class MessagesController : Controller
 
         await _context.SaveChangesAsync();
         return RedirectToAction("Conversation", new { with = receiverId, listingId });
+    }
+
+    // ── POST /Messages/DeleteConversation — hides the thread from my inbox only ──
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConversation(string with)
+    {
+        var userId = _userManager.GetUserId(User)!;
+
+        var msgs = await _context.Messages
+            .Where(m => (m.SenderId == userId && m.ReceiverId == with)
+                     || (m.SenderId == with   && m.ReceiverId == userId))
+            .ToListAsync();
+
+        foreach (var m in msgs)
+        {
+            if (m.SenderId == userId)   m.DeletedForSender   = true;
+            if (m.ReceiverId == userId) m.DeletedForReceiver = true;
+        }
+
+        await _context.SaveChangesAsync();
+        TempData["MsgDeleted"] = "Conversation deleted from your inbox.";
+        return RedirectToAction("Index");
     }
 }

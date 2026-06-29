@@ -1,6 +1,13 @@
+@model PawdoptApp.Models.PetListing
 @{
     ViewData["Title"] = "Documents";
     var listingId = (int)(ViewData["ListingId"] ?? 0);
+    var savedDocs = new List<string>();
+    if (!string.IsNullOrEmpty(Model?.DocumentsJson))
+    {
+        try { savedDocs = System.Text.Json.JsonSerializer.Deserialize<List<string>>(Model.DocumentsJson) ?? new(); }
+        catch (System.Text.Json.JsonException) { }
+    }
 }
 
 <div class="rehome-page">
@@ -71,36 +78,36 @@
                     <p class="char-traits-hint" data-i18n="rehome-docs-hint">Check all that apply — you can upload files below</p>
 
                     <div class="docs-checklist">
-                        <label class="doc-check-item" id="check-vacc">
-                            <input type="checkbox" name="docs" value="vaccination" />
+                        <label class="doc-check-item@(savedDocs.Contains("vaccination") ? " checked" : "")" id="check-vacc">
+                            <input type="checkbox" name="docs" value="vaccination" checked="@savedDocs.Contains("vaccination")" />
                             <span class="doc-check-box">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             </span>
                             <span class="doc-check-label" data-i18n="rehome-docs-vacc">Vaccination certificate</span>
                         </label>
-                        <label class="doc-check-item" id="check-steril">
-                            <input type="checkbox" name="docs" value="sterilization" />
+                        <label class="doc-check-item@(savedDocs.Contains("sterilization") ? " checked" : "")" id="check-steril">
+                            <input type="checkbox" name="docs" value="sterilization" checked="@savedDocs.Contains("sterilization")" />
                             <span class="doc-check-box">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             </span>
                             <span class="doc-check-label" data-i18n="rehome-docs-steril">Sterilization certificate</span>
                         </label>
-                        <label class="doc-check-item" id="check-chip">
-                            <input type="checkbox" name="docs" value="microchip" />
+                        <label class="doc-check-item@(savedDocs.Contains("microchip") ? " checked" : "")" id="check-chip">
+                            <input type="checkbox" name="docs" value="microchip" checked="@savedDocs.Contains("microchip")" />
                             <span class="doc-check-box">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             </span>
                             <span class="doc-check-label" data-i18n="rehome-docs-chip">Microchip certificate</span>
                         </label>
-                        <label class="doc-check-item" id="check-vet">
-                            <input type="checkbox" name="docs" value="vet" />
+                        <label class="doc-check-item@(savedDocs.Contains("vet") ? " checked" : "")" id="check-vet">
+                            <input type="checkbox" name="docs" value="vet" checked="@savedDocs.Contains("vet")" />
                             <span class="doc-check-box">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             </span>
                             <span class="doc-check-label" data-i18n="rehome-docs-vet">Vet records / health history</span>
                         </label>
-                        <label class="doc-check-item" id="check-reg">
-                            <input type="checkbox" name="docs" value="registration" />
+                        <label class="doc-check-item@(savedDocs.Contains("registration") ? " checked" : "")" id="check-reg">
+                            <input type="checkbox" name="docs" value="registration" checked="@savedDocs.Contains("registration")" />
                             <span class="doc-check-box">
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             </span>

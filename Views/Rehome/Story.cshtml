@@ -1,3 +1,4 @@
+@model PawdoptApp.Models.PetListing
 @{
     ViewData["Title"] = "Pet Story";
     var listingId = (int)(ViewData["ListingId"] ?? 0);
@@ -78,7 +79,7 @@
 
                     <textarea class="story-textarea" name="story" id="storyTextarea"
                         data-i18n-placeholder="rehome-story-placeholder"
-                        placeholder="Tell us about your pet's personality, favourite things, daily routine, and why you're looking for a new home for them..."></textarea>
+                        placeholder="Tell us about your pet's personality, favourite things, daily routine, and why you're looking for a new home for them...">@Model?.Story</textarea>
 
                     <div class="story-footer">
                         <span class="story-char-count">
