@@ -43,6 +43,29 @@ public class HomeController : Controller
     {
         ViewData["PetId"]    = id;
         ViewData["RealPets"] = await GetApprovedPetDtosAsync();
+
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            var realId = id - RealPetIdOffset;
+            if (realId > 0)
+            {
+                var userId = _userManager.GetUserId(User);
+                var existing = await _context.AdoptionApplications
+                    .Where(a => a.AdopterId == userId &&
+                                a.PetListingId == realId &&
+                                a.Status != "Withdrawn")
+                    .OrderByDescending(a => a.SubmittedAt)
+                    .Select(a => new { a.Id, a.Status })
+                    .FirstOrDefaultAsync();
+
+                if (existing != null)
+                {
+                    ViewData["ExistingAppId"]     = existing.Id;
+                    ViewData["ExistingAppStatus"] = existing.Status;
+                }
+            }
+        }
+
         return View();
     }
 

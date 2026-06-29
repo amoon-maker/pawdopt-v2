@@ -164,12 +164,54 @@
 </div>
 
 @section Scripts {
+<style>
+.pd-applied-banner {
+    background: linear-gradient(135deg, #e8f5f0 0%, #d4ede5 100%);
+    border: 1.5px solid #a8d5c2;
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.75rem;
+}
+.pd-applied-check {
+    font-weight: 600;
+    color: #1a6648;
+    font-size: 0.95rem;
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.pd-applied-status-row {
+    font-size: 0.85rem;
+    color: #444;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.pd-btn-view-app {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 1rem;
+    background: var(--teal, #1a8f6f);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.18s;
+}
+.pd-btn-view-app:hover { background: #167a5e; color: #fff; text-decoration: none; }
+</style>
 <script>
 (function () {
-    var PET_ID       = @petId;
-    var IS_LOGGED_IN = @(User.Identity?.IsAuthenticated == true ? "true" : "false");
-    var LOGIN_URL    = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search);
-    var REAL_PETS    = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["RealPets"]));
+    var PET_ID              = @petId;
+    var IS_LOGGED_IN        = @(User.Identity?.IsAuthenticated == true ? "true" : "false");
+    var LOGIN_URL           = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search);
+    var EXISTING_APP_ID     = @(ViewData["ExistingAppId"] is int eaid ? eaid : 0);
+    var EXISTING_APP_STATUS = @Json.Serialize(ViewData["ExistingAppStatus"] as string ?? "");
+    var REAL_PETS           = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["RealPets"]));
     var PETS         = (window.PAWDOPT_PETS || []).concat(REAL_PETS);
     var pet          = null;
     for (var i = 0; i < PETS.length; i++) { if (PETS[i].id === PET_ID) { pet = PETS[i]; break; } }
@@ -223,9 +265,6 @@
 
     // Demo pets (from pawdopt-data.js) have no backing database row, so
     // there's nothing for the wizard to apply to, and no real owner to message.
-    if (!pet.realId) {
-        document.getElementById('pdApplyBtn').style.display = 'none';
-    }
     if (!pet.rehomer || !pet.rehomer.id) {
         document.getElementById('pdMsgBtn').style.display = 'none';
     }
@@ -241,14 +280,43 @@
         saveFavs(); updateFavUI();
     });
 
-    // ── Apply button → wizard ─────────────────────────────
-    document.getElementById('pdApplyBtn').addEventListener('click', function () {
-        if (!IS_LOGGED_IN) {
-            document.getElementById('pdLoginNote').style.display = '';
-            return;
-        }
-        window.location.href = '/Home/AdoptionWizard?petListingId=' + pet.realId;
-    });
+    // ── Apply button → wizard (or already-applied banner) ─
+    var applyBtn = document.getElementById('pdApplyBtn');
+    if (!pet.realId) {
+        // Demo pet — no real listing, hide the button
+        applyBtn.style.display = 'none';
+    } else if (EXISTING_APP_ID) {
+        // User already has an active application — show status banner
+        applyBtn.style.display = 'none';
+        var banner = document.createElement('div');
+        banner.className = 'pd-applied-banner';
+        banner.innerHTML =
+            '<div class="pd-applied-check">✓ You\'ve applied for this pet</div>' +
+            '<div class="pd-applied-status-row">Status: <span class="' + badgeCss(EXISTING_APP_STATUS) + '">' + labelStatus(EXISTING_APP_STATUS) + '</span></div>' +
+            '<a href="/Applications/Details/' + EXISTING_APP_ID + '" class="pd-btn-view-app">View Application Status →</a>';
+        applyBtn.parentNode.insertBefore(banner, applyBtn);
+    } else {
+        applyBtn.addEventListener('click', function () {
+            if (!IS_LOGGED_IN) {
+                document.getElementById('pdLoginNote').style.display = '';
+                return;
+            }
+            window.location.href = '/Home/AdoptionWizard?petListingId=' + pet.realId;
+        });
+    }
+
+    function badgeCss(s) {
+        return ({
+            'Pending':     'app-badge app-badge-pending',
+            'UnderReview': 'app-badge app-badge-review',
+            'Approved':    'app-badge app-badge-approved',
+            'Rejected':    'app-badge app-badge-rejected',
+            'Cancelled':   'app-badge app-badge-cancelled'
+        })[s] || 'app-badge';
+    }
+    function labelStatus(s) {
+        return ({ 'Pending':'Pending', 'UnderReview':'Under Review', 'Approved':'Approved', 'Rejected':'Rejected', 'Cancelled':'Cancelled' })[s] || s;
+    }
     document.getElementById('pdMsgBtn').addEventListener('click', function () {
         if (!IS_LOGGED_IN) {
             document.getElementById('pdLoginNote').style.display = '';
