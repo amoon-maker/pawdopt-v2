@@ -14,15 +14,34 @@ public class AdminController : Controller
     private readonly ApplicationDbContext         _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ApplicationService           _appService;
+    private readonly IWebHostEnvironment          _env;
 
     public AdminController(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        ApplicationService appService)
+        ApplicationService appService,
+        IWebHostEnvironment env)
     {
         _context     = context;
         _userManager = userManager;
         _appService  = appService;
+        _env         = env;
+    }
+
+    // ── GET /Admin/ListingDetail/5 — full review before approve/reject ────
+    public async Task<IActionResult> ListingDetail(int id)
+    {
+        var listing = await _context.PetListings
+            .Include(l => l.Rehomer)
+            .FirstOrDefaultAsync(l => l.Id == id);
+        if (listing == null) return NotFound();
+
+        var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "listings", id.ToString());
+        ViewData["Photos"] = Directory.Exists(uploadDir)
+            ? Directory.GetFiles(uploadDir).Select(f => $"/uploads/listings/{id}/{Path.GetFileName(f)}").ToList()
+            : new List<string>();
+
+        return View(listing);
     }
 
     public async Task<IActionResult> Index()

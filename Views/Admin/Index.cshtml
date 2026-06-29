@@ -83,7 +83,7 @@
                                         @(listing.Species == "cat" ? "🐱" : listing.Species == "rabbit" ? "🐰" : "🐶")
                                     </div>
                                     <div>
-                                        <div class="adm-cell-main">@listing.Name</div>
+                                        <div class="adm-cell-main"><a href="/Admin/ListingDetail/@listing.Id" style="color:inherit;text-decoration:none;">@listing.Name</a></div>
                                         <div class="adm-cell-sub">@listing.Breed · @listing.Age</div>
                                     </div>
                                 </div>
@@ -95,6 +95,7 @@
                                 @if (listing.Status == "Pending")
                                 {
                                     <div class="adm-action-row">
+                                        <a href="/Admin/ListingDetail/@listing.Id" class="adm-btn">View</a>
                                         <form method="post" asp-controller="Admin" asp-action="ApproveListing" style="display:inline">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="id" value="@listing.Id" />

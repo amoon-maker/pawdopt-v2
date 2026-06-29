@@ -1,0 +1,195 @@
+@model PawdoptApp.Models.PetListing
+@using System.Text.Json
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Review Listing";
+    var photos = ViewData["Photos"] as List<string> ?? new List<string>();
+    var traits = new List<string>();
+    if (!string.IsNullOrEmpty(Model.TraitsJson))
+    {
+        try { traits = JsonSerializer.Deserialize<List<string>>(Model.TraitsJson) ?? new(); }
+        catch (JsonException) { }
+    }
+    var docs = new List<string>();
+    if (!string.IsNullOrEmpty(Model.DocumentsJson))
+    {
+        try { docs = JsonSerializer.Deserialize<List<string>>(Model.DocumentsJson) ?? new(); }
+        catch (JsonException) { }
+    }
+}
+
+@if (TempData["AdminMsg"] != null)
+{
+    <div class="adm-toast">@TempData["AdminMsg"]</div>
+}
+
+<div class="adm-page-header">
+    <a href="/Admin" style="font-size:0.85rem;color:#0e7490;text-decoration:none;display:inline-block;margin-bottom:8px;">← Back to dashboard</a>
+    <h1 class="adm-page-title">@Model.Name <span class="adm-badge @Model.Status.ToLower()" style="margin-left:10px;vertical-align:middle;">@Model.Status</span></h1>
+    <p class="adm-page-sub">Submitted by @(Model.Rehomer?.DisplayName ?? "—") on @Model.CreatedAt.ToString("MMM d, yyyy")</p>
+</div>
+
+<div class="rehome-confirm-body" style="max-width:760px">
+
+    <!-- Pet info -->
+    <div class="confirm-section">
+        <div class="confirm-section-header">
+            <span class="confirm-section-title">Pet info</span>
+        </div>
+        <div class="confirm-section-body">
+            <div class="confirm-data-grid">
+                <span class="cdata-label">Name</span><span class="cdata-val">@Model.Name</span>
+                <span class="cdata-label">Species</span><span class="cdata-val">@Model.Species</span>
+                <span class="cdata-label">Breed</span><span class="cdata-val">@Model.Breed</span>
+                <span class="cdata-label">Age</span><span class="cdata-val">@Model.Age</span>
+                <span class="cdata-label">Gender</span><span class="cdata-val">@Model.Gender</span>
+                <span class="cdata-label">Size</span><span class="cdata-val">@Model.Size</span>
+                @if (!string.IsNullOrEmpty(Model.Color))
+                {
+                    <span class="cdata-label">Color</span><span class="cdata-val">@Model.Color</span>
+                }
+                @if (Model.Weight.HasValue)
+                {
+                    <span class="cdata-label">Weight</span><span class="cdata-val">@Model.Weight kg</span>
+                }
+                <span class="cdata-label">Microchipped</span><span class="cdata-val">@Model.Microchipped</span>
+                @if (!string.IsNullOrEmpty(Model.Reason))
+                {
+                    <span class="cdata-label">Reason for rehoming</span><span class="cdata-val">@Model.Reason</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Photos -->
+    <div class="confirm-section">
+        <div class="confirm-section-header">
+            <span class="confirm-section-title">Photos</span>
+        </div>
+        <div class="confirm-section-body">
+            @if (photos.Count > 0)
+            {
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+                    @foreach (var url in photos)
+                    {
+                        <img src="@url" alt="Pet photo" style="width:120px;height:96px;object-fit:cover;object-position:center center;border-radius:8px;border:1px solid var(--border);" />
+                    }
+                </div>
+            }
+            else
+            {
+                <span style="color:var(--text-secondary)">No photos uploaded</span>
+            }
+        </div>
+    </div>
+
+    <!-- Character & Health -->
+    <div class="confirm-section">
+        <div class="confirm-section-header">
+            <span class="confirm-section-title">Character &amp; health</span>
+        </div>
+        <div class="confirm-section-body">
+            <div class="confirm-data-grid">
+                <span class="cdata-label">Vaccinated</span><span class="cdata-val">@(Model.Vaccinated ?? "—")</span>
+                <span class="cdata-label">Sterilized</span><span class="cdata-val">@(Model.Sterilized ?? "—")</span>
+                <span class="cdata-label">Activity</span><span class="cdata-val">@(Model.ActivityLevel ?? "—")</span>
+                <span class="cdata-label">Training</span><span class="cdata-val">@(Model.TrainingLevel ?? "—")</span>
+                <span class="cdata-label">Ideal home</span><span class="cdata-val">@(Model.IdealHome ?? "—")</span>
+            </div>
+            @if (traits.Count > 0)
+            {
+                <p style="margin-top:.75rem;font-size:.88rem;"><strong>Traits:</strong> @string.Join(", ", traits)</p>
+            }
+            @if (!string.IsNullOrEmpty(Model.CharacterNotes))
+            {
+                <p style="margin-top:.5rem;font-size:.88rem;color:var(--text-secondary)">@Model.CharacterNotes</p>
+            }
+            @if (!string.IsNullOrEmpty(Model.HealthNotes))
+            {
+                <p style="margin-top:.5rem;font-size:.88rem;color:var(--text-secondary)"><strong>Health notes:</strong> @Model.HealthNotes</p>
+            }
+        </div>
+    </div>
+
+    <!-- Location & Story -->
+    <div class="confirm-section">
+        <div class="confirm-section-header">
+            <span class="confirm-section-title">Location &amp; story</span>
+        </div>
+        <div class="confirm-section-body">
+            <div class="confirm-data-grid">
+                <span class="cdata-label">City</span><span class="cdata-val">@(Model.City ?? "—"), @Model.Province</span>
+                @if (!string.IsNullOrEmpty(Model.PickupType))
+                {
+                    <span class="cdata-label">Pickup</span><span class="cdata-val">@Model.PickupType</span>
+                }
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Story))
+            {
+                <p style="margin-top:.75rem;font-size:.88rem;color:var(--text-secondary)">@Model.Story</p>
+            }
+        </div>
+    </div>
+
+    <!-- Documents -->
+    <div class="confirm-section">
+        <div class="confirm-section-header">
+            <span class="confirm-section-title">Documents</span>
+        </div>
+        <div class="confirm-section-body">
+            @if (docs.Count > 0)
+            {
+                <span class="cdata-val">@string.Join(", ", docs)</span>
+            }
+            else
+            {
+                <span style="color:var(--text-secondary)">None checked</span>
+            }
+        </div>
+    </div>
+
+    @if (Model.Status == "Pending")
+    {
+        <div class="adm-action-row" style="margin-top:8px">
+            <form method="post" asp-controller="Admin" asp-action="ApproveListing" style="display:inline">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="adm-btn approve">Approve</button>
+            </form>
+            <button type="button" class="adm-btn reject" onclick="document.getElementById('rejectBackdrop').style.display='flex'">Reject</button>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(Model.RejectionReason))
+    {
+        <div class="confirm-section">
+            <div class="confirm-section-header"><span class="confirm-section-title">Rejection reason</span></div>
+            <div class="confirm-section-body"><span class="cdata-val">@Model.RejectionReason</span></div>
+        </div>
+    }
+
+</div>
+
+<!-- Reject modal -->
+<div class="adm-modal-backdrop" id="rejectBackdrop" style="display:none">
+    <div class="adm-modal">
+        <h3 class="adm-modal-title">Reject listing</h3>
+        <form method="post" asp-controller="Admin" asp-action="RejectListing">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <label class="adm-modal-label">Reason (shown to rehomer)</label>
+            <textarea class="adm-modal-textarea" name="reason" placeholder="e.g. Missing vaccination info, photos unclear…" rows="3"></textarea>
+            <div class="adm-modal-btns">
+                <button type="button" class="adm-btn" onclick="document.getElementById('rejectBackdrop').style.display='none'">Cancel</button>
+                <button type="submit" class="adm-btn reject">Reject Listing</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+document.getElementById('rejectBackdrop').addEventListener('click', function (e) {
+    if (e.target === this) this.style.display = 'none';
+});
+</script>
+}
