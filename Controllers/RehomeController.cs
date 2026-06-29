@@ -280,11 +280,13 @@ public class RehomeController : Controller
     }
 
     [HttpPost, Authorize, ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveStep7(int id, string? documentsJson)
+    public async Task<IActionResult> SaveStep7(int id, string[]? docs)
     {
         var listing = await GetDraft(id);
         if (listing == null) return RedirectToAction("NewListing");
-        listing.DocumentsJson = documentsJson;
+        listing.DocumentsJson = docs != null && docs.Length > 0
+            ? JsonSerializer.Serialize(docs)
+            : null;
         await _context.SaveChangesAsync();
         return RedirectToAction("Confirm", new { id });
     }
@@ -328,6 +330,17 @@ public class RehomeController : Controller
             body:  $"A rehomer has submitted a new listing for {listing.Name} ({listing.Breed}). Please review.",
             link:  "/Admin"
         );
+
+        // Confirm to the rehomer that their submission went through
+        _context.Notifications.Add(new Notification
+        {
+            UserId    = listing.RehomerId,
+            Type      = "listing_submitted",
+            Title     = $"Listing submitted for {listing.Name}",
+            Body      = "Your listing is awaiting admin review. We'll notify you as soon as there's an update.",
+            LinkUrl   = "/Home/AdopterProfile?tab=listings",
+            CreatedAt = DateTime.UtcNow
+        });
 
         await _context.SaveChangesAsync();
         return RedirectToAction("Success");

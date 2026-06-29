@@ -1,3 +1,4 @@
+@model PawdoptApp.Models.PetListing
 @{
     ViewData["Title"] = "Location";
     var listingId = (int)(ViewData["ListingId"] ?? 0);
@@ -79,32 +80,32 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-5">
                             <label class="rehome-label" data-i18n="rehome-loc-label-city">City / Town</label>
-                            <input type="text" class="rehome-input" name="city"
+                            <input type="text" class="rehome-input" name="city" value="@Model?.City"
                                 data-i18n-placeholder="rehome-loc-city-placeholder"
                                 placeholder="Montréal" required />
                         </div>
                         <div class="col-md-4">
                             <label class="rehome-label" data-i18n="rehome-loc-label-province">Province</label>
                             <select class="rehome-select" name="province" required>
-                                <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                                <option value="QC">Québec</option>
-                                <option value="ON">Ontario</option>
-                                <option value="BC">British Columbia</option>
-                                <option value="AB">Alberta</option>
-                                <option value="MB">Manitoba</option>
-                                <option value="SK">Saskatchewan</option>
-                                <option value="NS">Nova Scotia</option>
-                                <option value="NB">New Brunswick</option>
-                                <option value="NL">Newfoundland</option>
-                                <option value="PE">PEI</option>
-                                <option value="NT">Northwest Territories</option>
-                                <option value="YT">Yukon</option>
-                                <option value="NU">Nunavut</option>
+                                <option value="" disabled selected="@(string.IsNullOrEmpty(Model?.Province))" data-i18n="rehome-select-default">Select...</option>
+                                <option value="QC" selected="@(Model?.Province == "QC")">Québec</option>
+                                <option value="ON" selected="@(Model?.Province == "ON")">Ontario</option>
+                                <option value="BC" selected="@(Model?.Province == "BC")">British Columbia</option>
+                                <option value="AB" selected="@(Model?.Province == "AB")">Alberta</option>
+                                <option value="MB" selected="@(Model?.Province == "MB")">Manitoba</option>
+                                <option value="SK" selected="@(Model?.Province == "SK")">Saskatchewan</option>
+                                <option value="NS" selected="@(Model?.Province == "NS")">Nova Scotia</option>
+                                <option value="NB" selected="@(Model?.Province == "NB")">New Brunswick</option>
+                                <option value="NL" selected="@(Model?.Province == "NL")">Newfoundland</option>
+                                <option value="PE" selected="@(Model?.Province == "PE")">PEI</option>
+                                <option value="NT" selected="@(Model?.Province == "NT")">Northwest Territories</option>
+                                <option value="YT" selected="@(Model?.Province == "YT")">Yukon</option>
+                                <option value="NU" selected="@(Model?.Province == "NU")">Nunavut</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="rehome-label" data-i18n="rehome-loc-label-postal">Postal Code</label>
-                            <input type="text" class="rehome-input" name="postalCode"
+                            <input type="text" class="rehome-input" name="postalCode" value="@Model?.PostalCode"
                                 data-i18n-placeholder="rehome-loc-postal-placeholder"
                                 placeholder="H1A 0A1" maxlength="7" />
                         </div>
@@ -114,23 +115,23 @@
                     <div class="kf-section">
                         <label class="rehome-label" data-i18n="rehome-loc-label-pickup">Pickup arrangements</label>
                         <div class="option-chips" data-group="pickup">
-                            <button type="button" class="option-chip" data-value="home">
+                            <button type="button" class="option-chip@(Model?.PickupType == "home" ? " selected" : "")" data-value="home">
                                 <span class="chip-dot"></span><span data-i18n="rehome-loc-pickup-home">Home pickup</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="neutral">
+                            <button type="button" class="option-chip@(Model?.PickupType == "neutral" ? " selected" : "")" data-value="neutral">
                                 <span class="chip-dot"></span><span data-i18n="rehome-loc-pickup-neutral">Neutral location</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="adopter">
+                            <button type="button" class="option-chip@(Model?.PickupType == "adopter" ? " selected" : "")" data-value="adopter">
                                 <span class="chip-dot"></span><span data-i18n="rehome-loc-pickup-adopter">Adopter's place</span>
                             </button>
                         </div>
-                        <input type="hidden" name="pickupType" id="pickupType" />
+                        <input type="hidden" name="pickupType" id="pickupType" value="@Model?.PickupType" />
                     </div>
 
                     <div class="mb-3">
                         <textarea class="rehome-textarea" name="pickupNotes"
                             data-i18n-placeholder="rehome-loc-pickup-placeholder"
-                            placeholder="e.g. Can meet at a neutral location, home pickup available on weekends..."></textarea>
+                            placeholder="e.g. Can meet at a neutral location, home pickup available on weekends...">@Model?.PickupNotes</textarea>
                     </div>
 
                     <!-- Privacy note -->

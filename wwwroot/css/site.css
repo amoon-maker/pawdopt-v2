@@ -5838,14 +5838,24 @@ body {
 /* Thread list */
 .msg-thread-list { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
 .msg-thread-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 16px 20px; text-decoration: none; color: inherit;
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 8px 0 20px;
     border-bottom: 1px solid var(--border); transition: background .15s;
 }
 .msg-thread-item:last-child { border-bottom: none; }
 .msg-thread-item:hover { background: rgba(0,0,0,.03); }
 .msg-thread-item.unread { background: rgba(0,168,150,.04); }
 [data-theme="dark"] .msg-thread-item.unread { background: rgba(0,168,150,.07); }
+.msg-thread-link {
+    display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;
+    padding: 16px 0; text-decoration: none; color: inherit;
+}
+.msg-thread-delete-form { flex-shrink: 0; }
+.msg-thread-delete-btn {
+    width: 34px; height: 34px; border-radius: 8px; border: none; background: transparent;
+    color: var(--text-secondary); font-size: 0.95rem; cursor: pointer; transition: background .15s, color .15s;
+}
+.msg-thread-delete-btn:hover { background: rgba(220,38,38,.1); color: #dc2626; }
 .msg-thread-avatar {
     width: 44px; height: 44px; border-radius: 50%;
     background: linear-gradient(135deg, var(--teal), #00c5b0);

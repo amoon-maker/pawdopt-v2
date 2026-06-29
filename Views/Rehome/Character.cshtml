@@ -1,6 +1,13 @@
+@model PawdoptApp.Models.PetListing
 @{
     ViewData["Title"] = "Character & Health";
     var listingId = (int)(ViewData["ListingId"] ?? 0);
+    var savedTraits = new List<string>();
+    if (!string.IsNullOrEmpty(Model?.TraitsJson))
+    {
+        try { savedTraits = System.Text.Json.JsonSerializer.Deserialize<List<string>>(Model.TraitsJson) ?? new(); }
+        catch (System.Text.Json.JsonException) { }
+    }
 }
 
 <!-- Teal progress banner -->
@@ -76,52 +83,52 @@
                     </div>
 
                     <div class="char-traits-grid">
-                        <button type="button" class="char-trait-chip" data-trait="playful">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("playful") ? " selected" : "")" data-trait="playful">
                             <span class="chip-icon">🎾</span><span data-i18n="trait-playful">Playful</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="calm">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("calm") ? " selected" : "")" data-trait="calm">
                             <span class="chip-icon">😌</span><span data-i18n="trait-calm">Calm</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="energetic">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("energetic") ? " selected" : "")" data-trait="energetic">
                             <span class="chip-icon">⚡</span><span data-i18n="trait-energetic">Energetic</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="affectionate">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("affectionate") ? " selected" : "")" data-trait="affectionate">
                             <span class="chip-icon">💕</span><span data-i18n="trait-affectionate">Affectionate</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="shy">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("shy") ? " selected" : "")" data-trait="shy">
                             <span class="chip-icon">🙈</span><span data-i18n="trait-shy">Shy</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="loyal">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("loyal") ? " selected" : "")" data-trait="loyal">
                             <span class="chip-icon">💛</span><span data-i18n="trait-loyal">Loyal</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="gentle">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("gentle") ? " selected" : "")" data-trait="gentle">
                             <span class="chip-icon">🌸</span><span data-i18n="trait-gentle">Gentle</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="curious">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("curious") ? " selected" : "")" data-trait="curious">
                             <span class="chip-icon">👀</span><span data-i18n="trait-curious">Curious</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="kids">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("kids") ? " selected" : "")" data-trait="kids">
                             <span class="chip-icon">👶</span><span data-i18n="trait-kids">Good with kids</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="dogs">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("dogs") ? " selected" : "")" data-trait="dogs">
                             <span class="chip-icon">🐕</span><span data-i18n="trait-dogs">Good with dogs</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="cats">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("cats") ? " selected" : "")" data-trait="cats">
                             <span class="chip-icon">🐈</span><span data-i18n="trait-cats">Good with cats</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="trained">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("trained") ? " selected" : "")" data-trait="trained">
                             <span class="chip-icon">🏠</span><span data-i18n="trait-trained">House-trained</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="outdoors">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("outdoors") ? " selected" : "")" data-trait="outdoors">
                             <span class="chip-icon">🌿</span><span data-i18n="trait-outdoors">Loves outdoors</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="independent">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("independent") ? " selected" : "")" data-trait="independent">
                             <span class="chip-icon">🦅</span><span data-i18n="trait-independent">Independent</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="vocal">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("vocal") ? " selected" : "")" data-trait="vocal">
                             <span class="chip-icon">🔊</span><span data-i18n="trait-vocal">Vocal</span>
                         </button>
-                        <button type="button" class="char-trait-chip" data-trait="quiet">
+                        <button type="button" class="char-trait-chip@(savedTraits.Contains("quiet") ? " selected" : "")" data-trait="quiet">
                             <span class="chip-icon">🤫</span><span data-i18n="trait-quiet">Quiet</span>
                         </button>
                     </div>
@@ -131,7 +138,7 @@
                         <label class="rehome-label" data-i18n="rehome-char-notes-label">Anything else about their personality?</label>
                         <textarea class="rehome-textarea" name="characterNotes"
                             data-i18n-placeholder="rehome-char-notes-placeholder"
-                            placeholder="e.g. loves cuddles, gets anxious in thunderstorms..."></textarea>
+                            placeholder="e.g. loves cuddles, gets anxious in thunderstorms...">@Model?.CharacterNotes</textarea>
                     </div>
 
                     <!-- ── Section 2: Health & lifestyle ──────────── -->
@@ -150,20 +157,20 @@
                         <div class="col-md-6">
                             <label class="rehome-label" data-i18n="rehome-kf-label-vaccinated">Vaccinated?</label>
                             <select class="rehome-select" name="vaccinated" required>
-                                <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                                <option value="yes" data-i18n="rehome-kf-opt-vaccinated-yes">Yes, fully vaccinated</option>
-                                <option value="partial" data-i18n="rehome-kf-opt-vaccinated-partial">Partially vaccinated</option>
-                                <option value="no" data-i18n="rehome-kf-opt-vaccinated-no">Not vaccinated</option>
-                                <option value="unknown" data-i18n="rehome-kf-opt-vaccinated-unknown">Unknown</option>
+                                <option value="" disabled selected="@(string.IsNullOrEmpty(Model?.Vaccinated))" data-i18n="rehome-select-default">Select...</option>
+                                <option value="yes" selected="@(Model?.Vaccinated == "yes")" data-i18n="rehome-kf-opt-vaccinated-yes">Yes, fully vaccinated</option>
+                                <option value="partial" selected="@(Model?.Vaccinated == "partial")" data-i18n="rehome-kf-opt-vaccinated-partial">Partially vaccinated</option>
+                                <option value="no" selected="@(Model?.Vaccinated == "no")" data-i18n="rehome-kf-opt-vaccinated-no">Not vaccinated</option>
+                                <option value="unknown" selected="@(Model?.Vaccinated == "unknown")" data-i18n="rehome-kf-opt-vaccinated-unknown">Unknown</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label class="rehome-label" data-i18n="rehome-kf-label-sterilized">Spayed / Neutered?</label>
                             <select class="rehome-select" name="sterilized" required>
-                                <option value="" disabled selected data-i18n="rehome-select-default">Select...</option>
-                                <option value="yes" data-i18n="rehome-kf-opt-sterilized-yes">Yes</option>
-                                <option value="no" data-i18n="rehome-kf-opt-sterilized-no">No</option>
-                                <option value="unknown" data-i18n="rehome-kf-opt-sterilized-unknown">Unknown</option>
+                                <option value="" disabled selected="@(string.IsNullOrEmpty(Model?.Sterilized))" data-i18n="rehome-select-default">Select...</option>
+                                <option value="yes" selected="@(Model?.Sterilized == "yes")" data-i18n="rehome-kf-opt-sterilized-yes">Yes</option>
+                                <option value="no" selected="@(Model?.Sterilized == "no")" data-i18n="rehome-kf-opt-sterilized-no">No</option>
+                                <option value="unknown" selected="@(Model?.Sterilized == "unknown")" data-i18n="rehome-kf-opt-sterilized-unknown">Unknown</option>
                             </select>
                         </div>
                     </div>
@@ -172,51 +179,51 @@
                     <div class="kf-section">
                         <label class="rehome-label" data-i18n="rehome-kf-label-activity">Activity level</label>
                         <div class="option-chips" data-group="activity">
-                            <button type="button" class="option-chip" data-value="low">
+                            <button type="button" class="option-chip@(Model?.ActivityLevel == "low" ? " selected" : "")" data-value="low">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-activity-low">Low</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="moderate">
+                            <button type="button" class="option-chip@(Model?.ActivityLevel == "moderate" ? " selected" : "")" data-value="moderate">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-activity-moderate">Moderate</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="high">
+                            <button type="button" class="option-chip@(Model?.ActivityLevel == "high" ? " selected" : "")" data-value="high">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-activity-high">High</span>
                             </button>
                         </div>
-                        <input type="hidden" name="activityLevel" id="activityLevel" />
+                        <input type="hidden" name="activityLevel" id="activityLevel" value="@Model?.ActivityLevel" />
                     </div>
 
                     <!-- Training level -->
                     <div class="kf-section">
                         <label class="rehome-label" data-i18n="rehome-kf-label-training">Training level</label>
                         <div class="option-chips" data-group="training">
-                            <button type="button" class="option-chip" data-value="none">
+                            <button type="button" class="option-chip@(Model?.TrainingLevel == "none" ? " selected" : "")" data-value="none">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-training-none">Not trained</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="basic">
+                            <button type="button" class="option-chip@(Model?.TrainingLevel == "basic" ? " selected" : "")" data-value="basic">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-training-basic">Basic commands</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="well">
+                            <button type="button" class="option-chip@(Model?.TrainingLevel == "well" ? " selected" : "")" data-value="well">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-training-well">Well trained</span>
                             </button>
                         </div>
-                        <input type="hidden" name="trainingLevel" id="trainingLevel" />
+                        <input type="hidden" name="trainingLevel" id="trainingLevel" value="@Model?.TrainingLevel" />
                     </div>
 
                     <!-- Ideal home -->
                     <div class="kf-section">
                         <label class="rehome-label" data-i18n="rehome-kf-label-home">Ideal home</label>
                         <div class="option-chips" data-group="home">
-                            <button type="button" class="option-chip" data-value="apartment">
+                            <button type="button" class="option-chip@(Model?.IdealHome == "apartment" ? " selected" : "")" data-value="apartment">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-home-apartment">Apartment</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="house">
+                            <button type="button" class="option-chip@(Model?.IdealHome == "house" ? " selected" : "")" data-value="house">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-home-house">House + yard</span>
                             </button>
-                            <button type="button" class="option-chip" data-value="any">
+                            <button type="button" class="option-chip@(Model?.IdealHome == "any" ? " selected" : "")" data-value="any">
                                 <span class="chip-dot"></span><span data-i18n="rehome-kf-home-any">Any home</span>
                             </button>
                         </div>
-                        <input type="hidden" name="idealHome" id="idealHome" />
+                        <input type="hidden" name="idealHome" id="idealHome" value="@Model?.IdealHome" />
                     </div>
 
                     <!-- Health notes -->
@@ -224,7 +231,7 @@
                         <label class="rehome-label" data-i18n="rehome-kf-label-health">Health &amp; medical notes</label>
                         <textarea class="rehome-textarea" name="healthNotes"
                             data-i18n-placeholder="rehome-kf-health-placeholder"
-                            placeholder="Any known conditions, allergies, medications..."></textarea>
+                            placeholder="Any known conditions, allergies, medications...">@Model?.HealthNotes</textarea>
                     </div>
 
                     <div class="rehome-divider"></div>
@@ -268,6 +275,7 @@
             inputsContainer.appendChild(input);
         });
     }
+    syncTraits(); // capture any traits already marked "selected" from saved data
 
     // Option chips (activity, training, home)
     document.querySelectorAll('.option-chips').forEach(function (group) {

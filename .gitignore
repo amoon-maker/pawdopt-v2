@@ -16,6 +16,8 @@ obj/
 
 ## dotnet watch
 *.db
+*.db-shm
+*.db-wal
 
 ## OS files
 .DS_Store

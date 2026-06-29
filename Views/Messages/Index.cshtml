@@ -12,6 +12,11 @@
             <p class="msg-subtitle">Your conversations with pet owners and adopters</p>
         </div>
 
+        @if (TempData["MsgDeleted"] != null)
+        {
+            <div style="background:#dcfce7;color:#166534;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:0.9rem">@TempData["MsgDeleted"]</div>
+        }
+
         @if (!Model.Any())
         {
             <div class="msg-empty">
@@ -34,28 +39,36 @@
                     var timeAgo     = TimeAgo(msg.SentAt);
                     var listingCtx  = msg.RelatedListing != null ? msg.RelatedListing.Name : null;
 
-                    <a class="msg-thread-item @(isUnread ? "unread" : "")"
-                       href="/Messages/Conversation?with=@partnerId@(msg.RelatedListingId.HasValue ? "&listingId=" + msg.RelatedListingId : "")">
-                        <div class="msg-thread-avatar">@partnerInit</div>
-                        <div class="msg-thread-body">
-                            <div class="msg-thread-top">
-                                <span class="msg-thread-name">@partnerName</span>
-                                <span class="msg-thread-time">@timeAgo</span>
+                    <div class="msg-thread-item @(isUnread ? "unread" : "")">
+                        <a class="msg-thread-link"
+                           href="/Messages/Conversation?with=@partnerId@(msg.RelatedListingId.HasValue ? "&listingId=" + msg.RelatedListingId : "")">
+                            <div class="msg-thread-avatar">@partnerInit</div>
+                            <div class="msg-thread-body">
+                                <div class="msg-thread-top">
+                                    <span class="msg-thread-name">@partnerName</span>
+                                    <span class="msg-thread-time">@timeAgo</span>
+                                </div>
+                                @if (listingCtx != null)
+                                {
+                                    <div class="msg-thread-context">re: @listingCtx</div>
+                                }
+                                <div class="msg-thread-preview">
+                                    @if (msg.SenderId == myId) { <span class="msg-thread-you">You: </span> }
+                                    @preview
+                                </div>
                             </div>
-                            @if (listingCtx != null)
+                            @if (isUnread)
                             {
-                                <div class="msg-thread-context">re: @listingCtx</div>
+                                <span class="msg-thread-dot"></span>
                             }
-                            <div class="msg-thread-preview">
-                                @if (msg.SenderId == myId) { <span class="msg-thread-you">You: </span> }
-                                @preview
-                            </div>
-                        </div>
-                        @if (isUnread)
-                        {
-                            <span class="msg-thread-dot"></span>
-                        }
-                    </a>
+                        </a>
+                        <form method="post" asp-controller="Messages" asp-action="DeleteConversation" asp-route-with="@partnerId"
+                              class="msg-thread-delete-form"
+                              onsubmit="return confirm('Delete this conversation? It will only be removed from your inbox.');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="msg-thread-delete-btn" title="Delete conversation" aria-label="Delete conversation">🗑</button>
+                        </form>
+                    </div>
                 }
             </div>
         }
