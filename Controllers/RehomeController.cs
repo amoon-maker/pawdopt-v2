@@ -24,9 +24,25 @@ public class RehomeController : Controller
     // ── Public landing page ───────────────────────────────────────────────
     public IActionResult List() => View();
 
-    public IActionResult Advisor(string id)
+    private static readonly Dictionary<string, string> AdvisorEmails = new()
     {
-        ViewData["AdvisorId"] = id ?? "sophie-martin";
+        ["sophie-martin"] = "sophie.martin@pawdopt-community.ca",
+        ["marc-tremblay"] = "marc.tremblay@pawdopt-community.ca",
+        ["aisha-johnson"] = "aisha.johnson@pawdopt-community.ca",
+        ["carlos-rivera"] = "carlos.rivera@pawdopt-community.ca"
+    };
+
+    public async Task<IActionResult> Advisor(string id)
+    {
+        var advisorId = id ?? "sophie-martin";
+        ViewData["AdvisorId"] = advisorId;
+
+        if (AdvisorEmails.TryGetValue(advisorId, out var email))
+        {
+            var advisorUser = await _userManager.FindByEmailAsync(email);
+            ViewData["AdvisorUserId"] = advisorUser?.Id;
+        }
+
         return View();
     }
 
