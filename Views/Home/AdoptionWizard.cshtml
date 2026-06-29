@@ -626,9 +626,12 @@
 
         var html = '<div class="wz-review-card">';
         html += '<div class="wz-review-pet">';
-        if (pet) {
-            html += '<span class="wz-review-pet-emoji">' + pet.emoji + '</span>';
-            html += '<div><strong>' + pet.name + '</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">' + pet.breed + ' · ' + pet.city + ', ' + pet.province + '</span></div>';
+        if (LISTING_NAME) {
+            var petEmoji = document.getElementById('wzPetEmoji') ? document.getElementById('wzPetEmoji').textContent : '🐾';
+            var petBreed = document.getElementById('wzPetBreed') ? document.getElementById('wzPetBreed').textContent : '';
+            var petLoc   = document.getElementById('wzPetLoc')   ? document.getElementById('wzPetLoc').textContent   : '';
+            html += '<span class="wz-review-pet-emoji">' + escHtml(petEmoji) + '</span>';
+            html += '<div><strong>' + escHtml(LISTING_NAME) + '</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">' + escHtml(petBreed) + ' · ' + escHtml(petLoc) + '</span></div>';
         }
         html += '</div></div>';
 

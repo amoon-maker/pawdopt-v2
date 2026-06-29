@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PawdoptApp.Data;
 using PawdoptApp.Models;
+using PawdoptApp.Services;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,7 @@ builder.Services.AddSession(options =>
 // Lets fetch() calls send the anti-forgery token as a header instead of a form field
 builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
+builder.Services.AddScoped<ApplicationService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
@@ -80,7 +82,9 @@ using (var scope = app.Services.CreateScope())
             await roleMgr.CreateAsync(new IdentityRole(role));
     }
 
-    const string adminEmail = "admin@pawdopt.ca";
+    var adminEmail    = builder.Configuration["AdminSeed:Email"]    ?? "admin@pawdopt.ca";
+    var adminPassword = builder.Configuration["AdminSeed:Password"] ?? "Admin@2026!";
+
     if (await userMgr.FindByEmailAsync(adminEmail) == null)
     {
         var admin = new ApplicationUser
@@ -93,7 +97,7 @@ using (var scope = app.Services.CreateScope())
             EmailConfirmed = true,
             CreatedAt      = DateTime.UtcNow
         };
-        var result = await userMgr.CreateAsync(admin, "Admin@2026!");
+        var result = await userMgr.CreateAsync(admin, adminPassword);
         if (result.Succeeded)
         {
             await userMgr.AddToRoleAsync(admin, "Admin");

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PawdoptApp.Data;
 using PawdoptApp.Models;
+using PawdoptApp.Services;
 
 namespace PawdoptApp.Controllers;
 
@@ -12,11 +13,16 @@ public class ApplicationsController : Controller
 {
     private readonly ApplicationDbContext         _context;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ApplicationService           _appService;
 
-    public ApplicationsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public ApplicationsController(
+        ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
+        ApplicationService appService)
     {
         _context     = context;
         _userManager = userManager;
+        _appService  = appService;
     }
 
     // ── GET /Applications ────────────────────────────────────────────────
@@ -121,91 +127,12 @@ public class ApplicationsController : Controller
         if (!User.IsInRole("Admin") && !await RehomerOwnsAppAsync(app, userId))
             return Forbid();
 
-        // Enforce status transition state machine
-        if (!app.Status.CanTransitionTo(newStatus))
+        var (success, error) = await _appService.ApplyStatusChangeAsync(app, newStatus, reviewNotes);
+
+        if (!success)
         {
-            TempData["AppError"] = $"Cannot move an application from \"{app.Status.Label()}\" to \"{newStatus.Label()}\".";
+            TempData["AppError"] = error;
             return RedirectToAction(nameof(UpdateStatus), new { id });
-        }
-
-        var petName = app.PetListing.Name;
-
-        if (newStatus == nameof(ApplicationStatus.Approved))
-        {
-            // Business rule: accepting one application cancels all competing apps in a single transaction.
-            await using var tx = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                app.Status      = nameof(ApplicationStatus.Approved);
-                app.ReviewedAt  = DateTime.UtcNow;
-                app.ReviewNotes = reviewNotes;
-
-                var competing = await _context.AdoptionApplications
-                    .Include(a => a.PetListing)
-                    .Where(a => a.PetListingId == app.PetListingId &&
-                                a.Id != id &&
-                                (a.Status == "Pending" || a.Status == "UnderReview"))
-                    .ToListAsync();
-
-                foreach (var other in competing)
-                {
-                    other.Status = nameof(ApplicationStatus.Cancelled);
-                    _context.Notifications.Add(new Notification
-                    {
-                        UserId    = other.AdopterId,
-                        Type      = "app_cancelled",
-                        Title     = $"Update on your application for {other.PetListing.Name}",
-                        Body      = "Another adopter was selected for this pet. Thank you for your interest!",
-                        LinkUrl   = "/Applications",
-                        CreatedAt = DateTime.UtcNow
-                    });
-                }
-
-                _context.Notifications.Add(new Notification
-                {
-                    UserId    = app.AdopterId,
-                    Type      = "app_approved",
-                    Title     = $"Your application for {petName} was approved!",
-                    Body      = string.IsNullOrWhiteSpace(reviewNotes)
-                                    ? "Congratulations! The rehomer has selected you. They will be in touch soon."
-                                    : reviewNotes,
-                    LinkUrl   = "/Applications",
-                    CreatedAt = DateTime.UtcNow
-                });
-
-                await _context.SaveChangesAsync();
-                await tx.CommitAsync();
-            }
-            catch
-            {
-                await tx.RollbackAsync();
-                TempData["AppError"] = "Something went wrong. Please try again.";
-                return RedirectToAction(nameof(Details), new { id });
-            }
-        }
-        else
-        {
-            app.Status      = newStatus;
-            app.ReviewedAt  = DateTime.UtcNow;
-            app.ReviewNotes = reviewNotes;
-
-            var notifBody = newStatus == nameof(ApplicationStatus.Rejected)
-                ? (string.IsNullOrWhiteSpace(reviewNotes)
-                       ? "Unfortunately your application was not selected."
-                       : reviewNotes)
-                : $"Your application status changed to: {newStatus.Label()}.";
-
-            _context.Notifications.Add(new Notification
-            {
-                UserId    = app.AdopterId,
-                Type      = "app_status_change",
-                Title     = $"Update on your application for {petName}",
-                Body      = notifBody,
-                LinkUrl   = "/Applications",
-                CreatedAt = DateTime.UtcNow
-            });
-
-            await _context.SaveChangesAsync();
         }
 
         TempData["AppSuccess"] = $"Application marked as {newStatus.Label()}.";

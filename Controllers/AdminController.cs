@@ -4,19 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PawdoptApp.Data;
 using PawdoptApp.Models;
+using PawdoptApp.Services;
 
 namespace PawdoptApp.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-    private readonly ApplicationDbContext        _context;
+    private readonly ApplicationDbContext         _context;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ApplicationService           _appService;
 
-    public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public AdminController(
+        ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
+        ApplicationService appService)
     {
         _context     = context;
         _userManager = userManager;
+        _appService  = appService;
     }
 
     public async Task<IActionResult> Index()
@@ -152,20 +158,10 @@ public class AdminController : Controller
 
         if (app == null) return NotFound();
 
-        app.Status     = status;
-        app.ReviewedAt = DateTime.UtcNow;
+        var (success, error) = await _appService.ApplyStatusChangeAsync(app, status);
+        if (!success)
+            return Json(new { success = false, message = error });
 
-        _context.Notifications.Add(new Notification
-        {
-            UserId    = app.AdopterId,
-            Type      = "app_status_change",
-            Title     = $"Application update for {app.PetListing.Name}",
-            Body      = $"Your application status has changed to: {status}.",
-            LinkUrl   = "/Applications",
-            CreatedAt = DateTime.UtcNow
-        });
-
-        await _context.SaveChangesAsync();
         return Json(new { success = true });
     }
 }
