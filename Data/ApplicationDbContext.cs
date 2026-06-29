@@ -13,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<AdoptionApplication> AdoptionApplications { get; set; }
     public DbSet<Message>             Messages             { get; set; }
     public DbSet<Notification>        Notifications        { get; set; }
+    public DbSet<SavedPet>            SavedPets            { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -68,5 +69,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(n => n.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // SavedPet → User; one save per (user, pet) pair
+        builder.Entity<SavedPet>()
+            .HasOne(s => s.User)
+            .WithMany()
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<SavedPet>()
+            .HasIndex(s => new { s.UserId, s.PetId })
+            .IsUnique();
     }
 }

@@ -412,6 +412,15 @@
 (function () {
     var REAL_PETS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["RealPets"]));
     var PETS = (window.PAWDOPT_PETS || []).concat(REAL_PETS);
+    var SAVED_IDS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["SavedPetIds"] ?? new List<int>()));
+
+    function favToken() { return document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''; }
+    function toggleFav(petId) {
+        return fetch('/Home/ToggleSavedPet?petId=' + petId, {
+            method: 'POST',
+            headers: { 'RequestVerificationToken': favToken() }
+        }).then(function (r) { return r.json(); });
+    }
 
     // ── Tab switching ────────────────────────────────────
     document.querySelectorAll('.ap-tab').forEach(function (tab) {
@@ -429,7 +438,7 @@
 
     // ── Saved pets ───────────────────────────────────────
     function renderSaved() {
-        var favs = new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'));
+        var favs = new Set(SAVED_IDS);
         document.getElementById('apSavedCount').textContent = favs.size;
         var saved = PETS.filter(function (p) { return favs.has(p.id); });
         var grid  = document.getElementById('apSavedGrid');
@@ -467,11 +476,13 @@
 
         grid.querySelectorAll('[data-rem-id]').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                var id   = parseInt(this.dataset.remId, 10);
-                var favs = new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'));
-                favs.delete(id);
-                localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(favs)));
-                renderSaved();
+                var id = parseInt(this.dataset.remId, 10);
+                toggleFav(id).then(function (res) {
+                    if (!res.success) return;
+                    var idx = SAVED_IDS.indexOf(id);
+                    if (idx !== -1) SAVED_IDS.splice(idx, 1);
+                    renderSaved();
+                });
             });
         });
     }

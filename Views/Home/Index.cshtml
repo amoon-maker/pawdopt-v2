@@ -447,6 +447,7 @@
     </div>
     <button class="guest-fav-toast-close" id="guestFavToastClose" aria-label="Close">&times;</button>
 </div>
+@Html.AntiForgeryToken()
 
 @section Scripts {
 <script>
@@ -456,9 +457,16 @@
     var closeBtn = document.getElementById('guestFavToastClose');
     var timer;
 
-    var favs = IS_LOGGED_IN
-        ? new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]'))
-        : new Set();
+    var SAVED_IDS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["SavedPetIds"] ?? new List<int>()));
+    var favs = new Set(SAVED_IDS);
+
+    function favToken() { return document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''; }
+    function toggleFav(petId) {
+        return fetch('/Home/ToggleSavedPet?petId=' + petId, {
+            method: 'POST',
+            headers: { 'RequestVerificationToken': favToken() }
+        }).then(function (r) { return r.json(); });
+    }
 
     var HEART_FILLED = '<svg width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
     var HEART_EMPTY  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
@@ -487,9 +495,11 @@
             e.preventDefault();
             e.stopPropagation();
             if (!IS_LOGGED_IN) { showToast(); return; }
-            if (favs.has(id)) favs.delete(id); else favs.add(id);
-            localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(favs)));
-            updateBtn(btn, favs.has(id));
+            toggleFav(id).then(function (res) {
+                if (!res.success) return;
+                if (res.saved) favs.add(id); else favs.delete(id);
+                updateBtn(btn, favs.has(id));
+            });
         });
     });
 

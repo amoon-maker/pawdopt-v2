@@ -128,6 +128,13 @@ public class RehomeController : Controller
         if (photos != null && photos.Count > 0)
         {
             var uploadDir = Path.Combine(_env.WebRootPath, "uploads", "listings", id.ToString());
+
+            // This listing's id may have been reused (e.g. after a dev database reset) and the
+            // folder could still hold another listing's leftover photos. Only clear it the first
+            // time THIS listing gets photos — later edits should keep adding to its own files.
+            if (!listing.HasPhotos && Directory.Exists(uploadDir))
+                Directory.Delete(uploadDir, recursive: true);
+
             Directory.CreateDirectory(uploadDir);
 
             foreach (var file in photos.Take(3))

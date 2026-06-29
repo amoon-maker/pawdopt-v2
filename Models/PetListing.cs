@@ -23,11 +23,11 @@ public class PetListing
     // Step 3 — Character & health
     public string? TraitsJson      { get; set; }  // JSON array of trait keys
     public string? CharacterNotes  { get; set; }
-    public string Vaccinated       { get; set; } = "unknown"; // yes | partial | no | unknown
-    public string Sterilized       { get; set; } = "unknown"; // yes | no | unknown
-    public string ActivityLevel    { get; set; } = "moderate"; // low | moderate | high
-    public string TrainingLevel    { get; set; } = "basic";    // none | basic | well
-    public string IdealHome        { get; set; } = "any";      // apartment | house | any
+    public string? Vaccinated      { get; set; } // yes | partial | no | unknown
+    public string? Sterilized      { get; set; } // yes | no | unknown
+    public string? ActivityLevel   { get; set; } // low | moderate | high
+    public string? TrainingLevel   { get; set; } // none | basic | well
+    public string? IdealHome       { get; set; } // apartment | house | any
     public string? HealthNotes     { get; set; }
 
     // Step 5 — Location + story

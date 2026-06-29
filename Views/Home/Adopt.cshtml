@@ -1,6 +1,7 @@
 @{
     ViewData["Title"] = "Adopt a Pet";
 }
+@Html.AntiForgeryToken()
 
 <!-- ── Breadcrumb ──────────────────────────────────────── -->
 <div class="adopt-breadcrumb-bar">
@@ -219,6 +220,15 @@
     // ── Pet data (demo pets + real, admin-approved listings) ──
     var REAL_PETS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["RealPets"]));
     var PETS = (window.PAWDOPT_PETS || []).concat(REAL_PETS);
+    var SAVED_IDS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["SavedPetIds"] ?? new List<int>()));
+
+    function favToken() { return document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''; }
+    function toggleFav(petId) {
+        return fetch('/Home/ToggleSavedPet?petId=' + petId, {
+            method: 'POST',
+            headers: { 'RequestVerificationToken': favToken() }
+        }).then(function (r) { return r.json(); });
+    }
 
     var PAGE_SIZE = 6;
 
@@ -235,7 +245,7 @@
         microchipped:false,
         sort:        'newest',
         page:        1,
-        favorites:   IS_LOGGED_IN ? new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]')) : new Set()
+        favorites:   new Set(SAVED_IDS)
     };
 
     // ── Helpers ───────────────────────────────────────────
@@ -394,10 +404,11 @@
                         return;
                     }
                     var id = parseInt(this.dataset.favId, 10);
-                    if (state.favorites.has(id)) state.favorites.delete(id);
-                    else state.favorites.add(id);
-                    localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(state.favorites)));
-                    render();
+                    toggleFav(id).then(function (res) {
+                        if (!res.success) return;
+                        if (res.saved) state.favorites.add(id); else state.favorites.delete(id);
+                        render();
+                    });
                 });
             });
         }

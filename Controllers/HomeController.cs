@@ -27,11 +27,16 @@ public class HomeController : Controller
         _env         = env;
     }
 
-    public IActionResult Index()   => View();
+    public async Task<IActionResult> Index()
+    {
+        ViewData["SavedPetIds"] = await GetSavedPetIdsAsync();
+        return View();
+    }
 
     public async Task<IActionResult> Adopt()
     {
-        ViewData["RealPets"] = await GetApprovedPetDtosAsync();
+        ViewData["RealPets"]    = await GetApprovedPetDtosAsync();
+        ViewData["SavedPetIds"] = await GetSavedPetIdsAsync();
         return View();
     }
 
@@ -41,8 +46,9 @@ public class HomeController : Controller
 
     public async Task<IActionResult> PetDetail(int id = 1)
     {
-        ViewData["PetId"]    = id;
-        ViewData["RealPets"] = await GetApprovedPetDtosAsync();
+        ViewData["PetId"]       = id;
+        ViewData["RealPets"]    = await GetApprovedPetDtosAsync();
+        ViewData["SavedPetIds"] = await GetSavedPetIdsAsync();
 
         if (User.Identity?.IsAuthenticated == true)
         {
@@ -159,6 +165,7 @@ public class HomeController : Controller
         ViewData["UserInitial"]     = (user?.DisplayName ?? "U").Substring(0, 1).ToUpper();
         ViewData["ActiveTab"]       = Request.Query["tab"].ToString();
         ViewData["RealPets"]        = await GetApprovedPetDtosAsync();
+        ViewData["SavedPetIds"]     = await GetSavedPetIdsAsync();
 
         // Real applications for this user
         var userId = _userManager.GetUserId(User);
@@ -351,6 +358,38 @@ public class HomeController : Controller
         app.Status = "Withdrawn";
         await _context.SaveChangesAsync();
         return RedirectToAction("AdopterProfile");
+    }
+
+    // ── Saved pets (favorites), tied to the account instead of the browser ──
+    [HttpPost, ValidateAntiForgeryToken, Authorize]
+    public async Task<IActionResult> ToggleSavedPet(int petId)
+    {
+        var userId = _userManager.GetUserId(User)!;
+        var existing = await _context.SavedPets
+            .FirstOrDefaultAsync(s => s.UserId == userId && s.PetId == petId);
+
+        bool saved;
+        if (existing != null)
+        {
+            _context.SavedPets.Remove(existing);
+            saved = false;
+        }
+        else
+        {
+            _context.SavedPets.Add(new SavedPet { UserId = userId, PetId = petId });
+            saved = true;
+        }
+
+        await _context.SaveChangesAsync();
+        var count = await _context.SavedPets.CountAsync(s => s.UserId == userId);
+        return Json(new { success = true, saved, count });
+    }
+
+    private async Task<List<int>> GetSavedPetIdsAsync()
+    {
+        if (User.Identity?.IsAuthenticated != true) return new List<int>();
+        var userId = _userManager.GetUserId(User)!;
+        return await _context.SavedPets.Where(s => s.UserId == userId).Select(s => s.PetId).ToListAsync();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawdoptApp.Data;
 
@@ -10,9 +11,11 @@ using PawdoptApp.Data;
 namespace PawdoptApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260629154957_AddSavedPets")]
+    partial class AddSavedPets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.0");
@@ -418,6 +421,7 @@ namespace PawdoptApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ActivityLevel")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AdminNote")
@@ -460,6 +464,7 @@ namespace PawdoptApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("IdealHome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Microchipped")
@@ -509,18 +514,21 @@ namespace PawdoptApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Sterilized")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Story")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TrainingLevel")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TraitsJson")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Vaccinated")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("Weight")

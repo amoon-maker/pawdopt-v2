@@ -216,9 +216,16 @@
     var pet          = null;
     for (var i = 0; i < PETS.length; i++) { if (PETS[i].id === PET_ID) { pet = PETS[i]; break; } }
 
-    var favs = IS_LOGGED_IN ? new Set(JSON.parse(localStorage.getItem('pawdopt-favs') || '[]')) : new Set();
+    var SAVED_IDS = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["SavedPetIds"] ?? new List<int>()));
+    var favs = new Set(SAVED_IDS);
 
-    function saveFavs() { localStorage.setItem('pawdopt-favs', JSON.stringify(Array.from(favs))); }
+    function favToken() { var t = document.querySelector('input[name="__RequestVerificationToken"]'); return t ? t.value : ''; }
+    function toggleFav(petId) {
+        return fetch('/Home/ToggleSavedPet?petId=' + petId, {
+            method: 'POST',
+            headers: { 'RequestVerificationToken': favToken() }
+        }).then(function (r) { return r.json(); });
+    }
     function capFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
     function ageLabel(p) { return p.ageNum + ' ' + p.ageUnit; }
 
@@ -269,16 +276,16 @@
         document.getElementById('pdMsgBtn').style.display = 'none';
     }
 
-    document.getElementById('pdFavBtn').addEventListener('click', function () {
+    function handleFavClick() {
         if (!IS_LOGGED_IN) { showGuestToast(); return; }
-        if (favs.has(pet.id)) favs.delete(pet.id); else favs.add(pet.id);
-        saveFavs(); updateFavUI();
-    });
-    document.getElementById('pdSaveBtn').addEventListener('click', function () {
-        if (!IS_LOGGED_IN) { showGuestToast(); return; }
-        if (favs.has(pet.id)) favs.delete(pet.id); else favs.add(pet.id);
-        saveFavs(); updateFavUI();
-    });
+        toggleFav(pet.id).then(function (res) {
+            if (!res.success) return;
+            if (res.saved) favs.add(pet.id); else favs.delete(pet.id);
+            updateFavUI();
+        });
+    }
+    document.getElementById('pdFavBtn').addEventListener('click', handleFavClick);
+    document.getElementById('pdSaveBtn').addEventListener('click', handleFavClick);
 
     // ── Apply button → wizard (or already-applied banner) ─
     var applyBtn = document.getElementById('pdApplyBtn');
